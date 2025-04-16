@@ -1,0 +1,64 @@
+--------- Inizio Notification ----------------
+Estrazione 1) IW29 -> estrazione avvisi
+Viene fatta 3 volte
+con data creazione
+con data modifica
+    session.findById("wnd[0]/usr/ctxtAEDAT-LOW").text = "010325"
+    session.findById("wnd[0]/usr/ctxtAEDAT-HIGH").text = "010325"
+
+Estrazioni in SAP IW29 della lista di avvisi condivisa da Simone con lo stesso layout delle precedenti
+
+Ottengo tre tabelle produco un unica tabella priva di duplicati.
+
+
+Estrazione 2) S16 tabella AFKO con layout /OFAKPIWO
+incollare la lista di OdM presenti nella tabella prodotta nel punto precedente
+impostare il layout /OFAKPIWO
+ottengo una tabella che contiene 2 campi la lista degli ordini e la data inizio cardine.
+
+
+--------- Fine Notification ----------------
+
+--------- Inizio Order ----------------
+
+Estrazione 3) IW39 -> estrazione ordini di manutenzione x data creazione
+stessa estrazione ma con data modifica
+stessa estrazione ma con data inizio cardine
+
+Estrazione in SAP IW39 della lista di ordini condivisa a partire dalla lista condivisa da Simone (stessa degli AdM)
+
+Ottengo 4 tabelle produco un unica tabella priva di duplicati.
+
+Ottengo una tabella che utilizzo per il KPI dei WO
+
+Estrazioni:
+"++E-++++*"
+ITE
+USE
+CLE
+
+"++S-++++*"
+ITS
+USS
+CLS
+BRS
+COS
+MXS
+PAS
+ZAS
+ESS
+ZMS
+
+"++W-++++*"
+ITW
+USW
+CLW
+BRW
+CAW
+MXW
+ZAW
+ESW
+
+----------- Fine estrazioni ---------------------
+
+

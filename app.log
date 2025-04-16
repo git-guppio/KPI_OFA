@@ -1,0 +1,44 @@
+2025-04-16 17:45:33,433 - main - INFO - Configurazione caricata con successo
+2025-04-16 23:59:47,953 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 16)
+2025-04-16 23:59:47,954 - main - INFO - Verifica date - OK
+2025-04-17 00:03:44,579 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:04:14,964 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:04:14,965 - main - INFO - Verifica date - OK
+2025-04-17 00:04:27,413 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:04:27,414 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:06:10,653 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:06:38,468 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:06:38,469 - main - INFO - Verifica date - OK
+2025-04-17 00:06:39,689 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:06:39,689 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:07:16,836 - DataFrameTools - WARNING - Estrazione Creazione non riuscita per BESS: ['ITE', 'USE', 'CLE']
+2025-04-17 00:08:53,107 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:09:20,008 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:09:20,009 - main - INFO - Verifica date - OK
+2025-04-17 00:09:20,009 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:09:20,009 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:11:12,247 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:11:20,350 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:11:20,350 - main - INFO - Verifica date - OK
+2025-04-17 00:11:20,351 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:11:20,351 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:12:17,278 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:12:24,971 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:12:24,971 - main - INFO - Verifica date - OK
+2025-04-17 00:12:24,972 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:12:24,972 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:12:57,269 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:13:04,653 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:13:04,654 - main - INFO - Verifica date - OK
+2025-04-17 00:13:04,654 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:13:04,654 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:16:44,932 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:16:54,548 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:16:54,549 - main - INFO - Verifica date - OK
+2025-04-17 00:16:54,549 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:16:54,549 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:22:38,454 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:22:50,125 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:22:50,126 - main - INFO - Verifica date - OK
+2025-04-17 00:22:50,126 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:22:50,126 - main - INFO - Verifica tecnologie configurate - OK
