@@ -42,3 +42,557 @@
 2025-04-17 00:22:50,126 - main - INFO - Verifica date - OK
 2025-04-17 00:22:50,126 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
 2025-04-17 00:22:50,126 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:52:10,687 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:52:20,682 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:52:20,682 - main - INFO - Verifica date - OK
+2025-04-17 00:52:20,682 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:52:20,682 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:53:42,349 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:53:48,648 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:53:48,648 - main - INFO - Verifica date - OK
+2025-04-17 00:53:48,648 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:53:48,649 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:56:19,791 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:56:32,268 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:56:32,268 - main - INFO - Verifica date - OK
+2025-04-17 00:56:32,269 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:56:32,269 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:56:32,293 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,294 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,294 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,294 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,295 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,295 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,295 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,296 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,296 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,296 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,297 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,297 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,297 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,297 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,298 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,298 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,299 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,299 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,299 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,299 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,299 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,299 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,300 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,300 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,300 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,300 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,300 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,300 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,301 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,301 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,301 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,301 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,301 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,301 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,301 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,302 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,302 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,302 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,302 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,302 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,302 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,303 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,303 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,303 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,303 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,303 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,303 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,304 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,304 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,304 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,304 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,304 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,305 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,305 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,305 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,305 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,305 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,305 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,306 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,306 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,306 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,306 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,306 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,306 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,307 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,307 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,307 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,307 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,307 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,308 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,308 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,308 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,308 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,309 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,309 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,309 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,309 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,309 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,309 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,310 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,310 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,310 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,310 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,310 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,310 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,311 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,311 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,311 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,311 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,311 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,311 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,311 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,312 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,312 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,312 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,312 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,312 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,313 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,313 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,313 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,313 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,313 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,314 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,314 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,314 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,314 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,314 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,314 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,315 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,315 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,315 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,315 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,315 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,316 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,316 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,316 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,316 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,316 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,316 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,317 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,317 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,317 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,317 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,317 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,317 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,318 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,318 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,318 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,318 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,318 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,318 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,318 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,319 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,319 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,319 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,319 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,319 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,319 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,319 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,320 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,320 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,320 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,320 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,320 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,320 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,321 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,321 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,321 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,321 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,321 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,321 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,322 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,322 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,322 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,322 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,322 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,322 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,323 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,323 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,323 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,323 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,323 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,323 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,324 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,324 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,324 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,324 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,324 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,325 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,325 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,325 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,325 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,325 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,325 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,326 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,326 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,326 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,326 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,326 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,326 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,327 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,327 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,327 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,327 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,327 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,327 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,328 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,328 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,328 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,328 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,328 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,329 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,329 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,329 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,329 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,329 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,329 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,330 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,330 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,330 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,330 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,330 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,331 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,331 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,331 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,331 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,331 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,331 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,332 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,332 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,332 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,332 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,332 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,332 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,332 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,333 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,333 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,333 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,333 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,333 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,333 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,334 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,334 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,334 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,334 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,334 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,334 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,334 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,335 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,335 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,335 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,335 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,335 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,335 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,335 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,335 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,336 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,336 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,336 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,336 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,336 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,337 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,337 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,337 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,337 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,338 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,338 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,338 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,338 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,338 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,338 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,338 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,339 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,339 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,339 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,339 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,339 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,340 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,340 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,340 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,340 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,340 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,340 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,340 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,341 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,341 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,341 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,341 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,341 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,341 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,341 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,341 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,342 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,342 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,342 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,342 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,342 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,342 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,342 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,343 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,343 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,343 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,343 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,343 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,343 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,343 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,344 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,344 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,344 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,344 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,344 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,344 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,344 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,345 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,345 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,345 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,345 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,345 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,345 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,346 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,346 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,346 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,346 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,346 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,346 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,347 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,347 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,347 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,347 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,347 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,347 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,348 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,348 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,348 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,348 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,348 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,349 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,349 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,349 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,349 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,349 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,349 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,350 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,350 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,350 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,350 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,350 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,350 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,351 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,351 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,351 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,351 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,351 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,352 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,352 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,352 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,352 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,352 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,352 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,353 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,353 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,353 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,353 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,353 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,354 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,354 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,354 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,354 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,354 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,354 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,355 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,355 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,355 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,355 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,355 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,355 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,356 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,356 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,356 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,356 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,356 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,356 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,357 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,357 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,357 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,357 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,357 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,357 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,358 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,358 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,358 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,358 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,358 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,358 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,359 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,359 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,359 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,359 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,359 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,359 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,359 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,360 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,360 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,360 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,360 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,360 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,360 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,361 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,361 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,361 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,361 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,361 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,362 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,362 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,362 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,362 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,362 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,362 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,363 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,363 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,363 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,363 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,363 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,364 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,364 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,364 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,364 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,364 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,365 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,365 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,365 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,365 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,365 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,365 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,366 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,366 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,366 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,366 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,366 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,367 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,367 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,367 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,367 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,367 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,368 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,368 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,368 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,368 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,368 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,368 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,369 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,369 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,369 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,369 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,369 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,369 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,370 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,370 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,370 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,370 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,370 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,371 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,371 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,371 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,371 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,371 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,371 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,371 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,372 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,372 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,372 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,372 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,372 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,372 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,373 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,373 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,373 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,373 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,373 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,373 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,374 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,374 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,374 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,374 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,374 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,374 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,375 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,375 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,375 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,375 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,375 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,375 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,376 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,376 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,376 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,376 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,376 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,376 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,377 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,377 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,377 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,377 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,377 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,378 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,378 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,378 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,378 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,378 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,379 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,379 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,379 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,379 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,380 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:56:32,380 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 00:58:36,966 - main - INFO - Configurazione caricata con successo
+2025-04-17 00:58:44,685 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 00:58:44,685 - main - INFO - Verifica date - OK
+2025-04-17 00:58:44,686 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 00:58:44,686 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 00:58:44,709 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 01:05:57,114 - main - INFO - Configurazione caricata con successo
+2025-04-17 01:06:18,574 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 4, 1) - PyQt5.QtCore.QDate(2025, 4, 17)
+2025-04-17 01:06:18,576 - main - INFO - Verifica date - OK
+2025-04-17 01:06:18,577 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-04-17 01:06:18,577 - main - INFO - Verifica tecnologie configurate - OK
+2025-04-17 01:06:18,628 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-04-17 01:06:30,326 - DataFrameTools - INFO - DataFrame df_Creazione_ITE creato con 38 righe
+2025-04-17 01:06:40,364 - DataFrameTools - INFO - DataFrame df_Creazione_USE creato con 12 righe
+2025-04-17 01:06:50,087 - DataFrameTools - INFO - DataFrame df_Creazione_CLE creato con 13 righe
+2025-04-17 01:06:59,561 - DataFrameTools - INFO - DataFrame df_Creazione_ITS creato con 2 righe
+2025-04-17 01:07:11,155 - DataFrameTools - INFO - DataFrame df_Creazione_USS creato con 181 righe
+2025-04-17 01:07:22,545 - DataFrameTools - INFO - DataFrame df_Creazione_CLS creato con 126 righe
+2025-04-17 01:07:47,696 - DataFrameTools - INFO - DataFrame df_Creazione_BRS creato con 2528 righe
+2025-04-17 01:07:57,669 - DataFrameTools - INFO - DataFrame df_Creazione_COS creato con 91 righe
+2025-04-17 01:08:06,840 - DataFrameTools - INFO - DataFrame df_Creazione_MXS creato con 25 righe
+2025-04-17 01:08:16,712 - DataFrameTools - INFO - DataFrame df_Creazione_PAS creato con 67 righe
+2025-04-17 01:08:28,205 - DataFrameTools - INFO - DataFrame df_Creazione_ZAS creato con 187 righe
+2025-04-17 01:08:38,838 - DataFrameTools - INFO - DataFrame df_Creazione_ESS creato con 151 righe
+2025-04-17 01:08:49,078 - DataFrameTools - INFO - DataFrame df_Creazione_ZMS creato con 10 righe
+2025-04-17 01:08:58,949 - DataFrameTools - INFO - DataFrame df_Creazione_ITW creato con 76 righe
+2025-04-17 01:09:13,169 - DataFrameTools - INFO - DataFrame df_Creazione_USW creato con 687 righe
+2025-04-17 01:09:25,093 - DataFrameTools - INFO - DataFrame df_Creazione_CLW creato con 452 righe
+2025-04-17 01:09:36,685 - DataFrameTools - INFO - DataFrame df_Creazione_BRW creato con 285 righe
+2025-04-17 01:09:45,660 - DataFrameTools - INFO - DataFrame df_Creazione_CAW creato con 5 righe
+2025-04-17 01:10:00,061 - DataFrameTools - INFO - DataFrame df_Creazione_MXW creato con 844 righe
+2025-04-17 01:10:10,835 - DataFrameTools - INFO - DataFrame df_Creazione_ZAW creato con 138 righe
+2025-04-17 01:10:24,507 - DataFrameTools - INFO - DataFrame df_Creazione_ESW creato con 739 righe
+2025-04-17 01:10:34,851 - DataFrameTools - INFO - DataFrame df_Modifica_ITE creato con 47 righe
+2025-04-17 01:10:44,162 - DataFrameTools - INFO - DataFrame df_Modifica_USE creato con 27 righe
+2025-04-17 01:10:53,920 - DataFrameTools - INFO - DataFrame df_Modifica_CLE creato con 12 righe
+2025-04-17 01:11:04,833 - DataFrameTools - INFO - DataFrame df_Modifica_ITS creato con 25 righe
+2025-04-17 01:11:16,328 - DataFrameTools - INFO - DataFrame df_Modifica_USS creato con 259 righe
+2025-04-17 01:11:27,137 - DataFrameTools - INFO - DataFrame df_Modifica_CLS creato con 240 righe
+2025-04-17 01:11:51,179 - DataFrameTools - INFO - DataFrame df_Modifica_BRS creato con 2489 righe
+2025-04-17 01:12:02,025 - DataFrameTools - INFO - DataFrame df_Modifica_COS creato con 83 righe
+2025-04-17 01:12:12,155 - DataFrameTools - INFO - DataFrame df_Modifica_MXS creato con 35 righe
+2025-04-17 01:12:21,394 - DataFrameTools - INFO - DataFrame df_Modifica_PAS creato con 61 righe
+2025-04-17 01:12:32,251 - DataFrameTools - INFO - DataFrame df_Modifica_ZAS creato con 254 righe
+2025-04-17 01:12:48,814 - DataFrameTools - INFO - DataFrame df_Modifica_ESS creato con 1250 righe

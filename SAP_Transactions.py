@@ -9,6 +9,7 @@ import os
 from typing import Dict, Any, Optional
 import logging
 from utils.decorators import error_logger
+import DF_Tools
 
 # Logger specifico per questo modulo
 logger = logging.getLogger("DataFrameTools")
@@ -71,7 +72,8 @@ class SAPDataExtractor:
         self.session = session
         
         self.tipo_estrazioni = ["Creazione", "Modifica", "Lista"]
-    
+        self.df_utils = DF_Tools.DataFrameTools()
+
     def extract_IW29(self, dataInizio, dataFine, tech_config) -> pd.DataFrame | None:
         # Crea un dizionario vuoto per memorizzare i DataFrame
         iw29 = {}
@@ -94,12 +96,16 @@ class SAPDataExtractor:
                     # Se l'estrazione è riuscita, elabora i dati e memorizzali in un DataFrame nel dizioanrio iw29
                     if success:
                         # La chiave sarà 'df_Creazione', 'df_Modifica', ecc.
-                        key = f"df_{tipo_estrazione}"
+                        key = f"df_{tipo_estrazione}_{prefix}"
                         df = self.df_utils.clean_data(iw29_lista)
                         iw29[key] = df
                         logger.info(f"DataFrame {key} creato con {len(df)} righe")
                     else:
                         logger.warning(f"Estrazione {tipo_estrazione} non riuscita per {tech}: {prefix}")
+        # Unisci i DataFrame in un unico DataFrame finale
+        if iw29:
+            df_finale = pd.concat(iw29.values(), ignore_index=True)
+            return df_finale
 
     def extract_IW29_single(self, dataInizio, dataFine, tipo_estrazione, prefix) -> List[Dict] | None:
         """

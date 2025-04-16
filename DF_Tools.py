@@ -3,7 +3,6 @@ from collections import Counter
 from typing import List, Dict, Optional
 import os
 import logging
-import DF_Tools
 from utils.decorators import error_logger
 
 # Logger specifico per questo modulo
@@ -16,8 +15,6 @@ class DataFrameTools:
     
     def __init__(self):
         logger.info("Inizializzazione DataFrameTools")
-        self.df_utils = DF_Tools.DataFrameTools()
-
 
     # Controllo validità DataFrame
     @staticmethod
