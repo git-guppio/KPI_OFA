@@ -1,0 +1,652 @@
+2025-04-30 14:19:13,632 - sap_test - INFO - Tentativo di connessione a SAP...
+2025-04-30 14:19:13,662 - sap_test - INFO - Connessione a SAP GUI stabilita con successo.
+2025-04-30 14:19:13,663 - sap_test - INFO - === Informazioni sulla sessione SAP ===
+2025-04-30 14:19:13,663 - sap_test - INFO - Tipo dell'oggetto sessione: <class 'win32com.client.CDispatch'>
+2025-04-30 14:19:13,673 - sap_test - INFO - Numero totale di proprietà/metodi: 77
+2025-04-30 14:19:13,673 - sap_test - INFO - Elenco delle proprietà/metodi:
+2025-04-30 14:19:13,673 - sap_test - INFO - - AsStdNumberFormat
+2025-04-30 14:19:13,674 - sap_test - INFO - - ClearErrorList
+2025-04-30 14:19:13,674 - sap_test - INFO - - CreateSession
+2025-04-30 14:19:13,674 - sap_test - INFO - - EnableJawsEvents
+2025-04-30 14:19:13,674 - sap_test - INFO - - EndTransaction
+2025-04-30 14:19:13,674 - sap_test - INFO - - FindById
+2025-04-30 14:19:13,674 - sap_test - INFO - - FindByPosition
+2025-04-30 14:19:13,674 - sap_test - INFO - - GetIconResourceName
+2025-04-30 14:19:13,674 - sap_test - INFO - - GetObjectTree
+2025-04-30 14:19:13,675 - sap_test - INFO - - GetVKeyDescription
+2025-04-30 14:19:13,675 - sap_test - INFO - - LockSessionUI
+2025-04-30 14:19:13,675 - sap_test - INFO - - RunScriptControl
+2025-04-30 14:19:13,675 - sap_test - INFO - - SendCommand
+2025-04-30 14:19:13,675 - sap_test - INFO - - SendCommandAsync
+2025-04-30 14:19:13,675 - sap_test - INFO - - SendMenu
+2025-04-30 14:19:13,675 - sap_test - INFO - - StartTransaction
+2025-04-30 14:19:13,676 - sap_test - INFO - - UnlockSessionUI
+2025-04-30 14:19:13,676 - sap_test - INFO - 
+Proprietà relative a 'busy': []
+2025-04-30 14:19:13,676 - sap_test - INFO - 
+=== Test di interazione con SAP ===
+2025-04-30 14:19:13,676 - sap_test - INFO - Esecuzione di un'operazione che potrebbe rendere SAP occupato...
+2025-04-30 14:19:13,678 - sap_test - INFO - Errore durante il test di interazione: <unknown>.sendVKey
+2025-04-30 14:19:13,678 - sap_test - INFO - Sessione SAP disconnessa.
+2025-04-30 14:29:18,308 - sap_test - INFO - Tentativo di connessione a SAP...
+2025-04-30 14:29:18,400 - sap_test - INFO - Connessione a SAP GUI stabilita con successo.
+2025-04-30 14:29:18,401 - sap_test - INFO - === Informazioni sulla sessione SAP ===
+2025-04-30 14:29:18,401 - sap_test - INFO - Tipo dell'oggetto sessione: <class 'win32com.client.CDispatch'>
+2025-04-30 14:29:18,409 - sap_test - INFO - Numero totale di proprietà/metodi: 77
+2025-04-30 14:29:18,409 - sap_test - INFO - Elenco delle proprietà/metodi:
+2025-04-30 14:29:18,409 - sap_test - INFO - - AsStdNumberFormat
+2025-04-30 14:29:18,409 - sap_test - INFO - - ClearErrorList
+2025-04-30 14:29:18,409 - sap_test - INFO - - CreateSession
+2025-04-30 14:29:18,409 - sap_test - INFO - - EnableJawsEvents
+2025-04-30 14:29:18,409 - sap_test - INFO - - EndTransaction
+2025-04-30 14:29:18,410 - sap_test - INFO - - FindById
+2025-04-30 14:29:18,410 - sap_test - INFO - - FindByPosition
+2025-04-30 14:29:18,410 - sap_test - INFO - - GetIconResourceName
+2025-04-30 14:29:18,410 - sap_test - INFO - - GetObjectTree
+2025-04-30 14:29:18,410 - sap_test - INFO - - GetVKeyDescription
+2025-04-30 14:29:18,410 - sap_test - INFO - - LockSessionUI
+2025-04-30 14:29:18,410 - sap_test - INFO - - RunScriptControl
+2025-04-30 14:29:18,411 - sap_test - INFO - - SendCommand
+2025-04-30 14:29:18,411 - sap_test - INFO - - SendCommandAsync
+2025-04-30 14:29:18,411 - sap_test - INFO - - SendMenu
+2025-04-30 14:29:18,411 - sap_test - INFO - - StartTransaction
+2025-04-30 14:29:18,411 - sap_test - INFO - - UnlockSessionUI
+2025-04-30 14:29:18,411 - sap_test - INFO - - _ApplyTypes_
+2025-04-30 14:29:18,411 - sap_test - INFO - - _FlagAsMethod
+2025-04-30 14:29:18,412 - sap_test - INFO - - _LazyAddAttr_
+2025-04-30 14:29:18,412 - sap_test - INFO - - _NewEnum
+2025-04-30 14:29:18,412 - sap_test - INFO - - _Release_
+2025-04-30 14:29:18,412 - sap_test - INFO - - _UpdateWithITypeInfo_
+2025-04-30 14:29:18,412 - sap_test - INFO - - __AttrToID__
+2025-04-30 14:29:18,412 - sap_test - INFO - - __LazyMap__
+2025-04-30 14:29:18,412 - sap_test - INFO - - __bool__
+2025-04-30 14:29:18,413 - sap_test - INFO - - __call__
+2025-04-30 14:29:18,413 - sap_test - INFO - - __class__
+2025-04-30 14:29:18,413 - sap_test - INFO - - __delattr__
+2025-04-30 14:29:18,413 - sap_test - INFO - - __dict__
+2025-04-30 14:29:18,413 - sap_test - INFO - - __dir__
+2025-04-30 14:29:18,413 - sap_test - INFO - - __doc__
+2025-04-30 14:29:18,414 - sap_test - INFO - - __eq__
+2025-04-30 14:29:18,414 - sap_test - INFO - - __firstlineno__
+2025-04-30 14:29:18,414 - sap_test - INFO - - __format__
+2025-04-30 14:29:18,414 - sap_test - INFO - - __ge__
+2025-04-30 14:29:18,414 - sap_test - INFO - - __getattr__
+2025-04-30 14:29:18,414 - sap_test - INFO - - __getattribute__
+2025-04-30 14:29:18,414 - sap_test - INFO - - __getitem__
+2025-04-30 14:29:18,414 - sap_test - INFO - - __getstate__
+2025-04-30 14:29:18,415 - sap_test - INFO - - __gt__
+2025-04-30 14:29:18,415 - sap_test - INFO - - __hash__
+2025-04-30 14:29:18,415 - sap_test - INFO - - __init__
+2025-04-30 14:29:18,415 - sap_test - INFO - - __init_subclass__
+2025-04-30 14:29:18,415 - sap_test - INFO - - __int__
+2025-04-30 14:29:18,415 - sap_test - INFO - - __le__
+2025-04-30 14:29:18,415 - sap_test - INFO - - __len__
+2025-04-30 14:29:18,416 - sap_test - INFO - - __lt__
+2025-04-30 14:29:18,416 - sap_test - INFO - - __module__
+2025-04-30 14:29:18,416 - sap_test - INFO - - __ne__
+2025-04-30 14:29:18,416 - sap_test - INFO - - __new__
+2025-04-30 14:29:18,416 - sap_test - INFO - - __reduce__
+2025-04-30 14:29:18,416 - sap_test - INFO - - __reduce_ex__
+2025-04-30 14:29:18,417 - sap_test - INFO - - __repr__
+2025-04-30 14:29:18,417 - sap_test - INFO - - __setattr__
+2025-04-30 14:29:18,417 - sap_test - INFO - - __setitem__
+2025-04-30 14:29:18,417 - sap_test - INFO - - __sizeof__
+2025-04-30 14:29:18,417 - sap_test - INFO - - __static_attributes__
+2025-04-30 14:29:18,417 - sap_test - INFO - - __str__
+2025-04-30 14:29:18,417 - sap_test - INFO - - __subclasshook__
+2025-04-30 14:29:18,418 - sap_test - INFO - - __weakref__
+2025-04-30 14:29:18,418 - sap_test - INFO - - _builtMethods_
+2025-04-30 14:29:18,418 - sap_test - INFO - - _dir_ole_
+2025-04-30 14:29:18,418 - sap_test - INFO - - _enum_
+2025-04-30 14:29:18,418 - sap_test - INFO - - _find_dispatch_type_
+2025-04-30 14:29:18,418 - sap_test - INFO - - _get_good_object_
+2025-04-30 14:29:18,418 - sap_test - INFO - - _get_good_single_object_
+2025-04-30 14:29:18,419 - sap_test - INFO - - _lazydata_
+2025-04-30 14:29:18,419 - sap_test - INFO - - _make_method_
+2025-04-30 14:29:18,419 - sap_test - INFO - - _mapCachedItems_
+2025-04-30 14:29:18,419 - sap_test - INFO - - _oleobj_
+2025-04-30 14:29:18,419 - sap_test - INFO - - _olerepr_
+2025-04-30 14:29:18,419 - sap_test - INFO - - _print_details_
+2025-04-30 14:29:18,419 - sap_test - INFO - - _proc_
+2025-04-30 14:29:18,420 - sap_test - INFO - - _unicode_to_string_
+2025-04-30 14:29:18,420 - sap_test - INFO - - _username_
+2025-04-30 14:29:18,420 - sap_test - INFO - - _wrap_dispatch_
+2025-04-30 14:29:18,420 - sap_test - INFO - 
+Proprietà relative a 'busy': []
+2025-04-30 14:29:18,420 - sap_test - INFO - 
+=== Test di interazione con SAP ===
+2025-04-30 14:29:18,421 - sap_test - INFO - Esecuzione di un'operazione che potrebbe rendere SAP occupato...
+2025-04-30 14:29:57,610 - sap_test - ERROR - Errore nell'estrazione IW29_single: (-2147352567, 'Eccezione.', (619, 'SAP Frontend Server', 'The control could not be found by id.', 'C:\\Program Files (x86)\\SAP\\FrontEnd\\SAPGUI\\sapfront.HLP', 393215, 0), None)
+2025-04-30 14:29:59,680 - sap_test - INFO - Operazione eseguita.
+2025-04-30 14:30:29,322 - sap_test - INFO - Sessione SAP disconnessa.
+2025-04-30 15:08:57,046 - sap_test - INFO - Tentativo di connessione a SAP...
+2025-04-30 15:08:57,074 - sap_test - INFO - Connessione a SAP GUI stabilita con successo.
+2025-04-30 15:08:57,075 - sap_test - INFO - === Informazioni sulla sessione SAP ===
+2025-04-30 15:08:57,076 - sap_test - INFO - Tipo dell'oggetto sessione: <class 'win32com.client.CDispatch'>
+2025-04-30 15:08:57,083 - sap_test - INFO - Numero totale di proprietà/metodi: 77
+2025-04-30 15:08:57,083 - sap_test - INFO - Elenco delle proprietà/metodi:
+2025-04-30 15:08:57,083 - sap_test - INFO - - AsStdNumberFormat
+2025-04-30 15:08:57,083 - sap_test - INFO - - ClearErrorList
+2025-04-30 15:08:57,084 - sap_test - INFO - - CreateSession
+2025-04-30 15:08:57,084 - sap_test - INFO - - EnableJawsEvents
+2025-04-30 15:08:57,084 - sap_test - INFO - - EndTransaction
+2025-04-30 15:08:57,084 - sap_test - INFO - - FindById
+2025-04-30 15:08:57,084 - sap_test - INFO - - FindByPosition
+2025-04-30 15:08:57,084 - sap_test - INFO - - GetIconResourceName
+2025-04-30 15:08:57,084 - sap_test - INFO - - GetObjectTree
+2025-04-30 15:08:57,084 - sap_test - INFO - - GetVKeyDescription
+2025-04-30 15:08:57,085 - sap_test - INFO - - LockSessionUI
+2025-04-30 15:08:57,085 - sap_test - INFO - - RunScriptControl
+2025-04-30 15:08:57,085 - sap_test - INFO - - SendCommand
+2025-04-30 15:08:57,085 - sap_test - INFO - - SendCommandAsync
+2025-04-30 15:08:57,085 - sap_test - INFO - - SendMenu
+2025-04-30 15:08:57,086 - sap_test - INFO - - StartTransaction
+2025-04-30 15:08:57,086 - sap_test - INFO - - UnlockSessionUI
+2025-04-30 15:08:57,086 - sap_test - INFO - - _ApplyTypes_
+2025-04-30 15:08:57,086 - sap_test - INFO - - _FlagAsMethod
+2025-04-30 15:08:57,086 - sap_test - INFO - - _LazyAddAttr_
+2025-04-30 15:08:57,086 - sap_test - INFO - - _NewEnum
+2025-04-30 15:08:57,086 - sap_test - INFO - - _Release_
+2025-04-30 15:08:57,087 - sap_test - INFO - - _UpdateWithITypeInfo_
+2025-04-30 15:08:57,087 - sap_test - INFO - - __AttrToID__
+2025-04-30 15:08:57,087 - sap_test - INFO - - __LazyMap__
+2025-04-30 15:08:57,087 - sap_test - INFO - - __bool__
+2025-04-30 15:08:57,087 - sap_test - INFO - - __call__
+2025-04-30 15:08:57,087 - sap_test - INFO - - __class__
+2025-04-30 15:08:57,087 - sap_test - INFO - - __delattr__
+2025-04-30 15:08:57,088 - sap_test - INFO - - __dict__
+2025-04-30 15:08:57,088 - sap_test - INFO - - __dir__
+2025-04-30 15:08:57,088 - sap_test - INFO - - __doc__
+2025-04-30 15:08:57,088 - sap_test - INFO - - __eq__
+2025-04-30 15:08:57,088 - sap_test - INFO - - __firstlineno__
+2025-04-30 15:08:57,088 - sap_test - INFO - - __format__
+2025-04-30 15:08:57,089 - sap_test - INFO - - __ge__
+2025-04-30 15:08:57,089 - sap_test - INFO - - __getattr__
+2025-04-30 15:08:57,089 - sap_test - INFO - - __getattribute__
+2025-04-30 15:08:57,089 - sap_test - INFO - - __getitem__
+2025-04-30 15:08:57,089 - sap_test - INFO - - __getstate__
+2025-04-30 15:08:57,089 - sap_test - INFO - - __gt__
+2025-04-30 15:08:57,090 - sap_test - INFO - - __hash__
+2025-04-30 15:08:57,090 - sap_test - INFO - - __init__
+2025-04-30 15:08:57,090 - sap_test - INFO - - __init_subclass__
+2025-04-30 15:08:57,090 - sap_test - INFO - - __int__
+2025-04-30 15:08:57,090 - sap_test - INFO - - __le__
+2025-04-30 15:08:57,090 - sap_test - INFO - - __len__
+2025-04-30 15:08:57,091 - sap_test - INFO - - __lt__
+2025-04-30 15:08:57,091 - sap_test - INFO - - __module__
+2025-04-30 15:08:57,091 - sap_test - INFO - - __ne__
+2025-04-30 15:08:57,091 - sap_test - INFO - - __new__
+2025-04-30 15:08:57,091 - sap_test - INFO - - __reduce__
+2025-04-30 15:08:57,091 - sap_test - INFO - - __reduce_ex__
+2025-04-30 15:08:57,091 - sap_test - INFO - - __repr__
+2025-04-30 15:08:57,091 - sap_test - INFO - - __setattr__
+2025-04-30 15:08:57,092 - sap_test - INFO - - __setitem__
+2025-04-30 15:08:57,092 - sap_test - INFO - - __sizeof__
+2025-04-30 15:08:57,092 - sap_test - INFO - - __static_attributes__
+2025-04-30 15:08:57,092 - sap_test - INFO - - __str__
+2025-04-30 15:08:57,092 - sap_test - INFO - - __subclasshook__
+2025-04-30 15:08:57,092 - sap_test - INFO - - __weakref__
+2025-04-30 15:08:57,092 - sap_test - INFO - - _builtMethods_
+2025-04-30 15:08:57,093 - sap_test - INFO - - _dir_ole_
+2025-04-30 15:08:57,093 - sap_test - INFO - - _enum_
+2025-04-30 15:08:57,093 - sap_test - INFO - - _find_dispatch_type_
+2025-04-30 15:08:57,093 - sap_test - INFO - - _get_good_object_
+2025-04-30 15:08:57,093 - sap_test - INFO - - _get_good_single_object_
+2025-04-30 15:08:57,094 - sap_test - INFO - - _lazydata_
+2025-04-30 15:08:57,094 - sap_test - INFO - - _make_method_
+2025-04-30 15:08:57,094 - sap_test - INFO - - _mapCachedItems_
+2025-04-30 15:08:57,094 - sap_test - INFO - - _oleobj_
+2025-04-30 15:08:57,094 - sap_test - INFO - - _olerepr_
+2025-04-30 15:08:57,094 - sap_test - INFO - - _print_details_
+2025-04-30 15:08:57,095 - sap_test - INFO - - _proc_
+2025-04-30 15:08:57,095 - sap_test - INFO - - _unicode_to_string_
+2025-04-30 15:08:57,095 - sap_test - INFO - - _username_
+2025-04-30 15:08:57,095 - sap_test - INFO - - _wrap_dispatch_
+2025-04-30 15:08:57,095 - sap_test - INFO - 
+Proprietà relative a 'busy': []
+2025-04-30 15:08:57,095 - sap_test - INFO - 
+=== Test di interazione con SAP ===
+2025-04-30 15:08:57,096 - sap_test - INFO - Esecuzione di un'operazione che potrebbe rendere SAP occupato...
+2025-04-30 15:09:20,412 - sap_test - ERROR - Errore nell'estrazione IW29_single: (-2147352567, 'Eccezione.', (619, 'SAP Frontend Server', 'The control could not be found by id.', 'C:\\Program Files (x86)\\SAP\\FrontEnd\\SAPGUI\\sapfront.HLP', 393215, 0), None)
+2025-04-30 15:11:08,373 - sap_test - INFO - Tentativo di connessione a SAP...
+2025-04-30 15:11:08,401 - sap_test - INFO - Connessione a SAP GUI stabilita con successo.
+2025-04-30 15:11:08,403 - sap_test - INFO - === Informazioni sulla sessione SAP ===
+2025-04-30 15:11:08,403 - sap_test - INFO - Tipo dell'oggetto sessione: <class 'win32com.client.CDispatch'>
+2025-04-30 15:11:08,411 - sap_test - INFO - Numero totale di proprietà/metodi: 77
+2025-04-30 15:11:08,411 - sap_test - INFO - Elenco delle proprietà/metodi:
+2025-04-30 15:11:08,411 - sap_test - INFO - - AsStdNumberFormat
+2025-04-30 15:11:08,412 - sap_test - INFO - - ClearErrorList
+2025-04-30 15:11:08,412 - sap_test - INFO - - CreateSession
+2025-04-30 15:11:08,412 - sap_test - INFO - - EnableJawsEvents
+2025-04-30 15:11:08,413 - sap_test - INFO - - EndTransaction
+2025-04-30 15:11:08,413 - sap_test - INFO - - FindById
+2025-04-30 15:11:08,413 - sap_test - INFO - - FindByPosition
+2025-04-30 15:11:08,413 - sap_test - INFO - - GetIconResourceName
+2025-04-30 15:11:08,414 - sap_test - INFO - - GetObjectTree
+2025-04-30 15:11:08,414 - sap_test - INFO - - GetVKeyDescription
+2025-04-30 15:11:08,414 - sap_test - INFO - - LockSessionUI
+2025-04-30 15:11:08,415 - sap_test - INFO - - RunScriptControl
+2025-04-30 15:11:08,415 - sap_test - INFO - - SendCommand
+2025-04-30 15:11:08,415 - sap_test - INFO - - SendCommandAsync
+2025-04-30 15:11:08,415 - sap_test - INFO - - SendMenu
+2025-04-30 15:11:08,416 - sap_test - INFO - - StartTransaction
+2025-04-30 15:11:08,416 - sap_test - INFO - - UnlockSessionUI
+2025-04-30 15:11:08,416 - sap_test - INFO - - _ApplyTypes_
+2025-04-30 15:11:08,417 - sap_test - INFO - - _FlagAsMethod
+2025-04-30 15:11:08,417 - sap_test - INFO - - _LazyAddAttr_
+2025-04-30 15:11:08,417 - sap_test - INFO - - _NewEnum
+2025-04-30 15:11:08,417 - sap_test - INFO - - _Release_
+2025-04-30 15:11:08,418 - sap_test - INFO - - _UpdateWithITypeInfo_
+2025-04-30 15:11:08,418 - sap_test - INFO - - __AttrToID__
+2025-04-30 15:11:08,418 - sap_test - INFO - - __LazyMap__
+2025-04-30 15:11:08,418 - sap_test - INFO - - __bool__
+2025-04-30 15:11:08,419 - sap_test - INFO - - __call__
+2025-04-30 15:11:08,419 - sap_test - INFO - - __class__
+2025-04-30 15:11:08,419 - sap_test - INFO - - __delattr__
+2025-04-30 15:11:08,419 - sap_test - INFO - - __dict__
+2025-04-30 15:11:08,420 - sap_test - INFO - - __dir__
+2025-04-30 15:11:08,420 - sap_test - INFO - - __doc__
+2025-04-30 15:11:08,420 - sap_test - INFO - - __eq__
+2025-04-30 15:11:08,421 - sap_test - INFO - - __firstlineno__
+2025-04-30 15:11:08,421 - sap_test - INFO - - __format__
+2025-04-30 15:11:08,421 - sap_test - INFO - - __ge__
+2025-04-30 15:11:08,422 - sap_test - INFO - - __getattr__
+2025-04-30 15:11:08,422 - sap_test - INFO - - __getattribute__
+2025-04-30 15:11:08,422 - sap_test - INFO - - __getitem__
+2025-04-30 15:11:08,423 - sap_test - INFO - - __getstate__
+2025-04-30 15:11:08,423 - sap_test - INFO - - __gt__
+2025-04-30 15:11:08,423 - sap_test - INFO - - __hash__
+2025-04-30 15:11:08,423 - sap_test - INFO - - __init__
+2025-04-30 15:11:08,424 - sap_test - INFO - - __init_subclass__
+2025-04-30 15:11:08,424 - sap_test - INFO - - __int__
+2025-04-30 15:11:08,424 - sap_test - INFO - - __le__
+2025-04-30 15:11:08,424 - sap_test - INFO - - __len__
+2025-04-30 15:11:08,425 - sap_test - INFO - - __lt__
+2025-04-30 15:11:08,425 - sap_test - INFO - - __module__
+2025-04-30 15:11:08,426 - sap_test - INFO - - __ne__
+2025-04-30 15:11:08,427 - sap_test - INFO - - __new__
+2025-04-30 15:11:08,427 - sap_test - INFO - - __reduce__
+2025-04-30 15:11:08,427 - sap_test - INFO - - __reduce_ex__
+2025-04-30 15:11:08,428 - sap_test - INFO - - __repr__
+2025-04-30 15:11:08,428 - sap_test - INFO - - __setattr__
+2025-04-30 15:11:08,428 - sap_test - INFO - - __setitem__
+2025-04-30 15:11:08,428 - sap_test - INFO - - __sizeof__
+2025-04-30 15:11:08,429 - sap_test - INFO - - __static_attributes__
+2025-04-30 15:11:08,429 - sap_test - INFO - - __str__
+2025-04-30 15:11:08,429 - sap_test - INFO - - __subclasshook__
+2025-04-30 15:11:08,429 - sap_test - INFO - - __weakref__
+2025-04-30 15:11:08,429 - sap_test - INFO - - _builtMethods_
+2025-04-30 15:11:08,430 - sap_test - INFO - - _dir_ole_
+2025-04-30 15:11:08,430 - sap_test - INFO - - _enum_
+2025-04-30 15:11:08,430 - sap_test - INFO - - _find_dispatch_type_
+2025-04-30 15:11:08,430 - sap_test - INFO - - _get_good_object_
+2025-04-30 15:11:08,431 - sap_test - INFO - - _get_good_single_object_
+2025-04-30 15:11:08,431 - sap_test - INFO - - _lazydata_
+2025-04-30 15:11:08,431 - sap_test - INFO - - _make_method_
+2025-04-30 15:11:08,431 - sap_test - INFO - - _mapCachedItems_
+2025-04-30 15:11:08,432 - sap_test - INFO - - _oleobj_
+2025-04-30 15:11:08,432 - sap_test - INFO - - _olerepr_
+2025-04-30 15:11:08,432 - sap_test - INFO - - _print_details_
+2025-04-30 15:11:08,432 - sap_test - INFO - - _proc_
+2025-04-30 15:11:08,432 - sap_test - INFO - - _unicode_to_string_
+2025-04-30 15:11:08,433 - sap_test - INFO - - _username_
+2025-04-30 15:11:08,433 - sap_test - INFO - - _wrap_dispatch_
+2025-04-30 15:11:08,433 - sap_test - INFO - 
+Proprietà relative a 'busy': []
+2025-04-30 15:11:08,433 - sap_test - INFO - 
+=== Test di interazione con SAP ===
+2025-04-30 15:11:08,434 - sap_test - INFO - Esecuzione di un'operazione che potrebbe rendere SAP occupato...
+2025-04-30 15:14:01,896 - sap_test - INFO - Tentativo di connessione a SAP...
+2025-04-30 15:14:01,925 - sap_test - INFO - Connessione a SAP GUI stabilita con successo.
+2025-04-30 15:14:01,926 - sap_test - INFO - === Informazioni sulla sessione SAP ===
+2025-04-30 15:14:01,926 - sap_test - INFO - Tipo dell'oggetto sessione: <class 'win32com.client.CDispatch'>
+2025-04-30 15:14:01,935 - sap_test - INFO - Numero totale di proprietà/metodi: 77
+2025-04-30 15:14:01,935 - sap_test - INFO - Elenco delle proprietà/metodi:
+2025-04-30 15:14:01,936 - sap_test - INFO - - AsStdNumberFormat
+2025-04-30 15:14:01,936 - sap_test - INFO - - ClearErrorList
+2025-04-30 15:14:01,937 - sap_test - INFO - - CreateSession
+2025-04-30 15:14:01,937 - sap_test - INFO - - EnableJawsEvents
+2025-04-30 15:14:01,937 - sap_test - INFO - - EndTransaction
+2025-04-30 15:14:01,938 - sap_test - INFO - - FindById
+2025-04-30 15:14:01,938 - sap_test - INFO - - FindByPosition
+2025-04-30 15:14:01,938 - sap_test - INFO - - GetIconResourceName
+2025-04-30 15:14:01,939 - sap_test - INFO - - GetObjectTree
+2025-04-30 15:14:01,939 - sap_test - INFO - - GetVKeyDescription
+2025-04-30 15:14:01,939 - sap_test - INFO - - LockSessionUI
+2025-04-30 15:14:01,940 - sap_test - INFO - - RunScriptControl
+2025-04-30 15:14:01,940 - sap_test - INFO - - SendCommand
+2025-04-30 15:14:01,940 - sap_test - INFO - - SendCommandAsync
+2025-04-30 15:14:01,941 - sap_test - INFO - - SendMenu
+2025-04-30 15:14:01,941 - sap_test - INFO - - StartTransaction
+2025-04-30 15:14:01,941 - sap_test - INFO - - UnlockSessionUI
+2025-04-30 15:14:01,942 - sap_test - INFO - - _ApplyTypes_
+2025-04-30 15:14:01,942 - sap_test - INFO - - _FlagAsMethod
+2025-04-30 15:14:01,942 - sap_test - INFO - - _LazyAddAttr_
+2025-04-30 15:14:01,943 - sap_test - INFO - - _NewEnum
+2025-04-30 15:14:01,943 - sap_test - INFO - - _Release_
+2025-04-30 15:14:01,943 - sap_test - INFO - - _UpdateWithITypeInfo_
+2025-04-30 15:14:01,943 - sap_test - INFO - - __AttrToID__
+2025-04-30 15:14:01,943 - sap_test - INFO - - __LazyMap__
+2025-04-30 15:14:01,944 - sap_test - INFO - - __bool__
+2025-04-30 15:14:01,944 - sap_test - INFO - - __call__
+2025-04-30 15:14:01,944 - sap_test - INFO - - __class__
+2025-04-30 15:14:01,944 - sap_test - INFO - - __delattr__
+2025-04-30 15:14:01,945 - sap_test - INFO - - __dict__
+2025-04-30 15:14:01,945 - sap_test - INFO - - __dir__
+2025-04-30 15:14:01,945 - sap_test - INFO - - __doc__
+2025-04-30 15:14:01,945 - sap_test - INFO - - __eq__
+2025-04-30 15:14:01,945 - sap_test - INFO - - __firstlineno__
+2025-04-30 15:14:01,945 - sap_test - INFO - - __format__
+2025-04-30 15:14:01,945 - sap_test - INFO - - __ge__
+2025-04-30 15:14:01,946 - sap_test - INFO - - __getattr__
+2025-04-30 15:14:01,946 - sap_test - INFO - - __getattribute__
+2025-04-30 15:14:01,946 - sap_test - INFO - - __getitem__
+2025-04-30 15:14:01,946 - sap_test - INFO - - __getstate__
+2025-04-30 15:14:01,947 - sap_test - INFO - - __gt__
+2025-04-30 15:14:01,947 - sap_test - INFO - - __hash__
+2025-04-30 15:14:01,947 - sap_test - INFO - - __init__
+2025-04-30 15:14:01,947 - sap_test - INFO - - __init_subclass__
+2025-04-30 15:14:01,947 - sap_test - INFO - - __int__
+2025-04-30 15:14:01,948 - sap_test - INFO - - __le__
+2025-04-30 15:14:01,948 - sap_test - INFO - - __len__
+2025-04-30 15:14:01,948 - sap_test - INFO - - __lt__
+2025-04-30 15:14:01,948 - sap_test - INFO - - __module__
+2025-04-30 15:14:01,948 - sap_test - INFO - - __ne__
+2025-04-30 15:14:01,949 - sap_test - INFO - - __new__
+2025-04-30 15:14:01,949 - sap_test - INFO - - __reduce__
+2025-04-30 15:14:01,949 - sap_test - INFO - - __reduce_ex__
+2025-04-30 15:14:01,949 - sap_test - INFO - - __repr__
+2025-04-30 15:14:01,949 - sap_test - INFO - - __setattr__
+2025-04-30 15:14:01,950 - sap_test - INFO - - __setitem__
+2025-04-30 15:14:01,950 - sap_test - INFO - - __sizeof__
+2025-04-30 15:14:01,950 - sap_test - INFO - - __static_attributes__
+2025-04-30 15:14:01,950 - sap_test - INFO - - __str__
+2025-04-30 15:14:01,950 - sap_test - INFO - - __subclasshook__
+2025-04-30 15:14:01,950 - sap_test - INFO - - __weakref__
+2025-04-30 15:14:01,951 - sap_test - INFO - - _builtMethods_
+2025-04-30 15:14:01,951 - sap_test - INFO - - _dir_ole_
+2025-04-30 15:14:01,951 - sap_test - INFO - - _enum_
+2025-04-30 15:14:01,951 - sap_test - INFO - - _find_dispatch_type_
+2025-04-30 15:14:01,951 - sap_test - INFO - - _get_good_object_
+2025-04-30 15:14:01,952 - sap_test - INFO - - _get_good_single_object_
+2025-04-30 15:14:01,952 - sap_test - INFO - - _lazydata_
+2025-04-30 15:14:01,952 - sap_test - INFO - - _make_method_
+2025-04-30 15:14:01,952 - sap_test - INFO - - _mapCachedItems_
+2025-04-30 15:14:01,952 - sap_test - INFO - - _oleobj_
+2025-04-30 15:14:01,953 - sap_test - INFO - - _olerepr_
+2025-04-30 15:14:01,953 - sap_test - INFO - - _print_details_
+2025-04-30 15:14:01,953 - sap_test - INFO - - _proc_
+2025-04-30 15:14:01,953 - sap_test - INFO - - _unicode_to_string_
+2025-04-30 15:14:01,953 - sap_test - INFO - - _username_
+2025-04-30 15:14:01,953 - sap_test - INFO - - _wrap_dispatch_
+2025-04-30 15:14:01,954 - sap_test - INFO - 
+Proprietà relative a 'busy': []
+2025-04-30 15:14:01,954 - sap_test - INFO - 
+=== Test di interazione con SAP ===
+2025-04-30 15:14:01,954 - sap_test - INFO - Esecuzione di un'operazione che potrebbe rendere SAP occupato...
+2025-04-30 15:14:34,301 - sap_test - INFO - Tentativo di connessione a SAP...
+2025-04-30 15:14:34,329 - sap_test - INFO - Connessione a SAP GUI stabilita con successo.
+2025-04-30 15:14:34,331 - sap_test - INFO - === Informazioni sulla sessione SAP ===
+2025-04-30 15:14:34,331 - sap_test - INFO - Tipo dell'oggetto sessione: <class 'win32com.client.CDispatch'>
+2025-04-30 15:14:34,339 - sap_test - INFO - Numero totale di proprietà/metodi: 77
+2025-04-30 15:14:34,339 - sap_test - INFO - Elenco delle proprietà/metodi:
+2025-04-30 15:14:34,340 - sap_test - INFO - - AsStdNumberFormat
+2025-04-30 15:14:34,340 - sap_test - INFO - - ClearErrorList
+2025-04-30 15:14:34,340 - sap_test - INFO - - CreateSession
+2025-04-30 15:14:34,340 - sap_test - INFO - - EnableJawsEvents
+2025-04-30 15:14:34,340 - sap_test - INFO - - EndTransaction
+2025-04-30 15:14:34,340 - sap_test - INFO - - FindById
+2025-04-30 15:14:34,341 - sap_test - INFO - - FindByPosition
+2025-04-30 15:14:34,341 - sap_test - INFO - - GetIconResourceName
+2025-04-30 15:14:34,341 - sap_test - INFO - - GetObjectTree
+2025-04-30 15:14:34,341 - sap_test - INFO - - GetVKeyDescription
+2025-04-30 15:14:34,341 - sap_test - INFO - - LockSessionUI
+2025-04-30 15:14:34,341 - sap_test - INFO - - RunScriptControl
+2025-04-30 15:14:34,341 - sap_test - INFO - - SendCommand
+2025-04-30 15:14:34,342 - sap_test - INFO - - SendCommandAsync
+2025-04-30 15:14:34,342 - sap_test - INFO - - SendMenu
+2025-04-30 15:14:34,342 - sap_test - INFO - - StartTransaction
+2025-04-30 15:14:34,342 - sap_test - INFO - - UnlockSessionUI
+2025-04-30 15:14:34,342 - sap_test - INFO - - _ApplyTypes_
+2025-04-30 15:14:34,342 - sap_test - INFO - - _FlagAsMethod
+2025-04-30 15:14:34,343 - sap_test - INFO - - _LazyAddAttr_
+2025-04-30 15:14:34,343 - sap_test - INFO - - _NewEnum
+2025-04-30 15:14:34,343 - sap_test - INFO - - _Release_
+2025-04-30 15:14:34,343 - sap_test - INFO - - _UpdateWithITypeInfo_
+2025-04-30 15:14:34,343 - sap_test - INFO - - __AttrToID__
+2025-04-30 15:14:34,343 - sap_test - INFO - - __LazyMap__
+2025-04-30 15:14:34,344 - sap_test - INFO - - __bool__
+2025-04-30 15:14:34,344 - sap_test - INFO - - __call__
+2025-04-30 15:14:34,344 - sap_test - INFO - - __class__
+2025-04-30 15:14:34,344 - sap_test - INFO - - __delattr__
+2025-04-30 15:14:34,344 - sap_test - INFO - - __dict__
+2025-04-30 15:14:34,344 - sap_test - INFO - - __dir__
+2025-04-30 15:14:34,344 - sap_test - INFO - - __doc__
+2025-04-30 15:14:34,345 - sap_test - INFO - - __eq__
+2025-04-30 15:14:34,345 - sap_test - INFO - - __firstlineno__
+2025-04-30 15:14:34,345 - sap_test - INFO - - __format__
+2025-04-30 15:14:34,345 - sap_test - INFO - - __ge__
+2025-04-30 15:14:34,345 - sap_test - INFO - - __getattr__
+2025-04-30 15:14:34,345 - sap_test - INFO - - __getattribute__
+2025-04-30 15:14:34,346 - sap_test - INFO - - __getitem__
+2025-04-30 15:14:34,346 - sap_test - INFO - - __getstate__
+2025-04-30 15:14:34,346 - sap_test - INFO - - __gt__
+2025-04-30 15:14:34,346 - sap_test - INFO - - __hash__
+2025-04-30 15:14:34,346 - sap_test - INFO - - __init__
+2025-04-30 15:14:34,346 - sap_test - INFO - - __init_subclass__
+2025-04-30 15:14:34,346 - sap_test - INFO - - __int__
+2025-04-30 15:14:34,347 - sap_test - INFO - - __le__
+2025-04-30 15:14:34,347 - sap_test - INFO - - __len__
+2025-04-30 15:14:34,347 - sap_test - INFO - - __lt__
+2025-04-30 15:14:34,347 - sap_test - INFO - - __module__
+2025-04-30 15:14:34,347 - sap_test - INFO - - __ne__
+2025-04-30 15:14:34,347 - sap_test - INFO - - __new__
+2025-04-30 15:14:34,347 - sap_test - INFO - - __reduce__
+2025-04-30 15:14:34,348 - sap_test - INFO - - __reduce_ex__
+2025-04-30 15:14:34,348 - sap_test - INFO - - __repr__
+2025-04-30 15:14:34,348 - sap_test - INFO - - __setattr__
+2025-04-30 15:14:34,348 - sap_test - INFO - - __setitem__
+2025-04-30 15:14:34,348 - sap_test - INFO - - __sizeof__
+2025-04-30 15:14:34,348 - sap_test - INFO - - __static_attributes__
+2025-04-30 15:14:34,348 - sap_test - INFO - - __str__
+2025-04-30 15:14:34,348 - sap_test - INFO - - __subclasshook__
+2025-04-30 15:14:34,349 - sap_test - INFO - - __weakref__
+2025-04-30 15:14:34,349 - sap_test - INFO - - _builtMethods_
+2025-04-30 15:14:34,349 - sap_test - INFO - - _dir_ole_
+2025-04-30 15:14:34,349 - sap_test - INFO - - _enum_
+2025-04-30 15:14:34,349 - sap_test - INFO - - _find_dispatch_type_
+2025-04-30 15:14:34,349 - sap_test - INFO - - _get_good_object_
+2025-04-30 15:14:34,350 - sap_test - INFO - - _get_good_single_object_
+2025-04-30 15:14:34,350 - sap_test - INFO - - _lazydata_
+2025-04-30 15:14:34,350 - sap_test - INFO - - _make_method_
+2025-04-30 15:14:34,350 - sap_test - INFO - - _mapCachedItems_
+2025-04-30 15:14:34,350 - sap_test - INFO - - _oleobj_
+2025-04-30 15:14:34,350 - sap_test - INFO - - _olerepr_
+2025-04-30 15:14:34,350 - sap_test - INFO - - _print_details_
+2025-04-30 15:14:34,351 - sap_test - INFO - - _proc_
+2025-04-30 15:14:34,351 - sap_test - INFO - - _unicode_to_string_
+2025-04-30 15:14:34,351 - sap_test - INFO - - _username_
+2025-04-30 15:14:34,351 - sap_test - INFO - - _wrap_dispatch_
+2025-04-30 15:14:34,351 - sap_test - INFO - 
+Proprietà relative a 'busy': []
+2025-04-30 15:14:34,351 - sap_test - INFO - 
+=== Test di interazione con SAP ===
+2025-04-30 15:14:34,351 - sap_test - INFO - Esecuzione di un'operazione che potrebbe rendere SAP occupato...
+2025-04-30 15:26:10,915 - sap_test - INFO - Tentativo di connessione a SAP...
+2025-04-30 15:26:10,956 - sap_test - INFO - Connessione a SAP GUI stabilita con successo.
+2025-04-30 15:26:10,958 - sap_test - INFO - === Informazioni sulla sessione SAP ===
+2025-04-30 15:26:10,958 - sap_test - INFO - Tipo dell'oggetto sessione: <class 'win32com.client.CDispatch'>
+2025-04-30 15:26:10,970 - sap_test - INFO - Numero totale di proprietà/metodi: 77
+2025-04-30 15:26:10,971 - sap_test - INFO - Elenco delle proprietà/metodi:
+2025-04-30 15:26:10,971 - sap_test - INFO - - AsStdNumberFormat
+2025-04-30 15:26:10,972 - sap_test - INFO - - ClearErrorList
+2025-04-30 15:26:10,972 - sap_test - INFO - - CreateSession
+2025-04-30 15:26:10,973 - sap_test - INFO - - EnableJawsEvents
+2025-04-30 15:26:10,973 - sap_test - INFO - - EndTransaction
+2025-04-30 15:26:10,973 - sap_test - INFO - - FindById
+2025-04-30 15:26:10,974 - sap_test - INFO - - FindByPosition
+2025-04-30 15:26:10,974 - sap_test - INFO - - GetIconResourceName
+2025-04-30 15:26:10,974 - sap_test - INFO - - GetObjectTree
+2025-04-30 15:26:10,975 - sap_test - INFO - - GetVKeyDescription
+2025-04-30 15:26:10,975 - sap_test - INFO - - LockSessionUI
+2025-04-30 15:26:10,975 - sap_test - INFO - - RunScriptControl
+2025-04-30 15:26:10,976 - sap_test - INFO - - SendCommand
+2025-04-30 15:26:10,976 - sap_test - INFO - - SendCommandAsync
+2025-04-30 15:26:10,976 - sap_test - INFO - - SendMenu
+2025-04-30 15:26:10,977 - sap_test - INFO - - StartTransaction
+2025-04-30 15:26:10,977 - sap_test - INFO - - UnlockSessionUI
+2025-04-30 15:26:10,978 - sap_test - INFO - - _ApplyTypes_
+2025-04-30 15:26:10,978 - sap_test - INFO - - _FlagAsMethod
+2025-04-30 15:26:10,978 - sap_test - INFO - - _LazyAddAttr_
+2025-04-30 15:26:10,979 - sap_test - INFO - - _NewEnum
+2025-04-30 15:26:10,979 - sap_test - INFO - - _Release_
+2025-04-30 15:26:10,979 - sap_test - INFO - - _UpdateWithITypeInfo_
+2025-04-30 15:26:10,980 - sap_test - INFO - - __AttrToID__
+2025-04-30 15:26:10,980 - sap_test - INFO - - __LazyMap__
+2025-04-30 15:26:10,980 - sap_test - INFO - - __bool__
+2025-04-30 15:26:10,981 - sap_test - INFO - - __call__
+2025-04-30 15:26:10,981 - sap_test - INFO - - __class__
+2025-04-30 15:26:10,981 - sap_test - INFO - - __delattr__
+2025-04-30 15:26:10,982 - sap_test - INFO - - __dict__
+2025-04-30 15:26:10,982 - sap_test - INFO - - __dir__
+2025-04-30 15:26:10,982 - sap_test - INFO - - __doc__
+2025-04-30 15:26:10,983 - sap_test - INFO - - __eq__
+2025-04-30 15:26:10,983 - sap_test - INFO - - __firstlineno__
+2025-04-30 15:26:10,984 - sap_test - INFO - - __format__
+2025-04-30 15:26:10,984 - sap_test - INFO - - __ge__
+2025-04-30 15:26:10,984 - sap_test - INFO - - __getattr__
+2025-04-30 15:26:10,985 - sap_test - INFO - - __getattribute__
+2025-04-30 15:26:10,985 - sap_test - INFO - - __getitem__
+2025-04-30 15:26:10,985 - sap_test - INFO - - __getstate__
+2025-04-30 15:26:10,986 - sap_test - INFO - - __gt__
+2025-04-30 15:26:10,986 - sap_test - INFO - - __hash__
+2025-04-30 15:26:10,986 - sap_test - INFO - - __init__
+2025-04-30 15:26:10,987 - sap_test - INFO - - __init_subclass__
+2025-04-30 15:26:10,987 - sap_test - INFO - - __int__
+2025-04-30 15:26:10,987 - sap_test - INFO - - __le__
+2025-04-30 15:26:10,988 - sap_test - INFO - - __len__
+2025-04-30 15:26:10,988 - sap_test - INFO - - __lt__
+2025-04-30 15:26:10,988 - sap_test - INFO - - __module__
+2025-04-30 15:26:10,988 - sap_test - INFO - - __ne__
+2025-04-30 15:26:10,988 - sap_test - INFO - - __new__
+2025-04-30 15:26:10,989 - sap_test - INFO - - __reduce__
+2025-04-30 15:26:10,989 - sap_test - INFO - - __reduce_ex__
+2025-04-30 15:26:10,989 - sap_test - INFO - - __repr__
+2025-04-30 15:26:10,989 - sap_test - INFO - - __setattr__
+2025-04-30 15:26:10,989 - sap_test - INFO - - __setitem__
+2025-04-30 15:26:10,990 - sap_test - INFO - - __sizeof__
+2025-04-30 15:26:10,990 - sap_test - INFO - - __static_attributes__
+2025-04-30 15:26:10,990 - sap_test - INFO - - __str__
+2025-04-30 15:26:10,990 - sap_test - INFO - - __subclasshook__
+2025-04-30 15:26:10,991 - sap_test - INFO - - __weakref__
+2025-04-30 15:26:10,991 - sap_test - INFO - - _builtMethods_
+2025-04-30 15:26:10,991 - sap_test - INFO - - _dir_ole_
+2025-04-30 15:26:10,991 - sap_test - INFO - - _enum_
+2025-04-30 15:26:10,991 - sap_test - INFO - - _find_dispatch_type_
+2025-04-30 15:26:10,992 - sap_test - INFO - - _get_good_object_
+2025-04-30 15:26:10,992 - sap_test - INFO - - _get_good_single_object_
+2025-04-30 15:26:10,992 - sap_test - INFO - - _lazydata_
+2025-04-30 15:26:10,992 - sap_test - INFO - - _make_method_
+2025-04-30 15:26:10,993 - sap_test - INFO - - _mapCachedItems_
+2025-04-30 15:26:10,993 - sap_test - INFO - - _oleobj_
+2025-04-30 15:26:10,993 - sap_test - INFO - - _olerepr_
+2025-04-30 15:26:10,993 - sap_test - INFO - - _print_details_
+2025-04-30 15:26:10,993 - sap_test - INFO - - _proc_
+2025-04-30 15:26:10,994 - sap_test - INFO - - _unicode_to_string_
+2025-04-30 15:26:10,994 - sap_test - INFO - - _username_
+2025-04-30 15:26:10,994 - sap_test - INFO - - _wrap_dispatch_
+2025-04-30 15:26:10,994 - sap_test - INFO - 
+Proprietà relative a 'busy': []
+2025-04-30 15:26:10,994 - sap_test - INFO - 
+=== Test di interazione con SAP ===
+2025-04-30 15:26:10,995 - sap_test - INFO - Esecuzione di un'operazione che potrebbe rendere SAP occupato...
+2025-04-30 15:26:38,015 - sap_test - INFO - Tentativo di connessione a SAP...
+2025-04-30 15:26:38,041 - sap_test - INFO - Connessione a SAP GUI stabilita con successo.
+2025-04-30 15:26:38,043 - sap_test - INFO - === Informazioni sulla sessione SAP ===
+2025-04-30 15:26:38,043 - sap_test - INFO - Tipo dell'oggetto sessione: <class 'win32com.client.CDispatch'>
+2025-04-30 15:26:38,051 - sap_test - INFO - Numero totale di proprietà/metodi: 77
+2025-04-30 15:26:38,051 - sap_test - INFO - Elenco delle proprietà/metodi:
+2025-04-30 15:26:38,052 - sap_test - INFO - - AsStdNumberFormat
+2025-04-30 15:26:38,052 - sap_test - INFO - - ClearErrorList
+2025-04-30 15:26:38,052 - sap_test - INFO - - CreateSession
+2025-04-30 15:26:38,052 - sap_test - INFO - - EnableJawsEvents
+2025-04-30 15:26:38,053 - sap_test - INFO - - EndTransaction
+2025-04-30 15:26:38,053 - sap_test - INFO - - FindById
+2025-04-30 15:26:38,053 - sap_test - INFO - - FindByPosition
+2025-04-30 15:26:38,053 - sap_test - INFO - - GetIconResourceName
+2025-04-30 15:26:38,054 - sap_test - INFO - - GetObjectTree
+2025-04-30 15:26:38,054 - sap_test - INFO - - GetVKeyDescription
+2025-04-30 15:26:38,054 - sap_test - INFO - - LockSessionUI
+2025-04-30 15:26:38,054 - sap_test - INFO - - RunScriptControl
+2025-04-30 15:26:38,055 - sap_test - INFO - - SendCommand
+2025-04-30 15:26:38,055 - sap_test - INFO - - SendCommandAsync
+2025-04-30 15:26:38,055 - sap_test - INFO - - SendMenu
+2025-04-30 15:26:38,055 - sap_test - INFO - - StartTransaction
+2025-04-30 15:26:38,056 - sap_test - INFO - - UnlockSessionUI
+2025-04-30 15:26:38,056 - sap_test - INFO - - _ApplyTypes_
+2025-04-30 15:26:38,056 - sap_test - INFO - - _FlagAsMethod
+2025-04-30 15:26:38,056 - sap_test - INFO - - _LazyAddAttr_
+2025-04-30 15:26:38,057 - sap_test - INFO - - _NewEnum
+2025-04-30 15:26:38,057 - sap_test - INFO - - _Release_
+2025-04-30 15:26:38,057 - sap_test - INFO - - _UpdateWithITypeInfo_
+2025-04-30 15:26:38,058 - sap_test - INFO - - __AttrToID__
+2025-04-30 15:26:38,058 - sap_test - INFO - - __LazyMap__
+2025-04-30 15:26:38,058 - sap_test - INFO - - __bool__
+2025-04-30 15:26:38,058 - sap_test - INFO - - __call__
+2025-04-30 15:26:38,058 - sap_test - INFO - - __class__
+2025-04-30 15:26:38,058 - sap_test - INFO - - __delattr__
+2025-04-30 15:26:38,058 - sap_test - INFO - - __dict__
+2025-04-30 15:26:38,059 - sap_test - INFO - - __dir__
+2025-04-30 15:26:38,059 - sap_test - INFO - - __doc__
+2025-04-30 15:26:38,059 - sap_test - INFO - - __eq__
+2025-04-30 15:26:38,059 - sap_test - INFO - - __firstlineno__
+2025-04-30 15:26:38,059 - sap_test - INFO - - __format__
+2025-04-30 15:26:38,059 - sap_test - INFO - - __ge__
+2025-04-30 15:26:38,059 - sap_test - INFO - - __getattr__
+2025-04-30 15:26:38,059 - sap_test - INFO - - __getattribute__
+2025-04-30 15:26:38,060 - sap_test - INFO - - __getitem__
+2025-04-30 15:26:38,060 - sap_test - INFO - - __getstate__
+2025-04-30 15:26:38,060 - sap_test - INFO - - __gt__
+2025-04-30 15:26:38,060 - sap_test - INFO - - __hash__
+2025-04-30 15:26:38,060 - sap_test - INFO - - __init__
+2025-04-30 15:26:38,060 - sap_test - INFO - - __init_subclass__
+2025-04-30 15:26:38,060 - sap_test - INFO - - __int__
+2025-04-30 15:26:38,061 - sap_test - INFO - - __le__
+2025-04-30 15:26:38,061 - sap_test - INFO - - __len__
+2025-04-30 15:26:38,061 - sap_test - INFO - - __lt__
+2025-04-30 15:26:38,061 - sap_test - INFO - - __module__
+2025-04-30 15:26:38,061 - sap_test - INFO - - __ne__
+2025-04-30 15:26:38,061 - sap_test - INFO - - __new__
+2025-04-30 15:26:38,061 - sap_test - INFO - - __reduce__
+2025-04-30 15:26:38,062 - sap_test - INFO - - __reduce_ex__
+2025-04-30 15:26:38,062 - sap_test - INFO - - __repr__
+2025-04-30 15:26:38,062 - sap_test - INFO - - __setattr__
+2025-04-30 15:26:38,062 - sap_test - INFO - - __setitem__
+2025-04-30 15:26:38,062 - sap_test - INFO - - __sizeof__
+2025-04-30 15:26:38,062 - sap_test - INFO - - __static_attributes__
+2025-04-30 15:26:38,063 - sap_test - INFO - - __str__
+2025-04-30 15:26:38,063 - sap_test - INFO - - __subclasshook__
+2025-04-30 15:26:38,063 - sap_test - INFO - - __weakref__
+2025-04-30 15:26:38,063 - sap_test - INFO - - _builtMethods_
+2025-04-30 15:26:38,063 - sap_test - INFO - - _dir_ole_
+2025-04-30 15:26:38,063 - sap_test - INFO - - _enum_
+2025-04-30 15:26:38,063 - sap_test - INFO - - _find_dispatch_type_
+2025-04-30 15:26:38,064 - sap_test - INFO - - _get_good_object_
+2025-04-30 15:26:38,064 - sap_test - INFO - - _get_good_single_object_
+2025-04-30 15:26:38,064 - sap_test - INFO - - _lazydata_
+2025-04-30 15:26:38,064 - sap_test - INFO - - _make_method_
+2025-04-30 15:26:38,064 - sap_test - INFO - - _mapCachedItems_
+2025-04-30 15:26:38,064 - sap_test - INFO - - _oleobj_
+2025-04-30 15:26:38,064 - sap_test - INFO - - _olerepr_
+2025-04-30 15:26:38,064 - sap_test - INFO - - _print_details_
+2025-04-30 15:26:38,065 - sap_test - INFO - - _proc_
+2025-04-30 15:26:38,065 - sap_test - INFO - - _unicode_to_string_
+2025-04-30 15:26:38,065 - sap_test - INFO - - _username_
+2025-04-30 15:26:38,065 - sap_test - INFO - - _wrap_dispatch_
+2025-04-30 15:26:38,065 - sap_test - INFO - 
+Proprietà relative a 'busy': []
+2025-04-30 15:26:38,065 - sap_test - INFO - 
+=== Test di interazione con SAP ===
+2025-04-30 15:26:38,065 - sap_test - INFO - Esecuzione di un'operazione che potrebbe rendere SAP occupato...
+2025-04-30 15:27:10,692 - sap_test - INFO - Operazione eseguita.
+2025-04-30 15:27:26,543 - sap_test - INFO - Sessione SAP disconnessa.

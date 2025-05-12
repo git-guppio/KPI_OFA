@@ -1,0 +1,12 @@
+--------------------------------------------------------------------------------------------------------------------------------------------
+|  Avviso    |Mod. il   |Data      |Descrizione                             |Tp.|Sede tecnica        |St.sist. |Ordine      |Pse|Sis.Legacy|
+--------------------------------------------------------------------------------------------------------------------------------------------
+|  1200793796|          |04.04.2025|MODIFICACIONES Y MEJORAS                |Z2 |ESW-ES19-X1-16      |MAPE     |            |ES |          |
+|  1200793645|          |03.04.2025|MODIFICA|CIONES |Y MEJORAS                |Z2 |ESW-ES19-X1-16      |MAPE     |            |ES |          |
+|  1200795031|          |08.04.2025| Rearmes varios                         |Z2 |ESW-ES24-X4-50      |MAPE     |            |ES |          |
+|  1400025949|          |24.04.2025|ICEBERG-SAS | WTUR1_BusTmp Alarm          |Z4 |ESW-ES26-X1-04-TO   |MAPE     |            |ES |POM_DRIVEN|
+|  1400025946|          |24.04.2025|ICE|BERG-SAS WG | EN1_Brg2Tmp | Alarm.        |Z4 |ESW-ES94-X1-04-GE   |MAPE     |            |ES |POM_DRIVEN|
+|  1400025764|          |01.04.2025|ICEBERG-SAS - WGEN1_Brg2Tmp. Alarm. OK  |Z4 |ESW-ESN8-X2-24-GE   |MAPE     |            |ES |POM_DRIVEN|
+|  1200795968|          |11.04.2025|NIVEL SISTEMA HIDRAULICO                |Z2 |ESW-ESNG-X3-65-HG   |MAPE     |            |ES |          |
+|  1400025962|          |25.04.2025|ICEBERG-SAS WGEN1_Brg2Tmp | WGEN1_Tmp   |Z4 |ESW-ESO3-X2-13-GE   |MAPE     |            |ES |POM_DRIVEN|
+|  1400025756|01.04.2025|31.12.2025|PR-OMMT-351 ENDOSCOPIA MULTI AE01       |Z4 |ESW-ESPJ-X2-01-ML-MM|MELA ORAT||ES |          |

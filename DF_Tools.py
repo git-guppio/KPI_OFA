@@ -744,54 +744,106 @@ class DataFrameTools:
         """
         try:
             if not data:
-                print("Nessun dato trovato nella clipboard")
+                print("DF non valido")
                 return None
 
             # Divide in righe
             lines = data.strip().split('\n')
             
             # Filtra le righe, escludendo quelle che contengono solo trattini
-            clean_lines = []
+            filtered_lines = []
             for line in lines:
                 # Rimuove spazi bianchi iniziali e finali
                 line = line.strip()
                 # Verifica se la riga è composta solo da trattini
                 if line and not all(c == '-' for c in line.replace(' ', '')):
-                    clean_lines.append(line)
+                    filtered_lines.append(line)
 
-            if not clean_lines:
+            if not filtered_lines:
                 print("Nessuna riga valida trovata dopo la pulizia")
                 return None
+            
+            # La prima riga è l'intestazione
+            original_headers = filtered_lines[0]
+            list_original_headers = original_headers.strip().split('|')
+            print(f"Intestazioni originali: {list_original_headers} - lunghezza: {len(list_original_headers)}")
 
-            # Dividi le righe in colonne usando il tab come separatore
-            data_rows = [line.split('|') for line in clean_lines]
-            
-            # Prendi la prima riga come header
-            original_headers = [header.strip() for header in data_rows[0]]
-            
             # Gestisci gli header duplicati
-            unique_headers = DataFrameTools.handle_duplicate_headers(original_headers)
-            
-            # Se sono stati trovati duplicati, stampalo
-            duplicates = [header for header, count in Counter(original_headers).items() if count > 1]
-            if duplicates:
-                print("\nTrovate colonne con nomi duplicati:")
-                for dup in duplicates:
-                    print(f"- '{dup}' (rinominate con postfissi numerici)")
+            list_unique_headers = DataFrameTools.handle_duplicate_headers(list_original_headers)
+            print(f"Intestazioni uniche: {list_unique_headers} - lunghezza: {len(list_unique_headers)}")
 
-            # Crea il DataFrame con i nuovi header
-            df = pd.DataFrame(data_rows[1:], columns=unique_headers)
-
-            # Rimuove le colonne completamente vuote
-            df = df.dropna(axis=1, how='all')
+            expected_pipes = original_headers.count('|')
             
-            # Rimuove le colonne dove tutti i valori sono stringhe vuote
-            df = df.loc[:, ~(df == '').all()]
+            # Creo un array per memorizzare le righe corrette
+            corrected_lines = []
+            # Correggi le righe con occorrenze extra di pipe
+            for line in filtered_lines[1:]:
+                actual_pipes = line.count('|')
+                
+                if actual_pipes > expected_pipes:
+                    # Calcola quanti pipe extra ci sono
+                    extra_pipes = actual_pipes - expected_pipes
+                    
+                    # Trova l'indice del quarto pipe (che precede la colonna Descrizione)
+                    pipe_indices = [i for i, char in enumerate(line) if char == '|']
+                    if len(pipe_indices) >= 4:
+                        description_start = pipe_indices[3] + 1
+                        description_end = pipe_indices[4 + extra_pipes]
+                        
+                        # Estrai la descrizione
+                        description = line[description_start:description_end]
+                        
+                        # Sostituisci i pipe nella descrizione con trattini
+                        corrected_description = description.replace('|', '-')
+                        print(f"Descrizione corretta: {corrected_description}")
+                        
+                        # Ricostruisci la riga
+                        corrected_line = line[:description_start] + corrected_description + line[description_end:]
+                        
+                        # Verifica che la correzione abbia funzionato
+                        if corrected_line.count('|') == expected_pipes:
+                            corrected_lines.append(corrected_line)
+                        else:
+                            # Fallback: se la correzione non ha funzionato, rimuovi tutti i pipe extra
+                            parts = line.split('|')
+                            if len(parts) > expected_pipes + 1:
+                                # Unisci i campi extra nella Descrizione (indice 4 considerando i separatori)
+                                merged_description = '-'.join(parts[4:4+extra_pipes+1])
+                                new_parts = parts[:4] + [merged_description] + parts[4+extra_pipes+1:]
+                                corrected_line = '|'.join(new_parts)
+                                corrected_lines.append(corrected_line)
+                            else:
+                                print(f"Impossibile correggere la riga: {line}")
+                    else:
+                        print(f"La riga non ha abbastanza separatori pipe: {line}")
+                else:
+                    # La riga è già corretta o ha meno pipe del previsto
+                    corrected_lines.append(line)
+            
+            # Ora che abbiamo corretto le righe, le convertiamo in DataFrame
+            data_rows = []
+            for line in corrected_lines:
+                fields = [field.strip() for field in line.split('|')]
+                # Rimuovi i campi vuoti all'inizio e alla fine (dovuti al pipe iniziale/finale)
+                # fields = [field for field in fields if field]
+                data_rows.append(fields)
+            
+            # Estrai gli header e i dati
+            headers = list_unique_headers
+            data = data_rows
+            
+            # Crea il DataFrame
+            df = pd.DataFrame(data, columns=headers)     
+                
+            # Rimuoviamo le colonne senza intestazione
+            unnamed_cols = [col for col in df.columns if col == '' or pd.isna(col) or str(col).startswith('Unnamed_')]
+            df_cleaned = df.drop(columns=unnamed_cols)
             
             # Reset dell'indice
-            df = df.reset_index(drop=True)
-         
-            return df
+            df_cleaned = df_cleaned.reset_index(drop=True)
+
+            
+            return df_cleaned
 
         except Exception as e:
             print(f"Errore durante la pulizia dei dati: {str(e)}")
@@ -801,18 +853,34 @@ class DataFrameTools:
     def handle_duplicate_headers(headers: List[str]) -> List[str]:
         """
         Gestisce le intestazioni duplicate aggiungendo un postfisso numerico
+        e rinomina le intestazioni vuote con il prefisso "Unnamed_"
         
         Args:
             headers: Lista delle intestazioni originali
             
         Returns:
-            Lista delle intestazioni con postfissi per i duplicati
+            Lista delle intestazioni con postfissi per i duplicati e rinominate per le vuote
         """
-        # Conta le occorrenze di ogni header
+        # Inizializziamo il contatore per le colonne senza nome
+        unnamed_counter = 0
+        
+        # Per prima cosa, rinominiamo le intestazioni vuote
+        processed_headers = []
+        for header in headers:
+            # Verifica se l'header è vuoto (dopo strip)
+            if not header or header.strip() == "":
+                # Assegna un nome "Unnamed_N"
+                processed_headers.append(f"Unnamed_{unnamed_counter}")
+                unnamed_counter += 1
+            else:
+                # Applica strip e aggiungi l'header non vuoto
+                processed_headers.append(header.strip())
+        
+        # Ora gestiamo i duplicati
         header_counts = Counter()
         unique_headers = []
         
-        for header in headers:
+        for header in processed_headers:
             # Se l'header è già stato visto
             if header in header_counts:
                 # Incrementa il contatore e aggiungi il postfisso
@@ -823,7 +891,7 @@ class DataFrameTools:
                 header_counts[header] = 0
                 unique_headers.append(header)
         
-        return unique_headers        
+        return unique_headers       
 
 
     @staticmethod
@@ -1040,3 +1108,119 @@ class DataFrameTools:
         df_copy = df.copy()
         df_copy[new_col] = df_copy[col1] + separator + df_copy[col2]
         return df_copy
+    
+    @staticmethod
+    def export_df_to_excel(df, output_path=None, sheet_name="Avvisi", verify_columns=True):
+        """
+        Esporta un DataFrame in un file Excel dopo aver verificato la presenza di valori mancanti
+        in colonne specifiche e altre verifiche di qualità dei dati.
+        
+        Args:
+            df: Il DataFrame pandas da esportare
+            output_path: Il percorso del file Excel di output. Se None, viene generato automaticamente
+            sheet_name: Il nome del foglio Excel
+            verify_columns: Se True, esegue verifiche sui dati prima dell'esportazione
+            
+        Returns:
+            tuple: (successo, messaggio, percorso_file)
+                - successo (bool): True se l'esportazione è andata a buon fine, False altrimenti
+                - messaggio (str): Messaggio informativo o di errore
+                - percorso_file (str): Percorso del file esportato in caso di successo
+        """
+        # Verifica che il DataFrame non sia vuoto
+        if df is None or df.empty:
+            return False, "Il DataFrame è vuoto o nullo.", None
+        
+        # Crea una copia per non modificare l'originale
+        df_export = df.copy()
+        
+        # Se richiesto, esegue verifiche sui dati
+        if verify_columns:
+            # 1. Verifica che le colonne obbligatorie esistano
+            required_columns = ["Avviso", "Data", "Sede tecnica", "St.sist."]
+            missing_columns = [col for col in required_columns if col not in df_export.columns]
+            
+            if missing_columns:
+                return False, f"Colonne obbligatorie mancanti: {', '.join(missing_columns)}", None
+            
+            # 2. Verifica valori mancanti nelle colonne obbligatorie
+            missing_data = {}
+            for col in required_columns:
+                missing_count = df_export[col].isna().sum()
+                if missing_count > 0:
+                    missing_data[col] = missing_count
+            
+            if missing_data:
+                missing_info = "\n".join([f"- {col}: {count} valori mancanti" for col, count in missing_data.items()])
+                return False, f"Valori mancanti nelle colonne obbligatorie:\n{missing_info}", None
+            
+            # 3. Verifica formato numerico per la colonna Avviso
+            if not pd.api.types.is_numeric_dtype(df_export["Avviso"]):
+                try:
+                    # Prova a convertire la colonna Avviso in numerico
+                    df_export["Avviso"] = pd.to_numeric(df_export["Avviso"])
+                    print("Colonna 'Avviso' convertita in formato numerico.")
+                except Exception as e:
+                    return False, f"La colonna 'Avviso' contiene valori non numerici: {str(e)}", None
+            
+            # 4. Verifica che i valori in St.sist. siano in un formato valido (es. solo certi valori)
+            valid_st_sist = ["MELA", "MECO", "FCAN MECO", "MAPE", "MECO ORAT", "MELA ORAT"]
+            invalid_st_sist = df_export[~df_export["St.sist."].isin(valid_st_sist)]["St.sist."].unique()
+            
+            if len(invalid_st_sist) > 0:
+                print(f"Attenzione: Valori non standard nella colonna 'St.sist.': {', '.join(map(str, invalid_st_sist))}")
+            
+            # 5. Verifica che le date siano in un formato valido
+            if not pd.api.types.is_datetime64_dtype(df_export["Data"]):
+                try:
+                    # Prova a convertire la colonna Data in datetime
+                    df_export["Data"] = pd.to_datetime(df_export["Data"], dayfirst=True)
+                    print("Colonna 'Data' convertita in formato datetime.")
+                except Exception as e:
+                    print(f"Attenzione: Non è stato possibile convertire la colonna 'Data' in formato datetime: {str(e)}")
+                    # Continuiamo comunque con l'esportazione
+            
+            # 6. Verifica il formato della colonna Sede tecnica (pattern comune)
+            # Es: MXW-MXPA-X4-18-GE-ES
+            invalid_sede = []
+            sede_pattern = re.compile(r'^[A-Z]{3}-[A-Z]{4}-[A-Z][0-9]-[0-9]{2}-[A-Z]{2}-[A-Z]{2}$')
+            
+            for idx, sede in enumerate(df_export["Sede tecnica"]):
+                if sede and not sede_pattern.match(str(sede)) and not sede == "CLS-CLSB-07-03-IT":
+                    invalid_sede.append((idx, sede))
+            
+            if invalid_sede:
+                print(f"Attenzione: {len(invalid_sede)} valori nella colonna 'Sede tecnica' non seguono il pattern standard.")
+                if len(invalid_sede) <= 5:  # Mostra solo i primi 5 esempi
+                    for idx, sede in invalid_sede[:5]:
+                        print(f"  Riga {idx+1}: '{sede}'")
+        
+        # Genera un nome di file se non fornito
+        if output_path is None:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            output_path = f"avvisi_export_{timestamp}.xlsx"
+        
+        # Verifica che la directory di destinazione esista
+        output_dir = os.path.dirname(output_path)
+        if output_dir and not os.path.exists(output_dir):
+            try:
+                os.makedirs(output_dir)
+                print(f"Creata directory: {output_dir}")
+            except Exception as e:
+                return False, f"Impossibile creare la directory di destinazione: {str(e)}", None
+        
+        # Esporta il DataFrame in Excel
+        try:
+            with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
+                df_export.to_excel(writer, sheet_name=sheet_name, index=False)
+            
+            # Verifica che il file sia stato creato correttamente
+            if os.path.exists(output_path):
+                file_size = os.path.getsize(output_path)
+                row_count = len(df_export)
+                return True, f"Esportazione completata con successo. File: {output_path}, Dimensione: {file_size/1024:.1f} KB, Righe: {row_count}", output_path
+            else:
+                return False, "Il file è stato creato ma non è possibile trovarlo nel percorso specificato.", None
+        
+        except Exception as e:
+            return False, f"Errore durante l'esportazione in Excel: {str(e)}", None

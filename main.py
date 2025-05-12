@@ -171,18 +171,19 @@ class MainWindow(QMainWindow):
                 if not result:
                     self.statusBar.showMessage("Errore: Estrazione OdM fallita")
                     return False
-                msg = f"OdM estratti: {len(self.df_AdM)}"
+                msg = f"OdM estratti: {len(self.df_OdM)}"
                 logger.info(msg)
                 self.statusBar.showMessage(msg)
+                self.start_button.setEnabled(True)
+                return True
 
             else:
                 self.start_button.setEnabled(False)  # Disabilita il pulsante se lo sheet non esiste    
                 self.statusBar.showMessage(f"Errore: File non valido - {file_name}")
-
-                
-                
+                return False  
         else:
             self.statusBar.showMessage("Nessun file selezionato")
+            return False
 
     def load_config(self):
         """Carica la configurazione dal file o utilizza valori predefiniti"""
@@ -251,9 +252,16 @@ class MainWindow(QMainWindow):
                             self.statusBar.showMessage("Connessione SAP attiva")
                             extractor = SAP_Transactions.SAPDataExtractor(session)
                             self.statusBar.showMessage("Estrazione dati IW29")
-                            result, df_IW29 = extractor.extract_IW29(start_date, end_date, tech_config)
+                            result, df_IW29 = extractor.extract_IW29(start_date, end_date, tech_config, self.df_AdM["idItem"] )
+                            if not result:
+                                self.statusBar.showMessage("Errore: Estrazione IW29 fallita")
+                                return
+                            # Salva il DataFrame in un file Excel
+                            output_file = os.path.join(save_dir, "IW29_AdM.xlsx")
+                            df_IW29.to_excel(output_file, index=False)
+                            logger.info(f"File salvato in: {output_file}")
                             self.statusBar.showMessage("Estrazione dati IW39")
-                            df_IW39 = extractor.extract_IW39(start_date, end_date, tech_config)
+                            df_IW39 = extractor.extract_IW39(start_date, end_date, tech_config, self.df_OdM)
                             
                             self.statusBar.showMessage("Estrazione completata con successo")
                     else:
@@ -316,6 +324,9 @@ class MainWindow(QMainWindow):
                     logger.warning(f"Impossibile convertire '{base_id}' in intero")
             
             # Applica la funzione a tutti i valori nella colonna idItem
+            # Crea un nuovo DataFrame con entrambe le colonne per verificare il funzionamento
+            new_df = id_items_df.copy()
+            new_df['idItem_base'] = id_items_df['idItem'].apply(extract_base_id)
             id_items_df['idItem'] = id_items_df['idItem'].apply(extract_base_id)
             
             # Rimuovi eventuali duplicati
@@ -326,7 +337,7 @@ class MainWindow(QMainWindow):
             
             logger.info(f"Estratti {len(id_items_df)} idItem unici come valori interi")
             if (len(id_items_df) != len(df)):
-                msg = f"{len(df) - len(id_items_df)} righe non convertite"
+                msg = f"{len(df) - len(id_items_df)} righe eliminate"
                 logger.warning(f"Normalizzazione: {msg}")
             return True, id_items_df
             
@@ -341,13 +352,13 @@ class MainWindow(QMainWindow):
     
     def Estrai_AdM(self, df) -> tuple[bool, pd.DataFrame | None]:
         """
-        Filtra il DataFrame per restituire solo gli AdM ovvero le righe con idItem maggiori di 2000000000.
+        Filtra il DataFrame per restituire solo gli AdM ovvero le righe con idItem minori di 2000000000.
         
         Args:
             df (pandas.DataFrame): DataFrame contenente la colonna idItem con valori numerici
             
         Returns:
-            pandas.DataFrame: Nuovo DataFrame contenente solo righe con idItem > 2000000000
+            pandas.DataFrame: Nuovo DataFrame contenente solo righe con idItem < 2000000000
         """
         try:
             logger.info(" - Estrazione AdM - ")
@@ -371,13 +382,13 @@ class MainWindow(QMainWindow):
                 logger.error(f"Errore nella conversione dei valori in numeri: {str(e)}")
                 return False, None
                 
-            # Filtra il DataFrame per ottenere solo i valori maggiori di 2000000000
-            AdM_df = df_numeric[df_numeric["idItem"] > 2000000000]
+            # Filtra il DataFrame per ottenere solo i valori minori di 2000000000
+            AdM_df = df_numeric[df_numeric["idItem"] < 2000000000]
             
             # Resetta l'indice
             AdM_df = AdM_df.reset_index(drop=True)
             
-            logger.info(f"Filtrati {len(AdM_df)} record con idItem > 2000000000 su {len(df)} totali")
+            logger.info(f"Filtrati {len(AdM_df)} record con idItem < 2000000000 su {len(df)} totali")
             
             return True, AdM_df
             
@@ -387,13 +398,13 @@ class MainWindow(QMainWindow):
 
     def Estrai_OdM(self, df) -> tuple[bool, pd.DataFrame | None]:
         """
-        Filtra il DataFrame per restituire solo gli OdM ovvero le righe con idItem minori di 2000000000.
+        Filtra il DataFrame per restituire solo gli OdM ovvero le righe con idItem maggiori di 2000000000.
         
         Args:
             df (pandas.DataFrame): DataFrame contenente la colonna idItem con valori numerici
             
         Returns:
-            pandas.DataFrame: Nuovo DataFrame contenente solo righe con idItem < 2000000000
+            pandas.DataFrame: Nuovo DataFrame contenente solo righe con idItem > 2000000000
         """
         try:
             logger.info(" - Estrazione OdM - ")
@@ -418,12 +429,12 @@ class MainWindow(QMainWindow):
                 return False, None
                 
             # Filtra il DataFrame per ottenere solo i valori maggiori di 2000000000
-            OdM_df = df_numeric[df_numeric["idItem"] < 2000000000]
+            OdM_df = df_numeric[df_numeric["idItem"] > 2000000000]
             
             # Resetta l'indice
             OdM_df = OdM_df.reset_index(drop=True)
             
-            logger.info(f"Filtrati {len(OdM_df)} record con idItem < 2000000000 su {len(df)} totali")
+            logger.info(f"Filtrati {len(OdM_df)} record con idItem > 2000000000 su {len(df)} totali")
             
             return True, OdM_df
             

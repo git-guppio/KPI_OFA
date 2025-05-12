@@ -1,0 +1,10 @@
+{
+    "save_directory": "C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/Dati",
+    "technologies": {
+        "BESS": [],
+        "SOLAR": [],
+        "WIND": [
+            "ESW"
+        ]
+    }
+}

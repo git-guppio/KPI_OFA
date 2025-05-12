@@ -9,17 +9,20 @@ con data modifica
 Estrazioni in SAP IW29 della lista di avvisi condivisa da Simone con lo stesso layout delle precedenti
 
 Ottengo tre tabelle produco un unica tabella priva di duplicati.
+--------- Fine Notification ----------------
 
-
+--------- Inizio Tab AFKO ----------------
 Estrazione 2) S16 tabella AFKO con layout /OFAKPIWO
 incollare la lista di OdM presenti nella tabella prodotta nel punto precedente
 impostare il layout /OFAKPIWO
 ottengo una tabella che contiene 2 campi la lista degli ordini e la data inizio cardine.
 
+Il dato Inizio Cardine deve essere riportato nella tabella Notification
 
---------- Fine Notification ----------------
 
---------- Inizio Order ----------------
+--------- Fine Tab AFKO ----------------
+
+--------- Inizio WorkOrder ----------------
 
 Estrazione 3) IW39 -> estrazione ordini di manutenzione x data creazione
 stessa estrazione ma con data modifica
@@ -61,4 +64,8 @@ ESW
 
 ----------- Fine estrazioni ---------------------
 
+----------- Calcolo KPI ---------------------
+-- Notification
+    Controlla se la colonna sis.Legacy è OFA oppure 
+    colonna G del file di Simonedeve esssere normalizzata estrarre solo gli elementi con 10 digit 
 
