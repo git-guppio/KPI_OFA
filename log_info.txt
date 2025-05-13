@@ -1,0 +1,42 @@
+Livelli di Log (in ordine crescente di gravità)
+
+**logger.debug(msg, *args, kwargs)
+
+Per informazioni dettagliate di debug
+Livello: 10
+Utilizzato per: Informazioni diagnostiche dettagliate, utili durante lo sviluppo e il debugging
+
+
+**logger.info(msg, *args, kwargs)
+
+Per informazioni generali
+Livello: 20
+Utilizzato per: Confermare che le cose stanno funzionando come previsto
+
+
+**logger.warning(msg, *args, kwargs)
+
+Per avvisi
+Livello: 30
+Utilizzato per: Indicare che qualcosa di inaspettato è successo o potrebbe accadere in futuro, ma il programma continua a funzionare
+
+
+**logger.error(msg, *args, kwargs)
+
+Per errori
+Livello: 40
+Utilizzato per: Errori che impediscono a una funzione di completare la sua operazione, ma non arrestano l'intero programma
+
+
+**logger.critical(msg, *args, kwargs)
+
+Per errori critici
+Livello: 50
+Utilizzato per: Errori gravi che potrebbero far terminare il programma
+
+
+**logger.exception(msg, *args, kwargs)
+
+Simile a logger.error(), ma include anche il traceback dell'eccezione
+Dovrebbe essere chiamato solo all'interno di un blocco except
+Livello: 40 (stesso di error)

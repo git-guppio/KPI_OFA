@@ -28,5 +28,10 @@
             "ZAW",
             "ESW"
         ]
+    },
+    "operations": {
+        "estrai_AdM": true,
+        "estrai_OdM": false,
+        "elabora_xls": false
     }
 }

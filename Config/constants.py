@@ -6,6 +6,11 @@ A_ScriptDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # salg
 print(f"La directory dello script è: {A_ScriptDir}")
 
 # ----------------------------------------------------
+# File salvataggio configurazione json
+# ----------------------------------------------------
+configuration_json = os.path.join(A_ScriptDir, "config.json")
+
+# ----------------------------------------------------
 # Debug mode
 # ----------------------------------------------------
 DEBUG_MODE = False
@@ -15,7 +20,7 @@ DEBUG_MODE = False
 # ----------------------------------------------------
 # Nome dello sheet del file excel
 required_sheet = "OnFieldApp.trace_kpi_user_actio"
-# Definisci le colonne richieste
+# Definisci le colonne richieste nel file Excel
 required_columns = [
     "user", 
     "creationDate", 
@@ -32,7 +37,12 @@ default_config = {
         "BESS": ["ITE", "USE", "CLE"],
         "SOLAR": ["ITS", "USS", "CLS", "BRS", "COS", "MXS", "PAS", "ZAS", "ESS", "ZMS"],
         "WIND": ["ITW", "USW", "CLW", "BRW", "CAW", "MXW", "ZAW", "ESW"]
-    }
+    },
+    "operations": {
+        "estrai_AdM": True, 
+        "estrai_OdM": True, 
+        "elabora_xls": True   
+    }   
 }
 
 # timeout operazioni in SAP
