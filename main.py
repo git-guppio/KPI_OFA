@@ -384,10 +384,10 @@ class MainWindow(QMainWindow):
                         if session:
                             self.log_unified("Connessione SAP attiva")
                             extractor = SAP_Transactions.SAPDataExtractor(session, self)
-                            # Connetti il segnale a una lambda che gestisce i parametri
+                            # Connetti il segnale a una lambda che gestisce i parametri, incluso origin
                             extractor.logMessage.connect(
-                                lambda msg, lvl, upd_status, upd_log, min_time, args, kwargs: 
-                                    self.log_unified(msg, lvl, upd_status, upd_log, min_time, *args, **kwargs)
+                                lambda msg, lvl, upd_status, upd_log, min_time, origin, args, kwargs: 
+                                    self.log_unified(msg, lvl, upd_status, upd_log, min_time, origin, *args, **kwargs)
                             )
                             # Estrazione dati AdM
                             self.log_unified("Estrazione dati IW29", "info", True, True, 0)
@@ -795,33 +795,29 @@ class MainWindow(QMainWindow):
     # Metodo unificato per gestire log attraverso tutti i canali disponibili.
     # --------------------------------------------------------------------------------------------------------
 
-    def log_unified(self, message, level="info", update_status=True, update_log=True, min_display_seconds=None, *args, **kwargs):
+    def log_unified(self, message, level="info", update_status=True, update_log=True, min_display_seconds=None, origin="main", *args, **kwargs):
         """
         Metodo unificato per gestire log attraverso tutti i canali disponibili.
         
         Args:
-            message (str): Il messaggio o template da registrare
-            level (str): Il livello del log ('debug', 'info', 'success', 'loading', 'warning', 'error', 'critical')
-            update_status (bool): Se aggiornare anche la statusBar
-            update_log (bool): Se aggiungere il messaggio al widget di log visuale
-            min_display_seconds (int): Tempo minimo di visualizzazione in secondi per questo messaggio.
-                                    Se None, verrà usato il valore predefinito basato sul livello.
-            *args, **kwargs: Parametri per la formattazione del messaggio
+            message: Il messaggio da registrare
+            level: Livello del log ('info', 'warning', 'error', ecc.)
+            update_status: Se aggiornare la statusBar
+            update_log: Se aggiornare il widget di log visuale
+            min_display_seconds: Tempo minimo di visualizzazione
+            origin: Origine del messaggio per evitare duplicazioni
+            *args, **kwargs: Argomenti per la formattazione del messaggio
         """
-        # Formatta il messaggio se sono forniti argomenti
-        if args or kwargs:
-            try:
-                # Prova la nuova formattazione stile f-string
-                if kwargs and not args:
-                    formatted_message = message.format(**kwargs)
-                # Altrimenti usa la formattazione stile printf
-                else:
-                    formatted_message = message % args
-            except Exception as e:
-                # In caso di errore nella formattazione, usa il messaggio originale
-                formatted_message = f"{message} (Errore formattazione: {str(e)})"
-        else:
-            formatted_message = message
+        # Formatta il messaggio se necessario
+        try:
+            if kwargs and not args:
+                formatted_message = message.format(**kwargs)
+            elif args:
+                formatted_message = message % args
+            else:
+                formatted_message = message
+        except Exception as e:
+            formatted_message = f"{message} (Errore formattazione: {str(e)})"
         
         # 1. Mappa il livello ai tipi di icona disponibili per log_message
         icon_map = {
@@ -839,16 +835,18 @@ class MainWindow(QMainWindow):
         if update_log:
             self.log_message(formatted_message, icon_type)
         
-        # 3. Registra nel logger di sistema con il livello appropriato (sempre)
-        # Mappa i livelli speciali alle funzioni del logger
-        logger_level_map = {
-            "success": "info",    # success non è un livello standard, usa info
-            "loading": "info"     # loading non è un livello standard, usa info
-        }
-        # Ottieni il livello standard corrispondente o usa lo stesso se è già standard
-        logger_level = logger_level_map.get(level, level)
-        logger_method = getattr(logger, logger_level) if hasattr(logger, logger_level) else logger.info
-        logger_method(formatted_message)
+        # 3. Registra nel logger di sistema con il livello appropriato, ma SOLO se l'origine è "main"
+        # Questo evita la duplicazione dei log
+        if origin == "main":
+            # Mappa i livelli speciali alle funzioni del logger
+            logger_level_map = {
+                "success": "info",    # success non è un livello standard, usa info
+                "loading": "info"     # loading non è un livello standard, usa info
+            }
+            # Ottieni il livello standard corrispondente o usa lo stesso se è già standard
+            logger_level = logger_level_map.get(level, level)
+            logger_method = getattr(logger, logger_level) if hasattr(logger, logger_level) else logger.info
+            logger_method(formatted_message)
         
         # 4. Gestione della statusBar basata sul livello e tempo minimo di visualizzazione
         if update_status:

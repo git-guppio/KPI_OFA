@@ -1,877 +1,360 @@
-2025-05-13 15:33:00,929 - main - INFO - Configurazione caricata con successo
-2025-05-13 15:33:12,718 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 15:33:12,720 - main - INFO - Verifico file excel
-2025-05-13 15:33:12,723 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:13,209 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:13,210 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,064 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,065 - main - INFO - File valido: 61121 righe trovate (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,066 - main - INFO - Struttura file excel OK
-2025-05-13 15:33:16,068 - main - INFO -  - Normalizzo la colonna idItem del DataFrame -  (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,070 - main - INFO - Presenti 61121 idItem nel DataFrame (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,156 - main - INFO - Estratti 5707 idItem unici come valori interi (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,157 - main - INFO - 55414 righe eliminate (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,159 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,163 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,165 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,167 - main - INFO - AdM estratti: 1920
-2025-05-13 15:33:16,169 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,174 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:33:16,176 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 15:41:31,850 - main - INFO - Configurazione caricata con successo
-2025-05-13 15:41:39,792 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 15:41:39,795 - main - INFO - Verifico file excel
-2025-05-13 15:41:39,797 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 15:41:40,254 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
-2025-05-13 15:41:40,255 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
-2025-05-13 15:41:42,860 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
-2025-05-13 15:41:42,862 - main - INFO - File valido: 61121 righe trovate
-2025-05-13 15:41:42,862 - main - INFO - Struttura file excel OK
-2025-05-13 15:41:42,864 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
-2025-05-13 15:41:42,865 - main - INFO - Presenti 61121 idItem nel DataFrame
-2025-05-13 15:41:42,942 - main - INFO - Estratti 5707 idItem unici come valori interi
-2025-05-13 15:41:42,944 - main - INFO - 55414 righe eliminate
-2025-05-13 15:41:42,946 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 15:41:42,951 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 15:41:42,952 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
-2025-05-13 15:41:42,954 - main - INFO - AdM estratti: 1920
-2025-05-13 15:41:42,956 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 15:41:42,960 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 15:41:42,963 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
-2025-05-13 15:41:42,965 - main - INFO - OdM estratti: 3787
-2025-05-13 15:41:42,967 - main - INFO - File excel caricato correttamente
-2025-05-13 15:44:19,258 - main - INFO - Configurazione caricata con successo
-2025-05-13 15:44:19,260 - main - INFO - Configurazione aggiornata
-2025-05-13 15:44:32,923 - main - INFO - Avvio estrazioni SAP
-2025-05-13 15:45:13,507 - main - INFO - Configurazione caricata con successo
-2025-05-13 15:45:21,666 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 15:45:21,667 - main - INFO - Verifico file excel
-2025-05-13 15:45:21,670 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 15:45:22,101 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
-2025-05-13 15:45:22,102 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
-2025-05-13 15:45:24,636 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
-2025-05-13 15:45:24,637 - main - INFO - File valido: 61121 righe trovate
-2025-05-13 15:45:24,638 - main - INFO - Struttura file excel OK
-2025-05-13 15:45:24,639 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
-2025-05-13 15:45:24,641 - main - INFO - Presenti 61121 idItem nel DataFrame
-2025-05-13 15:45:24,718 - main - INFO - Estratti 5707 idItem unici come valori interi
-2025-05-13 15:45:24,720 - main - INFO - 55414 righe eliminate
-2025-05-13 15:45:24,721 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 15:45:24,725 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 15:45:24,727 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
-2025-05-13 15:45:24,728 - main - INFO - AdM estratti: 1920
-2025-05-13 15:45:24,730 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 15:45:24,735 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 15:45:24,737 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
-2025-05-13 15:45:24,738 - main - INFO - OdM estratti: 3787
-2025-05-13 15:45:24,739 - main - INFO - File excel caricato correttamente
-2025-05-13 15:45:31,287 - main - INFO - Avvio estrazioni SAP
-2025-05-13 15:45:31,289 - main - INFO - Verifico selezione file excel
-2025-05-13 15:45:31,291 - main - INFO - Verifica file excel - OK
-2025-05-13 15:45:31,293 - main - INFO - Verifica date inserite: PyQt5.QtCore.QDate(2025, 5, 1) - PyQt5.QtCore.QDate(2025, 5, 13)
-2025-05-13 15:45:31,294 - main - INFO - Verifica date inserite - OK
-2025-05-13 15:45:31,297 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
-2025-05-13 15:45:31,299 - main - INFO - Verifica tecnologie configurate - OK
-2025-05-13 15:45:31,301 - main - INFO - Avvio estrazione SAP...
-2025-05-13 15:45:31,307 - main - ERROR - Connessione SAP NON attiva
-2025-05-13 15:50:06,332 - main - INFO - Configurazione caricata con successo
-2025-05-13 15:50:14,269 - main - INFO - Avvio estrazioni SAP
-2025-05-13 15:50:14,270 - main - INFO - Verifico selezione file excel
-2025-05-13 15:50:16,996 - main - CRITICAL - Nessun file excel selezionato
-2025-05-13 15:50:21,487 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 15:50:21,488 - main - INFO - Verifico file excel
-2025-05-13 15:50:21,491 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 15:50:21,917 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
-2025-05-13 15:50:21,918 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
-2025-05-13 15:50:24,487 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
-2025-05-13 15:50:24,488 - main - INFO - File valido: 61121 righe trovate
-2025-05-13 15:50:24,489 - main - INFO - Struttura file excel OK
-2025-05-13 15:50:24,490 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
-2025-05-13 15:50:24,492 - main - INFO - Presenti 61121 idItem nel DataFrame
-2025-05-13 15:50:24,568 - main - INFO - Estratti 5707 idItem unici come valori interi
-2025-05-13 15:50:24,570 - main - INFO - 55414 righe eliminate
-2025-05-13 15:50:24,572 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 15:50:24,576 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 15:50:24,578 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
-2025-05-13 15:50:24,579 - main - INFO - AdM estratti: 1920
-2025-05-13 15:50:24,581 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 15:50:24,585 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 15:50:24,587 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
-2025-05-13 15:50:24,589 - main - INFO - OdM estratti: 3787
-2025-05-13 15:50:24,590 - main - INFO - File excel caricato correttamente
-2025-05-13 15:50:31,376 - main - INFO - Avvio estrazioni SAP
-2025-05-13 15:50:31,378 - main - INFO - Verifico selezione file excel
-2025-05-13 15:50:31,380 - main - INFO - Verifica file excel - OK
-2025-05-13 15:50:31,382 - main - INFO - Verifica date inserite: 01/05/2025 - 13/05/2025
-2025-05-13 15:50:31,384 - main - INFO - Verifica date inserite - OK
-2025-05-13 15:50:31,387 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
-2025-05-13 15:50:31,388 - main - INFO - Verifica tecnologie configurate - OK
-2025-05-13 15:50:31,391 - main - INFO - Avvio estrazione SAP...
-2025-05-13 15:50:31,396 - main - ERROR - Connessione SAP NON attiva
-2025-05-13 15:50:49,672 - main - INFO - Eseguito reset dell'applicativo
-2025-05-13 16:12:33,198 - main - INFO - Configurazione caricata con successo
-2025-05-13 16:13:09,453 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 16:13:09,455 - main - INFO - Verifico file excel
-2025-05-13 16:13:09,458 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 16:13:09,880 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
-2025-05-13 16:13:09,882 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
-2025-05-13 16:13:12,362 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
-2025-05-13 16:13:12,363 - main - INFO - File valido: 61121 righe trovate
-2025-05-13 16:13:12,364 - main - INFO - Struttura file excel OK
-2025-05-13 16:13:12,366 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
-2025-05-13 16:13:12,368 - main - INFO - Presenti 61121 idItem nel DataFrame
-2025-05-13 16:13:12,444 - main - INFO - Estratti 5707 idItem unici come valori interi
-2025-05-13 16:13:12,446 - main - INFO - 55414 righe eliminate
-2025-05-13 16:13:12,447 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 16:13:12,451 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 16:13:12,453 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
-2025-05-13 16:13:12,455 - main - INFO - AdM estratti: 1920
-2025-05-13 16:13:12,457 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 16:13:12,461 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 16:13:12,463 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
-2025-05-13 16:13:12,464 - main - INFO - OdM estratti: 3787
-2025-05-13 16:13:12,466 - main - INFO - File excel caricato correttamente
-2025-05-13 16:14:20,515 - main - INFO - Avvio estrazioni SAP
-2025-05-13 16:14:20,518 - main - INFO - Verifico selezione file excel
-2025-05-13 16:14:20,519 - main - INFO - Verifica file excel - OK
-2025-05-13 16:14:20,522 - main - INFO - Verifica date inserite: 01/04/2025 - 30/05/2025
-2025-05-13 16:14:20,524 - main - INFO - Verifica date inserite - OK
-2025-05-13 16:14:20,527 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
-2025-05-13 16:14:20,530 - main - INFO - Verifica tecnologie configurate - OK
-2025-05-13 16:14:20,533 - main - INFO - Avvio estrazione SAP...
-2025-05-13 16:14:20,596 - main - INFO - Connessione SAP attiva
-2025-05-13 16:14:20,597 - DataFrameTools - INFO - Inizializzazione DataFrameTools
-2025-05-13 16:14:20,603 - main - ERROR - Estrazione dati SAP: Errore: super-class __init__() of type SAPDataExtractor was never called
-2025-05-13 16:14:44,264 - main - INFO - Avvio estrazioni SAP
-2025-05-13 16:14:44,266 - main - INFO - Verifico selezione file excel
-2025-05-13 16:14:44,268 - main - INFO - Verifica file excel - OK
-2025-05-13 16:14:44,272 - main - INFO - Verifica date inserite: 01/04/2025 - 30/05/2025
-2025-05-13 16:14:44,275 - main - INFO - Verifica date inserite - OK
-2025-05-13 16:14:44,278 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
-2025-05-13 16:14:44,280 - main - INFO - Verifica tecnologie configurate - OK
-2025-05-13 16:14:44,283 - main - INFO - Avvio estrazione SAP...
-2025-05-13 16:14:44,315 - main - INFO - Connessione SAP attiva
-2025-05-13 16:14:44,316 - DataFrameTools - INFO - Inizializzazione DataFrameTools
-2025-05-13 16:14:44,320 - main - ERROR - Estrazione dati SAP: Errore: super-class __init__() of type SAPDataExtractor was never called
-2025-05-13 16:17:54,216 - main - INFO - Configurazione caricata con successo
-2025-05-13 16:18:13,275 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 16:18:13,277 - main - INFO - Verifico file excel
-2025-05-13 16:18:13,279 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 16:18:13,716 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
-2025-05-13 16:18:13,718 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
-2025-05-13 16:18:16,242 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
-2025-05-13 16:18:16,243 - main - INFO - File valido: 61121 righe trovate
-2025-05-13 16:18:16,244 - main - INFO - Struttura file excel OK
-2025-05-13 16:18:16,246 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
-2025-05-13 16:18:16,247 - main - INFO - Presenti 61121 idItem nel DataFrame
-2025-05-13 16:18:16,326 - main - INFO - Estratti 5707 idItem unici come valori interi
-2025-05-13 16:18:16,328 - main - INFO - 55414 righe eliminate
-2025-05-13 16:18:16,330 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 16:18:16,334 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 16:18:16,336 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
-2025-05-13 16:18:16,338 - main - INFO - AdM estratti: 1920
-2025-05-13 16:18:16,340 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 16:18:16,344 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 16:18:16,346 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
-2025-05-13 16:18:16,348 - main - INFO - OdM estratti: 3787
-2025-05-13 16:18:16,350 - main - INFO - File excel caricato correttamente
-2025-05-13 16:18:37,332 - main - INFO - Avvio estrazioni SAP
-2025-05-13 16:18:37,334 - main - INFO - Verifico selezione file excel
-2025-05-13 16:18:37,336 - main - INFO - Verifica file excel - OK
-2025-05-13 16:18:37,338 - main - INFO - Verifica date inserite: 01/04/2025 - 31/05/2025
-2025-05-13 16:18:37,339 - main - INFO - Verifica date inserite - OK
-2025-05-13 16:18:37,342 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
-2025-05-13 16:18:37,344 - main - INFO - Verifica tecnologie configurate - OK
-2025-05-13 16:18:37,347 - main - INFO - Avvio estrazione SAP...
-2025-05-13 16:18:37,385 - main - INFO - Connessione SAP attiva
-2025-05-13 16:18:37,391 - main - ERROR - Estrazione dati SAP: Errore: SAPDataExtractor.__init__() takes 2 positional arguments but 3 were given
-2025-05-13 16:21:04,597 - main - INFO - Configurazione caricata con successo
-2025-05-13 16:21:09,843 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 16:21:09,845 - main - INFO - Verifico file excel
-2025-05-13 16:21:09,849 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 16:21:10,346 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
-2025-05-13 16:21:10,347 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
-2025-05-13 16:21:13,237 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
-2025-05-13 16:21:13,238 - main - INFO - File valido: 61121 righe trovate
-2025-05-13 16:21:13,240 - main - INFO - Struttura file excel OK
-2025-05-13 16:21:13,242 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
-2025-05-13 16:21:13,243 - main - INFO - Presenti 61121 idItem nel DataFrame
-2025-05-13 16:21:13,327 - main - INFO - Estratti 5707 idItem unici come valori interi
-2025-05-13 16:21:13,330 - main - INFO - 55414 righe eliminate
-2025-05-13 16:21:13,332 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 16:21:13,337 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 16:21:13,338 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
-2025-05-13 16:21:13,340 - main - INFO - AdM estratti: 1920
-2025-05-13 16:21:13,342 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 16:21:13,346 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 16:21:13,349 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
-2025-05-13 16:21:13,351 - main - INFO - OdM estratti: 3787
-2025-05-13 16:21:13,352 - main - INFO - File excel caricato correttamente
-2025-05-13 16:21:15,465 - main - INFO - Avvio estrazioni SAP
-2025-05-13 16:21:15,467 - main - INFO - Verifico selezione file excel
-2025-05-13 16:21:15,468 - main - INFO - Verifica file excel - OK
-2025-05-13 16:21:15,470 - main - INFO - Verifica date inserite: 13/05/2025 - 13/05/2025
-2025-05-13 16:21:15,474 - main - ERROR - La data di inizio non può essere uguale alla data di fine
-2025-05-13 16:21:18,201 - main - CRITICAL - Errore nella verifica delle date inserite
-2025-05-13 16:21:23,654 - main - INFO - Avvio estrazioni SAP
-2025-05-13 16:21:23,656 - main - INFO - Verifico selezione file excel
-2025-05-13 16:21:23,657 - main - INFO - Verifica file excel - OK
-2025-05-13 16:21:23,659 - main - INFO - Verifica date inserite: 01/05/2025 - 13/05/2025
-2025-05-13 16:21:23,660 - main - INFO - Verifica date inserite - OK
-2025-05-13 16:21:23,663 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
-2025-05-13 16:21:23,664 - main - INFO - Verifica tecnologie configurate - OK
-2025-05-13 16:21:23,667 - main - INFO - Avvio estrazione SAP...
-2025-05-13 16:21:23,705 - main - INFO - Connessione SAP attiva
-2025-05-13 16:21:23,708 - main - ERROR - Estrazione dati SAP: Errore: SAPDataExtractor.__init__() takes 2 positional arguments but 3 were given
-2025-05-13 16:28:33,372 - main - INFO - Configurazione caricata con successo
-2025-05-13 16:28:54,906 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 16:28:54,908 - main - INFO - Verifico file excel
-2025-05-13 16:28:54,911 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
-2025-05-13 16:28:55,383 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
-2025-05-13 16:28:55,385 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
-2025-05-13 16:28:58,305 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
-2025-05-13 16:28:58,307 - main - INFO - File valido: 61121 righe trovate
-2025-05-13 16:28:58,308 - main - INFO - Struttura file excel OK
-2025-05-13 16:28:58,309 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
-2025-05-13 16:28:58,311 - main - INFO - Presenti 61121 idItem nel DataFrame
-2025-05-13 16:28:58,396 - main - INFO - Estratti 5707 idItem unici come valori interi
-2025-05-13 16:28:58,398 - main - INFO - 55414 righe eliminate
-2025-05-13 16:28:58,401 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 16:28:58,408 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 16:28:58,410 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
-2025-05-13 16:28:58,412 - main - INFO - AdM estratti: 1920
-2025-05-13 16:28:58,414 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
-2025-05-13 16:28:58,419 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
-2025-05-13 16:28:58,422 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
-2025-05-13 16:28:58,424 - main - INFO - OdM estratti: 3787
-2025-05-13 16:28:58,426 - main - INFO - File excel caricato correttamente
-2025-05-13 16:29:24,600 - main - INFO - Avvio estrazioni SAP
-2025-05-13 16:29:24,603 - main - INFO - Verifico selezione file excel
-2025-05-13 16:29:24,605 - main - INFO - Verifica file excel - OK
-2025-05-13 16:29:24,607 - main - INFO - Verifica date inserite: 01/04/2025 - 31/05/2025
-2025-05-13 16:29:24,609 - main - INFO - Verifica date inserite - OK
-2025-05-13 16:29:24,612 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
-2025-05-13 16:29:24,614 - main - INFO - Verifica tecnologie configurate - OK
-2025-05-13 16:29:24,616 - main - INFO - Avvio estrazione SAP...
-2025-05-13 16:29:24,653 - main - INFO - Connessione SAP attiva
-2025-05-13 16:29:24,654 - DataFrameTools - INFO - Inizializzazione DataFrameTools
-2025-05-13 16:29:24,656 - main - INFO - Estrazione dati IW29
-2025-05-13 16:29:24,657 - SAPDataExtractor - INFO - Estrazione IW29_single per tipo 'Lista' con tutti i valori (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:24,659 - main - INFO - Estrazione IW29_single per tipo 'Lista' con tutti i valori (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:26,299 - SAPDataExtractor - INFO - Copiati 1920 valori nella clipboard per SAP (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:26,299 - main - INFO - Copiati 1920 valori nella clipboard per SAP (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:26,300 - SAPDataExtractor - INFO - Valori singoli copiati nella clipboard per SAP (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:26,303 - main - INFO - Valori singoli copiati nella clipboard per SAP (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:40,742 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:40,743 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,473 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,475 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,476 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,478 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,478 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per  - Lista (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,480 - main - INFO - Eseguita estrazione IW29 per  - Lista (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,482 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 7 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,484 - main - INFO - Elaborazione completata. Sono state eseguite 7 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,503 - SAPDataExtractor - INFO - DataFrame df_Lista creato con 1927 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,505 - main - INFO - DataFrame df_Lista creato con 1927 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,505 - SAPDataExtractor - INFO - Eseguo strazione: Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,508 - main - INFO - Eseguo strazione: Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,508 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - ITE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:42,511 - main - INFO - Estrazione IW29_single per BESS - ITE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:47,804 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:47,805 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,271 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,273 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,274 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,277 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,277 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,279 - main - INFO - Eseguita estrazione IW29 per ITE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,280 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,282 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,284 - SAPDataExtractor - INFO - DataFrame df_Creazione_ITE creato con 67 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,286 - main - INFO - DataFrame df_Creazione_ITE creato con 67 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,287 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - USE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:49,289 - main - INFO - Estrazione IW29_single per BESS - USE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:54,363 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:54,364 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,820 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,823 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,824 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,827 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,827 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,830 - main - INFO - Eseguita estrazione IW29 per USE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,830 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,833 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,835 - SAPDataExtractor - INFO - DataFrame df_Creazione_USE creato con 31 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,838 - main - INFO - DataFrame df_Creazione_USE creato con 31 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,839 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - CLE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:29:55,841 - main - INFO - Estrazione IW29_single per BESS - CLE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:00,599 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:00,599 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,190 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,192 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,193 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,196 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,196 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,199 - main - INFO - Eseguita estrazione IW29 per CLE - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,200 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,203 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,206 - SAPDataExtractor - INFO - DataFrame df_Creazione_CLE creato con 7 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,208 - main - INFO - DataFrame df_Creazione_CLE creato con 7 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,209 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ITS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:02,211 - main - INFO - Estrazione IW29_single per SOLAR - ITS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:07,719 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:07,719 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,291 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,293 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,294 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,297 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,297 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,301 - main - INFO - Eseguita estrazione IW29 per ITS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,301 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,305 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,308 - SAPDataExtractor - INFO - DataFrame df_Creazione_ITS creato con 17 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,311 - main - INFO - DataFrame df_Creazione_ITS creato con 17 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,311 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - USS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:09,314 - main - INFO - Estrazione IW29_single per SOLAR - USS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:17,279 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:17,279 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,835 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,838 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,838 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,842 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,842 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,845 - main - INFO - Eseguita estrazione IW29 per USS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,845 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,847 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,851 - SAPDataExtractor - INFO - DataFrame df_Creazione_USS creato con 490 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,854 - main - INFO - DataFrame df_Creazione_USS creato con 490 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,854 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - CLS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:18,857 - main - INFO - Estrazione IW29_single per SOLAR - CLS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:26,678 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:26,678 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,224 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,227 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,227 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,230 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,231 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,233 - main - INFO - Eseguita estrazione IW29 per CLS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,234 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,237 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,240 - SAPDataExtractor - INFO - DataFrame df_Creazione_CLS creato con 443 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,244 - main - INFO - DataFrame df_Creazione_CLS creato con 443 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,244 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - BRS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:28,248 - main - INFO - Estrazione IW29_single per SOLAR - BRS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:46,004 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:46,004 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,760 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,763 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,764 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,767 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,767 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per BRS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,771 - main - INFO - Eseguita estrazione IW29 per BRS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,773 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,777 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,789 - SAPDataExtractor - INFO - DataFrame df_Creazione_BRS creato con 2836 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,793 - main - INFO - DataFrame df_Creazione_BRS creato con 2836 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,794 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - COS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:47,799 - main - INFO - Estrazione IW29_single per SOLAR - COS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:53,645 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:53,646 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,152 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,156 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,157 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,161 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,161 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per COS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,164 - main - INFO - Eseguita estrazione IW29 per COS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,164 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,167 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,171 - SAPDataExtractor - INFO - DataFrame df_Creazione_COS creato con 180 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,174 - main - INFO - DataFrame df_Creazione_COS creato con 180 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,175 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - MXS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:30:55,178 - main - INFO - Estrazione IW29_single per SOLAR - MXS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:00,918 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:00,919 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,394 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,398 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,399 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,403 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,404 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per MXS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,409 - main - INFO - Eseguita estrazione IW29 per MXS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,409 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,413 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,415 - SAPDataExtractor - INFO - DataFrame df_Creazione_MXS creato con 116 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,418 - main - INFO - DataFrame df_Creazione_MXS creato con 116 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,419 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - PAS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:02,423 - main - INFO - Estrazione IW29_single per SOLAR - PAS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:07,842 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:07,843 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,344 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,348 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,348 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,352 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,353 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per PAS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,358 - main - INFO - Eseguita estrazione IW29 per PAS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,358 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,363 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,365 - SAPDataExtractor - INFO - DataFrame df_Creazione_PAS creato con 105 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,369 - main - INFO - DataFrame df_Creazione_PAS creato con 105 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,369 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ZAS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:09,373 - main - INFO - Estrazione IW29_single per SOLAR - ZAS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:16,145 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:16,146 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,653 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,657 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,658 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,662 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,663 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZAS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,668 - main - INFO - Eseguita estrazione IW29 per ZAS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,669 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,674 - main - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,677 - SAPDataExtractor - INFO - DataFrame df_Creazione_ZAS creato con 371 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,681 - main - INFO - DataFrame df_Creazione_ZAS creato con 371 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,681 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ESS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:17,684 - main - INFO - Estrazione IW29_single per SOLAR - ESS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:24,789 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:24,790 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,299 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,303 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,304 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,308 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,309 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ESS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,313 - main - INFO - Eseguita estrazione IW29 per ESS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,313 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,317 - main - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,321 - SAPDataExtractor - INFO - DataFrame df_Creazione_ESS creato con 406 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,325 - main - INFO - DataFrame df_Creazione_ESS creato con 406 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,326 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ZMS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:26,329 - main - INFO - Estrazione IW29_single per SOLAR - ZMS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:31,108 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:31,109 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,590 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,594 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,594 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,598 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,598 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZMS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,602 - main - INFO - Eseguita estrazione IW29 per ZMS - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,602 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,607 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,610 - SAPDataExtractor - INFO - DataFrame df_Creazione_ZMS creato con 20 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,614 - main - INFO - DataFrame df_Creazione_ZMS creato con 20 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,614 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - ITW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:32,618 - main - INFO - Estrazione IW29_single per WIND - ITW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:38,430 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:38,430 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,940 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,944 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,945 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,949 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,949 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,953 - main - INFO - Eseguita estrazione IW29 per ITW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,954 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,958 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,961 - SAPDataExtractor - INFO - DataFrame df_Creazione_ITW creato con 156 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,965 - main - INFO - DataFrame df_Creazione_ITW creato con 156 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,965 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - USW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:39,969 - main - INFO - Estrazione IW29_single per WIND - USW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:53,666 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:53,666 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,381 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,385 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,386 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,391 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,392 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,398 - main - INFO - Eseguita estrazione IW29 per USW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,400 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,404 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,411 - SAPDataExtractor - INFO - DataFrame df_Creazione_USW creato con 1819 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,416 - main - INFO - DataFrame df_Creazione_USW creato con 1819 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,416 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - CLW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:31:55,420 - main - INFO - Estrazione IW29_single per WIND - CLW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:08,259 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:08,260 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,814 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,819 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,820 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,826 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,827 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,831 - main - INFO - Eseguita estrazione IW29 per CLW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,832 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 93 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,836 - main - INFO - Elaborazione completata. Sono state eseguite 93 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,841 - SAPDataExtractor - INFO - DataFrame df_Creazione_CLW creato con 1129 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,846 - main - INFO - DataFrame df_Creazione_CLW creato con 1129 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,846 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - BRW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:09,850 - main - INFO - Estrazione IW29_single per WIND - BRW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:20,817 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:20,817 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,364 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,371 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,372 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,377 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,378 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per BRW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,385 - main - INFO - Eseguita estrazione IW29 per BRW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,385 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,391 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,394 - SAPDataExtractor - INFO - DataFrame df_Creazione_BRW creato con 671 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,399 - main - INFO - DataFrame df_Creazione_BRW creato con 671 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,400 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - CAW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:22,405 - main - INFO - Estrazione IW29_single per WIND - CAW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:26,863 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:26,864 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,318 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,325 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,326 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,331 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,332 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CAW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,337 - main - INFO - Eseguita estrazione IW29 per CAW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,337 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,342 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,344 - SAPDataExtractor - INFO - DataFrame df_Creazione_CAW creato con 22 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,348 - main - INFO - DataFrame df_Creazione_CAW creato con 22 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,349 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - MXW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:28,353 - main - INFO - Estrazione IW29_single per WIND - MXW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:45,064 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:45,064 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,855 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,860 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,861 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,866 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,866 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per MXW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,872 - main - INFO - Eseguita estrazione IW29 per MXW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,874 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 21 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,879 - main - INFO - Elaborazione completata. Sono state eseguite 21 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,886 - SAPDataExtractor - INFO - DataFrame df_Creazione_MXW creato con 2073 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,891 - main - INFO - DataFrame df_Creazione_MXW creato con 2073 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,891 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - ZAW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:46,896 - main - INFO - Estrazione IW29_single per WIND - ZAW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:55,591 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:55,592 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,102 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,108 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,109 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,114 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,114 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZAW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,119 - main - INFO - Eseguita estrazione IW29 per ZAW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,120 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,125 - main - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,130 - SAPDataExtractor - INFO - DataFrame df_Creazione_ZAW creato con 727 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,134 - main - INFO - DataFrame df_Creazione_ZAW creato con 727 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,135 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - ESW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:32:57,140 - main - INFO - Estrazione IW29_single per WIND - ESW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:17,469 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:17,469 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,236 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,241 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,243 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,249 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,249 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ESW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,254 - main - INFO - Eseguita estrazione IW29 per ESW - Creazione (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,257 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,263 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,275 - SAPDataExtractor - INFO - DataFrame df_Creazione_ESW creato con 2965 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,281 - main - INFO - DataFrame df_Creazione_ESW creato con 2965 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,281 - SAPDataExtractor - INFO - Eseguo strazione: Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,287 - main - INFO - Eseguo strazione: Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,287 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - ITE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:19,295 - main - INFO - Estrazione IW29_single per BESS - ITE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:25,214 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:25,214 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,708 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,713 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,713 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,719 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,719 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,726 - main - INFO - Eseguita estrazione IW29 per ITE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,726 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,731 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,733 - SAPDataExtractor - INFO - DataFrame df_Modifica_ITE creato con 104 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,738 - main - INFO - DataFrame df_Modifica_ITE creato con 104 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,739 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - USE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:26,744 - main - INFO - Estrazione IW29_single per BESS - USE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:32,134 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:32,135 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,671 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,678 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,678 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,684 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,684 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,690 - main - INFO - Eseguita estrazione IW29 per USE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,691 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,696 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,698 - SAPDataExtractor - INFO - DataFrame df_Modifica_USE creato con 44 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,703 - main - INFO - DataFrame df_Modifica_USE creato con 44 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,704 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - CLE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:33,711 - main - INFO - Estrazione IW29_single per BESS - CLE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:38,473 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:38,474 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:39,973 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:39,979 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:39,979 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:39,987 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:39,987 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:39,993 - main - INFO - Eseguita estrazione IW29 per CLE - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:39,994 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:40,001 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:40,003 - SAPDataExtractor - INFO - DataFrame df_Modifica_CLE creato con 15 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:40,014 - main - INFO - DataFrame df_Modifica_CLE creato con 15 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:40,014 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ITS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:40,024 - main - INFO - Estrazione IW29_single per SOLAR - ITS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:44,908 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:44,908 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,407 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,414 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,414 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,421 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,421 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,430 - main - INFO - Eseguita estrazione IW29 per ITS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,431 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,437 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,439 - SAPDataExtractor - INFO - DataFrame df_Modifica_ITS creato con 29 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,447 - main - INFO - DataFrame df_Modifica_ITS creato con 29 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,447 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - USS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:46,454 - main - INFO - Estrazione IW29_single per SOLAR - USS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:54,919 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:54,920 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,481 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,487 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,488 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,495 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,495 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,501 - main - INFO - Eseguita estrazione IW29 per USS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,502 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,508 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,512 - SAPDataExtractor - INFO - DataFrame df_Modifica_USS creato con 591 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,518 - main - INFO - DataFrame df_Modifica_USS creato con 591 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,519 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - CLS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:33:56,527 - main - INFO - Estrazione IW29_single per SOLAR - CLS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:05,225 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:05,226 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,766 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,773 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,773 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,780 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,780 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,786 - main - INFO - Eseguita estrazione IW29 per CLS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,787 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,793 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,797 - SAPDataExtractor - INFO - DataFrame df_Modifica_CLS creato con 672 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,803 - main - INFO - DataFrame df_Modifica_CLS creato con 672 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,803 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - BRS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:06,810 - main - INFO - Estrazione IW29_single per SOLAR - BRS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:24,041 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:24,041 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,772 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,779 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,781 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,787 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,788 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per BRS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,795 - main - INFO - Eseguita estrazione IW29 per BRS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,797 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,803 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,813 - SAPDataExtractor - INFO - DataFrame df_Modifica_BRS creato con 2778 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,820 - main - INFO - DataFrame df_Modifica_BRS creato con 2778 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,821 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - COS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:25,831 - main - INFO - Estrazione IW29_single per SOLAR - COS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:32,075 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:32,076 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,585 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,592 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,593 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,600 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,601 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per COS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,608 - main - INFO - Eseguita estrazione IW29 per COS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,609 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,615 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,618 - SAPDataExtractor - INFO - DataFrame df_Modifica_COS creato con 183 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,625 - main - INFO - DataFrame df_Modifica_COS creato con 183 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,626 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - MXS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:33,636 - main - INFO - Estrazione IW29_single per SOLAR - MXS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:39,787 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:39,787 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,407 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,416 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,416 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,426 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,426 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per MXS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,434 - main - INFO - Eseguita estrazione IW29 per MXS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,435 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,445 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,448 - SAPDataExtractor - INFO - DataFrame df_Modifica_MXS creato con 98 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,456 - main - INFO - DataFrame df_Modifica_MXS creato con 98 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,456 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - PAS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:41,466 - main - INFO - Estrazione IW29_single per SOLAR - PAS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:47,786 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:47,787 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,388 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,416 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,418 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,434 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,435 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per PAS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,448 - main - INFO - Eseguita estrazione IW29 per PAS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,449 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,464 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,468 - SAPDataExtractor - INFO - DataFrame df_Modifica_PAS creato con 107 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,480 - main - INFO - DataFrame df_Modifica_PAS creato con 107 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,481 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ZAS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:49,488 - main - INFO - Estrazione IW29_single per SOLAR - ZAS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:57,315 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:57,315 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,838 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,848 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,849 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,857 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,858 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZAS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,865 - main - INFO - Eseguita estrazione IW29 per ZAS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,866 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,876 - main - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,882 - SAPDataExtractor - INFO - DataFrame df_Modifica_ZAS creato con 470 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,897 - main - INFO - DataFrame df_Modifica_ZAS creato con 470 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,898 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ESS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:34:58,913 - main - INFO - Estrazione IW29_single per SOLAR - ESS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:11,015 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:11,016 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,686 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,693 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,694 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,701 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,702 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ESS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,709 - main - INFO - Eseguita estrazione IW29 per ESS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,711 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,718 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,723 - SAPDataExtractor - INFO - DataFrame df_Modifica_ESS creato con 1517 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,730 - main - INFO - DataFrame df_Modifica_ESS creato con 1517 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,731 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ZMS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:12,737 - main - INFO - Estrazione IW29_single per SOLAR - ZMS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:17,567 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:17,568 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,061 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,068 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,068 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,076 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,077 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZMS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,084 - main - INFO - Eseguita estrazione IW29 per ZMS - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,084 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,092 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,094 - SAPDataExtractor - INFO - DataFrame df_Modifica_ZMS creato con 20 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,101 - main - INFO - DataFrame df_Modifica_ZMS creato con 20 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,102 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - ITW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:19,109 - main - INFO - Estrazione IW29_single per WIND - ITW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:26,704 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:26,705 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,175 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,183 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,184 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,193 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,193 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,200 - main - INFO - Eseguita estrazione IW29 per ITW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,200 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,207 - main - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,211 - SAPDataExtractor - INFO - DataFrame df_Modifica_ITW creato con 491 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,218 - main - INFO - DataFrame df_Modifica_ITW creato con 491 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,218 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - USW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:28,225 - main - INFO - Estrazione IW29_single per WIND - USW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:45,077 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:45,077 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,887 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,896 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,898 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,906 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,906 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,915 - main - INFO - Eseguita estrazione IW29 per USW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,917 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,924 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,934 - SAPDataExtractor - INFO - DataFrame df_Modifica_USW creato con 3012 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,941 - main - INFO - DataFrame df_Modifica_USW creato con 3012 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,942 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - CLW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:46,949 - main - INFO - Estrazione IW29_single per WIND - CLW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:55,820 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:55,820 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,315 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,325 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,326 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,334 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,335 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,342 - main - INFO - Eseguita estrazione IW29 per CLW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,343 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 105 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,351 - main - INFO - Elaborazione completata. Sono state eseguite 105 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,355 - SAPDataExtractor - INFO - DataFrame df_Modifica_CLW creato con 1033 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,363 - main - INFO - DataFrame df_Modifica_CLW creato con 1033 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,363 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - BRW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:35:57,370 - main - INFO - Estrazione IW29_single per WIND - BRW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:05,851 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:05,852 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,357 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,367 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,368 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,376 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,377 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per BRW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,384 - main - INFO - Eseguita estrazione IW29 per BRW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,385 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,392 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,396 - SAPDataExtractor - INFO - DataFrame df_Modifica_BRW creato con 727 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,404 - main - INFO - DataFrame df_Modifica_BRW creato con 727 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,404 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - CAW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:07,414 - main - INFO - Estrazione IW29_single per WIND - CAW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:11,868 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:11,869 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,316 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,324 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,325 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,334 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,335 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CAW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,343 - main - INFO - Eseguita estrazione IW29 per CAW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,343 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,351 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,353 - SAPDataExtractor - INFO - DataFrame df_Modifica_CAW creato con 24 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,361 - main - INFO - DataFrame df_Modifica_CAW creato con 24 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,361 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - MXW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:13,369 - main - INFO - Estrazione IW29_single per WIND - MXW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:26,076 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:26,076 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,715 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,724 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,725 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,734 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,735 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per MXW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,742 - main - INFO - Eseguita estrazione IW29 per MXW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,743 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 8 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,751 - main - INFO - Elaborazione completata. Sono state eseguite 8 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,757 - SAPDataExtractor - INFO - DataFrame df_Modifica_MXW creato con 1836 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,766 - main - INFO - DataFrame df_Modifica_MXW creato con 1836 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,767 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - ZAW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:27,774 - main - INFO - Estrazione IW29_single per WIND - ZAW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:37,086 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:37,087 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,593 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,601 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,602 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,612 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,612 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZAW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,620 - main - INFO - Eseguita estrazione IW29 per ZAW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,621 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,632 - main - INFO - Elaborazione completata. Sono state eseguite 2 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,636 - SAPDataExtractor - INFO - DataFrame df_Modifica_ZAW creato con 908 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,645 - main - INFO - DataFrame df_Modifica_ZAW creato con 908 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,646 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - ESW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:36:38,654 - main - INFO - Estrazione IW29_single per WIND - ESW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:06,191 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:06,192 - main - INFO - Elimino il contenuto della clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,037 - SAPDataExtractor - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,046 - main - INFO - Dati trovati nella clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,048 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,057 - main - INFO - Dati prelevati dalla clipboard (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,057 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ESW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,066 - main - INFO - Eseguita estrazione IW29 per ESW - Modifica (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,068 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,076 - main - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni. (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,090 - SAPDataExtractor - INFO - DataFrame df_Modifica_ESW creato con 4264 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,099 - main - INFO - DataFrame df_Modifica_ESW creato con 4264 righe (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,099 - SAPDataExtractor - INFO - Nessun valore singolo trovato (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,108 - main - INFO - Nessun valore singolo trovato (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,108 - SAPDataExtractor - INFO - Creazione unico DF (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,117 - main - INFO - Creazione unico DF (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,189 - SAPDataExtractor - INFO - Eliminazione duplicati (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,198 - main - INFO - Eliminazione duplicati (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,198 - SAPDataExtractor - INFO - Estrazione IW29 terminata (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:08,206 - main - INFO - Estrazione IW29 terminata (Errore formattazione: not all arguments converted during string formatting)
-2025-05-13 16:37:14,777 - main - ERROR - Errore: Salvataggio file IW29 fallito
+2025-05-13 18:00:36,803 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-13 18:00:36,805 - main - INFO - Verifico file excel
+2025-05-13 18:00:36,809 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-13 18:00:37,326 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
+2025-05-13 18:00:37,327 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
+2025-05-13 18:00:40,428 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
+2025-05-13 18:00:40,429 - main - INFO - File valido: 61121 righe trovate
+2025-05-13 18:00:40,430 - main - INFO - Struttura file excel OK
+2025-05-13 18:00:40,432 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
+2025-05-13 18:00:40,433 - main - INFO - Presenti 61121 idItem nel DataFrame
+2025-05-13 18:00:40,521 - main - INFO - Estratti 5707 idItem unici come valori interi
+2025-05-13 18:00:40,523 - main - INFO - 55414 righe eliminate
+2025-05-13 18:00:40,524 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
+2025-05-13 18:00:40,529 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
+2025-05-13 18:00:40,531 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
+2025-05-13 18:00:40,533 - main - INFO - AdM estratti: 1920
+2025-05-13 18:00:40,535 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
+2025-05-13 18:00:40,539 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
+2025-05-13 18:00:40,541 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
+2025-05-13 18:00:40,543 - main - INFO - OdM estratti: 3787
+2025-05-13 18:00:40,544 - main - INFO - File excel caricato correttamente
+2025-05-13 18:01:03,075 - main - INFO - Avvio estrazioni SAP
+2025-05-13 18:01:03,077 - main - INFO - Verifico selezione file excel
+2025-05-13 18:01:03,079 - main - INFO - Verifica file excel - OK
+2025-05-13 18:01:03,081 - main - INFO - Verifica date inserite: 01/05/2025 - 13/05/2025
+2025-05-13 18:01:03,082 - main - INFO - Verifica date inserite - OK
+2025-05-13 18:01:03,084 - main - INFO - Verifica tecnologie configurate: {'BESS': ['ITE', 'USE', 'CLE'], 'SOLAR': ['ITS', 'USS', 'CLS', 'BRS', 'COS', 'MXS', 'PAS', 'ZAS', 'ESS', 'ZMS'], 'WIND': ['ITW', 'USW', 'CLW', 'BRW', 'CAW', 'MXW', 'ZAW', 'ESW']}
+2025-05-13 18:01:03,086 - main - INFO - Verifica tecnologie configurate - OK
+2025-05-13 18:01:03,089 - main - INFO - Avvio estrazione SAP...
+2025-05-13 18:01:03,126 - main - INFO - Connessione SAP attiva
+2025-05-13 18:01:03,126 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-05-13 18:01:03,128 - main - INFO - Estrazione dati IW29
+2025-05-13 18:01:03,128 - SAPDataExtractor - INFO - Estrazione IW29_single per tipo 'Lista' con tutti i valori
+2025-05-13 18:01:04,842 - SAPDataExtractor - INFO - Copiati 1920 valori nella clipboard per SAP
+2025-05-13 18:01:04,843 - SAPDataExtractor - INFO - Valori singoli copiati nella clipboard per SAP
+2025-05-13 18:01:21,581 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:01:23,425 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:01:23,428 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:01:23,431 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per  - Lista
+2025-05-13 18:01:23,434 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 7 sostituzioni.
+2025-05-13 18:01:23,451 - SAPDataExtractor - INFO - DataFrame df_Lista creato con 1927 righe
+2025-05-13 18:01:23,454 - SAPDataExtractor - INFO - Eseguo estrazione: Creazione
+2025-05-13 18:01:23,456 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - ITE - Creazione
+2025-05-13 18:01:28,458 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:01:29,949 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:01:29,952 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:01:29,955 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITE - Creazione
+2025-05-13 18:01:29,957 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:01:29,961 - SAPDataExtractor - INFO - DataFrame df_Creazione_ITE creato con 20 righe
+2025-05-13 18:01:29,963 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - USE - Creazione
+2025-05-13 18:01:34,583 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:01:36,073 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:01:36,076 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:01:36,078 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USE - Creazione
+2025-05-13 18:01:36,080 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:01:36,083 - SAPDataExtractor - INFO - DataFrame df_Creazione_USE creato con 12 righe
+2025-05-13 18:01:36,085 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - CLE - Creazione
+2025-05-13 18:01:41,079 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:01:42,578 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:01:42,580 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:01:42,583 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLE - Creazione
+2025-05-13 18:01:42,585 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:01:42,589 - SAPDataExtractor - INFO - DataFrame df_Creazione_CLE creato con 3 righe
+2025-05-13 18:01:42,591 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ITS - Creazione
+2025-05-13 18:01:47,556 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:01:49,055 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:01:49,057 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:01:49,060 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITS - Creazione
+2025-05-13 18:01:49,062 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:01:49,065 - SAPDataExtractor - INFO - DataFrame df_Creazione_ITS creato con 7 righe
+2025-05-13 18:01:49,068 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - USS - Creazione
+2025-05-13 18:01:55,036 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:01:56,565 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:01:56,568 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:01:56,571 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USS - Creazione
+2025-05-13 18:01:56,574 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:01:56,579 - SAPDataExtractor - INFO - DataFrame df_Creazione_USS creato con 131 righe
+2025-05-13 18:01:56,581 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - CLS - Creazione
+2025-05-13 18:02:02,682 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:02:04,245 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:02:04,248 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:02:04,251 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLS - Creazione
+2025-05-13 18:02:04,254 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:02:04,258 - SAPDataExtractor - INFO - DataFrame df_Creazione_CLS creato con 163 righe
+2025-05-13 18:02:04,260 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - BRS - Creazione
+2025-05-13 18:02:10,536 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:02:12,052 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:02:12,056 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:02:12,060 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per BRS - Creazione
+2025-05-13 18:02:12,063 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:02:12,068 - SAPDataExtractor - INFO - DataFrame df_Creazione_BRS creato con 162 righe
+2025-05-13 18:02:12,070 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - COS - Creazione
+2025-05-13 18:02:17,283 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:02:18,965 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:02:18,968 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:02:18,971 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per COS - Creazione
+2025-05-13 18:02:18,974 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:02:18,978 - SAPDataExtractor - INFO - DataFrame df_Creazione_COS creato con 52 righe
+2025-05-13 18:02:18,982 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - MXS - Creazione
+2025-05-13 18:02:24,377 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:02:25,929 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:02:25,932 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:02:25,936 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per MXS - Creazione
+2025-05-13 18:02:25,940 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:02:25,944 - SAPDataExtractor - INFO - DataFrame df_Creazione_MXS creato con 60 righe
+2025-05-13 18:02:25,946 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - PAS - Creazione
+2025-05-13 18:02:31,242 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:02:32,763 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:02:32,767 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:02:32,770 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per PAS - Creazione
+2025-05-13 18:02:32,773 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:02:32,777 - SAPDataExtractor - INFO - DataFrame df_Creazione_PAS creato con 25 righe
+2025-05-13 18:02:32,780 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ZAS - Creazione
+2025-05-13 18:02:38,607 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:02:40,128 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:02:40,131 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:02:40,134 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZAS - Creazione
+2025-05-13 18:02:40,138 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:02:40,142 - SAPDataExtractor - INFO - DataFrame df_Creazione_ZAS creato con 104 righe
+2025-05-13 18:02:40,145 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ESS - Creazione
+2025-05-13 18:02:45,623 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:02:47,137 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:02:47,144 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:02:47,154 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ESS - Creazione
+2025-05-13 18:02:47,162 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:02:47,172 - SAPDataExtractor - INFO - DataFrame df_Creazione_ESS creato con 118 righe
+2025-05-13 18:02:47,180 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ZMS - Creazione
+2025-05-13 18:02:51,868 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:02:53,389 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:02:53,393 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:02:53,396 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZMS - Creazione
+2025-05-13 18:02:53,399 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:02:53,404 - SAPDataExtractor - INFO - DataFrame df_Creazione_ZMS creato con 6 righe
+2025-05-13 18:02:53,408 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - ITW - Creazione
+2025-05-13 18:02:58,386 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:02:59,872 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:02:59,876 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:02:59,881 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITW - Creazione
+2025-05-13 18:02:59,885 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:02:59,890 - SAPDataExtractor - INFO - DataFrame df_Creazione_ITW creato con 37 righe
+2025-05-13 18:02:59,894 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - USW - Creazione
+2025-05-13 18:03:07,597 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:03:09,118 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:03:09,123 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:03:09,127 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USW - Creazione
+2025-05-13 18:03:09,130 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:03:09,136 - SAPDataExtractor - INFO - DataFrame df_Creazione_USW creato con 493 righe
+2025-05-13 18:03:09,140 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - CLW - Creazione
+2025-05-13 18:03:16,271 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:03:17,792 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:03:17,795 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:03:17,799 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLW - Creazione
+2025-05-13 18:03:17,802 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 40 sostituzioni.
+2025-05-13 18:03:17,809 - SAPDataExtractor - INFO - DataFrame df_Creazione_CLW creato con 410 righe
+2025-05-13 18:03:17,812 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - BRW - Creazione
+2025-05-13 18:03:24,113 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:03:25,674 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:03:25,678 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:03:25,681 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per BRW - Creazione
+2025-05-13 18:03:25,685 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:03:25,690 - SAPDataExtractor - INFO - DataFrame df_Creazione_BRW creato con 173 righe
+2025-05-13 18:03:25,694 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - CAW - Creazione
+2025-05-13 18:03:30,522 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:03:32,031 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:03:32,035 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:03:32,040 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CAW - Creazione
+2025-05-13 18:03:32,044 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:03:32,049 - SAPDataExtractor - INFO - DataFrame df_Creazione_CAW creato con 16 righe
+2025-05-13 18:03:32,053 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - MXW - Creazione
+2025-05-13 18:03:41,284 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:03:42,846 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:03:42,850 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:03:42,854 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per MXW - Creazione
+2025-05-13 18:03:42,859 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 16 sostituzioni.
+2025-05-13 18:03:42,865 - SAPDataExtractor - INFO - DataFrame df_Creazione_MXW creato con 552 righe
+2025-05-13 18:03:42,868 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - ZAW - Creazione
+2025-05-13 18:03:49,474 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:03:51,087 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:03:51,092 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:03:51,097 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZAW - Creazione
+2025-05-13 18:03:51,101 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:03:51,107 - SAPDataExtractor - INFO - DataFrame df_Creazione_ZAW creato con 252 righe
+2025-05-13 18:03:51,111 - SAPDataExtractor - INFO - Estrazione IW29_single per WIND - ESW - Creazione
+2025-05-13 18:04:06,541 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:04:08,192 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:04:08,197 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:04:08,201 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ESW - Creazione
+2025-05-13 18:04:08,206 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:04:08,214 - SAPDataExtractor - INFO - DataFrame df_Creazione_ESW creato con 1081 righe
+2025-05-13 18:04:08,218 - SAPDataExtractor - INFO - Eseguo estrazione: Modifica
+2025-05-13 18:04:08,221 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - ITE - Modifica
+2025-05-13 18:04:13,759 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:04:15,271 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:04:15,276 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:04:15,282 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITE - Modifica
+2025-05-13 18:04:15,287 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:04:15,293 - SAPDataExtractor - INFO - DataFrame df_Modifica_ITE creato con 52 righe
+2025-05-13 18:04:15,298 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - USE - Modifica
+2025-05-13 18:04:20,577 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:04:22,116 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:04:22,120 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:04:22,125 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USE - Modifica
+2025-05-13 18:04:22,129 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:04:22,135 - SAPDataExtractor - INFO - DataFrame df_Modifica_USE creato con 16 righe
+2025-05-13 18:04:22,139 - SAPDataExtractor - INFO - Estrazione IW29_single per BESS - CLE - Modifica
+2025-05-13 18:04:26,997 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:04:28,489 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:04:28,494 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:04:28,498 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLE - Modifica
+2025-05-13 18:04:28,502 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:04:28,509 - SAPDataExtractor - INFO - DataFrame df_Modifica_CLE creato con 6 righe
+2025-05-13 18:04:28,513 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ITS - Modifica
+2025-05-13 18:04:33,292 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:04:34,800 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:04:34,804 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:04:34,809 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ITS - Modifica
+2025-05-13 18:04:34,813 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:04:34,818 - SAPDataExtractor - INFO - DataFrame df_Modifica_ITS creato con 6 righe
+2025-05-13 18:04:34,825 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - USS - Modifica
+2025-05-13 18:04:40,979 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:04:42,486 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:04:42,492 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:04:42,497 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per USS - Modifica
+2025-05-13 18:04:42,502 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:04:42,509 - SAPDataExtractor - INFO - DataFrame df_Modifica_USS creato con 152 righe
+2025-05-13 18:04:42,513 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - CLS - Modifica
+2025-05-13 18:04:48,711 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:04:50,201 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:04:50,208 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:04:50,215 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per CLS - Modifica
+2025-05-13 18:04:50,221 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:04:50,229 - SAPDataExtractor - INFO - DataFrame df_Modifica_CLS creato con 242 righe
+2025-05-13 18:04:50,234 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - BRS - Modifica
+2025-05-13 18:04:58,191 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:04:59,721 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:04:59,727 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:04:59,733 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per BRS - Modifica
+2025-05-13 18:04:59,737 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:04:59,746 - SAPDataExtractor - INFO - DataFrame df_Modifica_BRS creato con 643 righe
+2025-05-13 18:04:59,751 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - COS - Modifica
+2025-05-13 18:05:05,514 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:05:06,997 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:05:07,002 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:05:07,009 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per COS - Modifica
+2025-05-13 18:05:07,013 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:05:07,019 - SAPDataExtractor - INFO - DataFrame df_Modifica_COS creato con 56 righe
+2025-05-13 18:05:07,024 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - MXS - Modifica
+2025-05-13 18:05:11,829 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:05:13,297 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:05:13,302 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:05:13,309 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per MXS - Modifica
+2025-05-13 18:05:13,314 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:05:13,321 - SAPDataExtractor - INFO - DataFrame df_Modifica_MXS creato con 28 righe
+2025-05-13 18:05:13,326 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - PAS - Modifica
+2025-05-13 18:05:18,146 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:05:19,609 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:05:19,615 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:05:19,622 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per PAS - Modifica
+2025-05-13 18:05:19,627 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:05:19,634 - SAPDataExtractor - INFO - DataFrame df_Modifica_PAS creato con 24 righe
+2025-05-13 18:05:19,639 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ZAS - Modifica
+2025-05-13 18:05:26,678 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-13 18:05:28,162 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-13 18:05:28,167 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-13 18:05:28,172 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per ZAS - Modifica
+2025-05-13 18:05:28,178 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 1 sostituzioni.
+2025-05-13 18:05:28,185 - SAPDataExtractor - INFO - DataFrame df_Modifica_ZAS creato con 179 righe
+2025-05-13 18:05:28,190 - SAPDataExtractor - INFO - Estrazione IW29_single per SOLAR - ESS - Modifica
+2025-05-13 18:05:48,302 - main - INFO - Configurazione caricata con successo
+2025-05-13 18:10:17,617 - main - INFO - Applicazione terminata
+2025-05-14 09:36:28,853 - main - INFO - Configurazione caricata con successo
+2025-05-14 09:36:57,644 - main - INFO - Configurazione caricata con successo
+2025-05-14 09:36:57,646 - main - INFO - Configurazione aggiornata
+2025-05-14 09:37:15,660 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-14 09:37:15,663 - main - INFO - Verifico file excel
+2025-05-14 09:37:15,667 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-14 09:37:16,347 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
+2025-05-14 09:37:16,350 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
+2025-05-14 09:37:19,540 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
+2025-05-14 09:37:19,542 - main - INFO - File valido: 61121 righe trovate
+2025-05-14 09:37:19,543 - main - INFO - Struttura file excel OK
+2025-05-14 09:37:19,546 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
+2025-05-14 09:37:19,548 - main - INFO - Presenti 61121 idItem nel DataFrame
+2025-05-14 09:37:19,654 - main - INFO - Estratti 5707 idItem unici come valori interi
+2025-05-14 09:37:19,657 - main - INFO - 55414 righe eliminate
+2025-05-14 09:37:19,659 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
+2025-05-14 09:37:19,665 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
+2025-05-14 09:37:19,669 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
+2025-05-14 09:37:19,672 - main - INFO - AdM estratti: 1920
+2025-05-14 09:37:19,675 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
+2025-05-14 09:37:19,680 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
+2025-05-14 09:37:19,685 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
+2025-05-14 09:37:19,688 - main - INFO - OdM estratti: 3787
+2025-05-14 09:37:19,691 - main - INFO - File excel caricato correttamente
+2025-05-14 09:37:50,311 - main - INFO - Avvio estrazioni SAP
+2025-05-14 09:37:50,314 - main - INFO - Verifico selezione file excel
+2025-05-14 09:37:50,318 - main - INFO - Verifica file excel - OK
+2025-05-14 09:37:50,321 - main - INFO - Verifica date inserite: 01/04/2025 - 31/05/2026
+2025-05-14 09:37:50,344 - main - ERROR - L'intervallo di date non può superare un anno (366 giorni)
+2025-05-14 09:37:53,555 - main - CRITICAL - Errore nella verifica delle date inserite
+2025-05-14 09:37:57,503 - main - INFO - Avvio estrazioni SAP
+2025-05-14 09:37:57,506 - main - INFO - Verifico selezione file excel
+2025-05-14 09:37:57,508 - main - INFO - Verifica file excel - OK
+2025-05-14 09:37:57,510 - main - INFO - Verifica date inserite: 01/04/2025 - 31/05/2025
+2025-05-14 09:37:57,512 - main - INFO - Verifica date inserite - OK
+2025-05-14 09:37:57,516 - main - INFO - Verifica tecnologie configurate: {'BESS': [], 'SOLAR': [], 'WIND': ['CLW']}
+2025-05-14 09:37:57,519 - main - INFO - Verifica tecnologie configurate - OK
+2025-05-14 09:37:57,522 - main - INFO - Avvio estrazione SAP...
+2025-05-14 09:37:57,613 - main - INFO - Connessione SAP attiva
+2025-05-14 09:37:57,614 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-05-14 09:37:57,617 - main - INFO - Estrazione dati IW29
+2025-05-14 09:37:57,618 - SAPDataExtractor - INFO - Estrazione IW29_single per tipo 'Lista' con tutti i valori
+2025-05-14 09:37:59,551 - SAPDataExtractor - INFO - Copiati 1920 valori nella clipboard per SAP
+2025-05-14 09:37:59,552 - SAPDataExtractor - INFO - Valori singoli copiati nella clipboard per SAP
+2025-05-14 09:38:14,268 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-14 09:38:16,201 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-14 09:38:16,204 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-14 09:38:16,207 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per  - Lista
+2025-05-14 10:20:07,166 - main - INFO - Configurazione caricata con successo
+2025-05-14 10:20:36,371 - main - INFO - Selezionato file excel: attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-14 10:20:36,373 - main - INFO - Verifico file excel
+2025-05-14 10:20:36,377 - main - INFO - Verifica del file Excel: C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-14 10:20:37,000 - main - INFO - Sheet presenti nel file: OnFieldApp.trace_kpi_user_actio
+2025-05-14 10:20:37,002 - main - INFO - Sheet 'OnFieldApp.trace_kpi_user_actio' trovato nel file
+2025-05-14 10:20:39,973 - main - INFO - Colonne presenti nel file: user, creationDate, country, tecnology, action, idItem, functionalLocation
+2025-05-14 10:20:39,974 - main - INFO - File valido: 61121 righe trovate
+2025-05-14 10:20:39,976 - main - INFO - Struttura file excel OK
+2025-05-14 10:20:39,978 - main - INFO -  - Normalizzo la colonna idItem del DataFrame - 
+2025-05-14 10:20:39,980 - main - INFO - Presenti 61121 idItem nel DataFrame
+2025-05-14 10:20:40,081 - main - INFO - Estratti 5707 idItem unici come valori interi
+2025-05-14 10:20:40,083 - main - INFO - 55414 righe eliminate
+2025-05-14 10:20:40,086 - main - INFO - Estrazione AdM - Presenti 5707 idItem nel DataFrame
+2025-05-14 10:20:40,090 - main - INFO - Pulizia df - Presenti 5707 idItem nel nuovo DataFrame
+2025-05-14 10:20:40,092 - main - INFO - Filtrati 1920 record con idItem < 2000000000 su 5707 totali
+2025-05-14 10:20:40,094 - main - INFO - AdM estratti: 1920
+2025-05-14 10:20:40,096 - main - INFO - Estrazione OdM - Presenti 5707 idItem nel DataFrame
+2025-05-14 10:20:40,101 - main - INFO - Presenti 5707 idItem nel nuovo DataFrame
+2025-05-14 10:20:40,104 - main - INFO - Filtrati 3787 record con idItem > 2000000000 su 5707 totali
+2025-05-14 10:20:40,106 - main - INFO - OdM estratti: 3787
+2025-05-14 10:20:40,107 - main - INFO - File excel caricato correttamente
+2025-05-14 10:20:46,233 - main - INFO - Avvio estrazioni SAP
+2025-05-14 10:20:46,236 - main - INFO - Verifico selezione file excel
+2025-05-14 10:20:46,237 - main - INFO - Verifica file excel - OK
+2025-05-14 10:20:46,239 - main - INFO - Verifica date inserite: 01/04/2025 - 30/05/2025
+2025-05-14 10:20:46,240 - main - INFO - Verifica date inserite - OK
+2025-05-14 10:20:46,242 - main - INFO - Verifica tecnologie configurate: {'BESS': [], 'SOLAR': [], 'WIND': ['CLW']}
+2025-05-14 10:20:46,244 - main - INFO - Verifica tecnologie configurate - OK
+2025-05-14 10:20:46,246 - main - INFO - Avvio estrazione SAP...
+2025-05-14 10:20:46,277 - main - INFO - Connessione SAP attiva
+2025-05-14 10:20:46,277 - DataFrameTools - INFO - Inizializzazione DataFrameTools
+2025-05-14 10:20:46,279 - main - INFO - Estrazione dati IW29
+2025-05-14 10:20:46,280 - SAPDataExtractor - INFO - Estrazione IW29_single per tipo 'Lista' con tutti i valori
+2025-05-14 10:20:48,254 - SAPDataExtractor - INFO - Copiati 1920 valori nella clipboard per SAP
+2025-05-14 10:20:48,255 - SAPDataExtractor - INFO - Valori singoli copiati nella clipboard per SAP
+2025-05-14 10:21:03,146 - SAPDataExtractor - INFO - Elimino il contenuto della clipboard
+2025-05-14 10:21:05,090 - SAPDataExtractor - INFO - Dati trovati nella clipboard
+2025-05-14 10:21:05,093 - SAPDataExtractor - INFO - Dati prelevati dalla clipboard
+2025-05-14 10:21:05,096 - SAPDataExtractor - INFO - Eseguita estrazione IW29 per  - Lista
+2025-05-14 10:25:55,844 - SAPDataExtractor - INFO - Elaborazione completata. Sono state eseguite 7 sostituzioni.
+2025-05-14 10:26:05,051 - SAPDataExtractor - INFO - Righe iniziali: 1930 - Righe finali: 281668.

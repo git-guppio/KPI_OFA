@@ -3,7 +3,7 @@ from collections import Counter
 from typing import List, Dict, Optional
 import os
 import logging
-from utils.decorators import error_logger
+from PyQt5.QtCore import QObject, pyqtSignal
 
 # Logger specifico per questo modulo
 logger = logging.getLogger("DataFrameTools")
@@ -14,83 +14,47 @@ class DataFrameTools:
     """
     
     def __init__(self):
-        logger.info("Inizializzazione DataFrameTools")
+        pass
+        #logger.info("Inizializzazione DataFrameTools")  
 
-    # Controllo validità DataFrame
-    @staticmethod
-    def Add_Column_Check_ZPMR(df: pd.DataFrame):
+    # Definizione aggiornata del segnale nella classe SAPDataExtractor
+    logMessage = pyqtSignal(str, str, bool, bool, object, str, tuple, dict)
+    # (message, level, update_status, update_log, min_display_seconds, origin, args, kwargs)
+
+    def log(self, message, level='info', update_status=True, update_log=True, min_display_seconds=None, origin="DataFrameTools", *args, **kwargs):
         """
-        Aggiunge una colonna al DataFrame per il controllo ZPMR.
+        Emette un segnale di log con controllo dell'origine
         
         Args:
-            df: DataFrame da modificare
-        
-        Returns:
-            Boolean: True se l'operazione è riuscita, False altrimenti
+            message: Il messaggio da registrare
+            level: Livello del log ('info', 'warning', 'error', ecc.)
+            update_status: Se aggiornare la statusBar
+            update_log: Se aggiornare il widget di log visuale
+            min_display_seconds: Tempo minimo di visualizzazione
+            origin: Origine del messaggio per evitare duplicazioni ('main' o altro)
+            *args, **kwargs: Argomenti per la formattazione del messaggio
         """
-        # Controllo validità DataFrame
-        if not isinstance(df, pd.DataFrame):
-            raise TypeError("Il parametro df deve essere un DataFrame Pandas valido")
+        # Registra nel logger locale
+        logger_method = getattr(logger, level) if hasattr(logger, level) else logger.info
         
-        # Controllo se il DataFrame è vuoto
-        if df.empty:
-            print("Il DataFrame è vuoto.")
-            return False
-        
-        # Verifica l'esistenza della colonna 'FL' nel DataFrame
-        required_column = 'FL'
-        if required_column not in df.columns:
-            print(f"Errore: La colonna '{required_column}' non esiste nel DataFrame.")
-            return False
-        
+        # Formatta il messaggio per il logger
         try:
-            # Crea una copia del DataFrame per evitare modifiche all'originale durante l'elaborazione
-            df_temp = pd.DataFrame()
-            df_temp['FL'] = df['FL'].copy()
-            
-            # Controllo se ci sono valori nulli nella colonna FL
-            if df_temp['FL'].isna().any():
-                print("Attenzione: La colonna 'FL' contiene valori nulli.")
-            
-            # Aggiungi il livello lunghezza e controlla errori
-            df_temp, error_level = DataFrameTools.add_level_lunghezza(df_temp, 'FL')
-            if error_level is not None:
-                print(f"Errore nell'aggiunta del livello lunghezza: {error_level}")
-                return False
-            
-            # Verifica l'esistenza delle colonne necessarie per la concatenazione
-            required_columns = ["Livello_6", "Livello_5", "Livello_4", "Livello_3", "FL_Lunghezza"]
-            missing_columns = [col for col in required_columns if col not in df_temp.columns]
-            
-            if missing_columns:
-                print(f"Errore: Le seguenti colonne richieste non esistono: {', '.join(missing_columns)}")
-                return False
-            
-            # Aggiunge la colonna Check per la verifica delle FL nelle tabelle globali
-            df_temp, error_concat = DataFrameTools.add_concatenated_column_FL(
-                df_temp, "Livello_6", "Livello_5", "Livello_4", "Livello_3", "FL_Lunghezza"
-            )
-            
-            if error_concat is not None:
-                print(f"Errore nella concatenazione delle colonne: {error_concat}")
-                return False
-            
-            # Verifica che la colonna 'Check' sia stata creata correttamente
-            if 'Check' not in df_temp.columns:
-                print("Errore: La colonna 'Check' non è stata creata.")
-                return False
-                
-            # Copia la colonna 'Check' nel DataFrame originale
-            df['Check'] = df_temp['Check']
-            print("Colonna 'Check' aggiunta con successo.")
-            return True
-            
+            if kwargs and not args:
+                formatted_message = message.format(**kwargs)
+            elif args:
+                formatted_message = message % args
+            else:
+                formatted_message = message
         except Exception as e:
-            print(f"Si è verificata un'eccezione durante l'elaborazione: {str(e)}")
-            return False    
+            formatted_message = f"{message} (Errore formattazione: {str(e)})"
+        
+        # Registra nel logger locale
+        logger_method(formatted_message)
+        
+        # Emetti il segnale con l'informazione sull'origine
+        # Passa origin come parametro aggiuntivo al segnale
+        self.logMessage.emit(message, level, update_status, update_log, min_display_seconds, origin, args, kwargs)
 
-    @staticmethod
-    @error_logger(logger=logger) 
     def load_dataframes_from_csv(df_names, base_path="", encoding="utf-8", separator=";"):
         """
         Verifica l'esistenza dei file CSV e carica i dati nei corrispettivi DataFrame.
@@ -138,8 +102,6 @@ class DataFrameTools:
             print(f"Errore durante il caricamento dei file CSV: {str(e)}")
             raise    
 
-    @staticmethod
-    @error_logger(logger=logger) 
     def save_dataframe_to_csv(df: pd.DataFrame, 
                             file_path: str,
                             separator: str = ";",
@@ -206,376 +168,6 @@ class DataFrameTools:
             # Rilancia qualsiasi altra eccezione con contesto aggiuntivo
             raise Exception(f"Errore imprevisto durante il salvataggio del DataFrame: {str(e)}") from e
 
-    @staticmethod    
-    @error_logger(logger=logger)
-    def create_df_from_lists_ZPMR_CONTROL_FLn(header_string: str,
-                                                lists_of_elements: list, 
-                                                technology: str) -> pd.DataFrame:
-            """
-            Crea un DataFrame unico a partire da una lista di liste di elementi.
-            Ogni lista rappresenta elementi per un diverso livello.
-            
-            Args:
-                header_string: Stringa contenente i nomi delle colonne separati da delimitatore
-                lists_of_elements: Lista di liste di elementi da inserire, ogni lista rappresenta un livello
-                technology: Tecnologia utilizzata
-            
-            Returns:
-                DataFrame unico combinato con tutte le liste di elementi
-                
-            Raises:
-                ValueError: Se header_string è vuota o non contiene abbastanza colonne
-                TypeError: Se lists_of_elements non è una lista di liste
-                ValueError: Se tutte le liste in lists_of_elements sono vuote
-                ValueError: Se technology o country_code non sono stringhe valide
-            """
-            # Controllo validità header_string
-            if not isinstance(header_string, str):
-                raise TypeError("header_string deve essere una stringa")
-            if not header_string.strip():
-                raise ValueError("header_string non può essere vuota")
-            
-            # Parsing dell'intestazione per ottenere i nomi delle colonne
-            column_names = [col.strip() for col in header_string.split(';')]
-            
-            # Verifica che ci siano abbastanza colonne
-            if (len(column_names) != 6):
-                raise ValueError(f"L'intestazione deve contenere 6 colonne, trovate {len(column_names)}")
-            
-            # Controllo validità lists_of_elements
-            if not isinstance(lists_of_elements, list):
-                raise TypeError("lists_of_elements deve essere una lista di liste")
-            
-            # Verifico che almeno una lista non sia None e contenga elementi
-            valid_lists = [sublist for sublist in lists_of_elements if sublist is not None]
-            if not valid_lists or all(len(sublist) == 0 for sublist in valid_lists):
-                raise ValueError("Tutte le liste in lists_of_elements sono vuote o None")
-            
-            # Controllo validità technology e country_code
-            if not isinstance(technology, str) or not technology.strip():
-                raise ValueError("technology deve essere una stringa valida")
-            
-            try:
-                # Inizializzo una lista per raccogliere i DataFrame processati
-                processed_dfs = []
-                
-                # Processo ogni lista di elementi con il relativo indice (livello)
-                for index, elements_list in enumerate(lists_of_elements, start=3):
-                    # Salto le liste None
-                    if elements_list is None:
-                        continue                    
-                    # Verifico se la lista non è vuota
-                    if len(elements_list) > 0:
-                        # Creo un DataFrame vuoto con le colonne dell'intestazione
-                        df = pd.DataFrame(columns=column_names)
-                        
-                        # Aggiungo gli elementi come righe
-                        for element in elements_list:
-                            # Creo una nuova riga con valori None
-                            new_row = {col: None for col in df.columns}
-
-                            # Imposto i valori nei campi specifici
-                            if len(df.columns) == 6:
-                                new_row[df.columns[0]] = "Z-R" + technology + "S"
-                                new_row[df.columns[1]] = technology.strip()
-                                new_row[df.columns[2]] = str(index).strip()  # Livello come stringa
-                                new_row[df.columns[3]] = element.strip() if isinstance(element, str) else str(element)
-                            
-                            # Aggiungo la riga al DataFrame
-                            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-                        
-                        # Aggiungo il DataFrame creato alla lista dei DataFrame processati
-                        processed_dfs.append(df)
-                
-                # Combina tutti i DataFrame in uno solo
-                if processed_dfs:
-                    return pd.concat(processed_dfs, ignore_index=True)
-                else:
-                    return pd.DataFrame(columns=column_names)  # Restituisco un DataFrame vuoto con le colonne corrette
-                    
-            except Exception as e:
-                # Rilanciamo l'eccezione con contesto aggiuntivo
-                raise Exception(f"Errore nella creazione del DataFrame: {str(e)}") from e    
-    
-    @staticmethod    
-    @error_logger(logger=logger)
-    def create_df_from_elements_ZPMR_CTRL_ASS(header_string: str, elements_list: str, technology: str, country_code: str) -> pd.DataFrame:
-        """
-        Crea un DataFrame usando i nomi delle colonne dall'intestazione e gli elementi come righe
-        
-        Args:
-            header_string: Stringa contenente i nomi delle colonne separati da delimitatore
-            elements_list: Lista degli elementi da inserire, uno per riga
-            technology: Tecnologia utilizzata
-            country_code: Codice paese
-        
-        Returns:
-            DataFrame con colonne definite dall'intestazione e gli elementi nelle righe
-            
-        Raises:
-            ValueError: Se header_string è vuota o non contiene abbastanza colonne
-            TypeError: Se elements_list non è una lista o stringa
-            ValueError: Se elements_list è vuota
-            ValueError: Se technology o country_code non sono stringhe valide
-        """
-        # Controllo validità header_string
-        if not isinstance(header_string, str):
-            raise TypeError("header_string deve essere una stringa")
-        if not header_string.strip():
-            raise ValueError("header_string non può essere vuota")
-        
-        # Parsing dell'intestazione per ottenere i nomi delle colonne
-        column_names = [col.strip() for col in header_string.split(';')]
-        
-        # Verifica che ci siano abbastanza colonne
-        if len(column_names) != 6:
-            raise ValueError(f"L'intestazione deve contenere 6 colonne, trovate {len(column_names)}")
-        
-        # Controllo validità elements_list
-        if not isinstance(elements_list, (list, str)):
-            raise TypeError("elements_list deve essere una lista o una stringa")
-        
-        # Se elements_list è una stringa, convertiamola in lista
-        if isinstance(elements_list, str):
-            elements_list = [elem.strip() for elem in elements_list.split(',') if elem.strip()]
-        
-        if len(elements_list) == 0:
-            raise ValueError("elements_list non può essere vuota")
-        
-        # Controllo validità technology e country_code
-        if not isinstance(technology, str) or not technology.strip():
-            raise ValueError("technology deve essere una stringa valida")
-        if not isinstance(country_code, str) or not country_code.strip():
-            raise ValueError("country_code deve essere una stringa valida")
-        
-        try:
-            # Creo un DataFrame vuoto con le colonne dell'intestazione
-            df = pd.DataFrame(columns=column_names)
-            
-            # Aggiungo gli elementi come righe
-            for element in elements_list:
-                # Creo una nuova riga con valori None
-                new_row = {col: None for col in df.columns}
-                
-                # Imposto i valori nei campi specifici
-                if len(df.columns) == 6:
-                    new_row[df.columns[0]] = "Z-R" + technology + "S"
-                    new_row[df.columns[1]] = technology.strip()
-                    new_row[df.columns[2]] = "" #f_level.strip()
-                    new_row[df.columns[3]] = element.strip()
-                
-                # Aggiungo la riga al DataFrame
-                df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-            
-            return df
-        
-        except Exception as e:
-            # Rilanciamo l'eccezione con contesto aggiuntivo
-            raise Exception(f"Errore nella creazione del DataFrame: {str(e)}") from e
-    
-    @staticmethod    
-    @error_logger(logger=logger)
-    def create_df_from_lists_ZPMR_CONTROL_FL2(header_string: str,
-                                                lists_of_elements: list, 
-                                                technology: str, 
-                                                country_code: str) -> pd.DataFrame:
-            """
-            Crea un DataFrame unico a partire da una lista di liste di elementi.
-            Ogni lista rappresenta elementi per un diverso livello.
-            
-            Args:
-                header_string: Stringa contenente i nomi delle colonne separati da delimitatore
-                lists_of_elements: Lista di liste di elementi da inserire, ogni lista rappresenta un livello
-                technology: Tecnologia utilizzata
-                country_code: Codice paese
-            
-            Returns:
-                DataFrame unico combinato con tutte le liste di elementi
-                
-            Raises:
-                ValueError: Se header_string è vuota o non contiene abbastanza colonne
-                TypeError: Se lists_of_elements non è una lista di liste
-                ValueError: Se tutte le liste in lists_of_elements sono vuote
-                ValueError: Se technology o country_code non sono stringhe valide
-            """
-            # Controllo validità header_string
-            if not isinstance(header_string, str):
-                raise TypeError("header_string deve essere una stringa")
-            if not header_string.strip():
-                raise ValueError("header_string non può essere vuota")
-            
-            # Parsing dell'intestazione per ottenere i nomi delle colonne
-            column_names = [col.strip() for col in header_string.split(';')]
-            
-            # Verifica che ci siano abbastanza colonne
-            if (len(column_names) != 5):
-                raise ValueError(f"L'intestazione deve contenere 5 colonne, trovate {len(column_names)}")
-            
-            # Controllo validità lists_of_elements
-            if not isinstance(lists_of_elements, list):
-                raise TypeError("lists_of_elements deve essere una lista di liste")
-            
-            # Verifico che almeno una lista non sia None e contenga elementi
-            valid_lists = [sublist for sublist in lists_of_elements if sublist is not None]
-            if not valid_lists or all(len(sublist) == 0 for sublist in valid_lists):
-                raise ValueError("Tutte le liste in lists_of_elements sono vuote o None")
-            
-            # Controllo validità technology e country_code
-            if not isinstance(technology, str) or not technology.strip():
-                raise ValueError("technology deve essere una stringa valida")
-            if not isinstance(country_code, str) or not country_code.strip():
-                raise ValueError("country_code deve essere una stringa valida")
-            
-            try:
-                # Inizializzo una lista per raccogliere i DataFrame processati
-                processed_dfs = []
-                
-                # Processo ogni lista di elementi con il relativo indice (livello)
-                for index, elements_list in enumerate(lists_of_elements, start=1):
-                    # Salto le liste None
-                    if elements_list is None:
-                        continue
-
-                    # Verifico se la lista non è vuota
-                    if len(elements_list) > 0:
-                        # Creo un DataFrame vuoto con le colonne dell'intestazione
-                        df = pd.DataFrame(columns=column_names)
-                        
-                        # Aggiungo gli elementi come righe
-                        for element in elements_list:
-                            # Creo una nuova riga con valori None
-                            new_row = {col: None for col in df.columns}
-                            
-                            # Imposto i valori nei campi specifici
-                            if len(df.columns) == 5:
-                                new_row[df.columns[0]] = "Z-R" + technology + "M"
-                                new_row[df.columns[1]] = technology.strip()
-                                new_row[df.columns[2]] = str(index).strip()  # Livello come stringa
-                                new_row[df.columns[3]] = country_code.strip()
-                                new_row[df.columns[4]] = element.strip() if isinstance(element, str) else str(element)
-                            
-                            # Aggiungo la riga al DataFrame
-                            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-                        
-                        # Aggiungo il DataFrame creato alla lista dei DataFrame processati
-                        processed_dfs.append(df)
-                
-                # Combina tutti i DataFrame in uno solo
-                if processed_dfs:
-                    return pd.concat(processed_dfs, ignore_index=True)
-                else:
-                    return pd.DataFrame(columns=column_names)  # Restituisco un DataFrame vuoto con le colonne corrette
-                    
-            except Exception as e:
-                # Rilanciamo l'eccezione con contesto aggiuntivo
-                raise Exception(f"Errore nella creazione del DataFrame: {str(e)}") from e
-
-    @staticmethod    
-    @error_logger(logger=logger)
-    def stampa_risultato_differenze(risultato):
-        """
-        Stampa il numero di elementi e gli elementi presenti nel risultato
-        della funzione trova_differenze.
-        
-        Parameters:
-        -----------
-        risultato : list o None
-            Il risultato della funzione trova_differenze
-        
-        Returns:
-        --------
-        None
-            Questa funzione non restituisce valori ma stampa a schermo il risultato
-        """
-        try:
-            # Controlla se il risultato è None
-            if risultato is None:
-                print("Tutti gli elementi sono presenti nella tabella.")
-                return
-            
-            # Controlla se il risultato è una lista
-            if not isinstance(risultato, list):
-                raise TypeError("Il risultato deve essere una lista o None")
-            
-            # Stampa il numero di elementi
-            num_elementi = len(risultato)
-            print(f"Numero di elementi mancanti nella tabella: {num_elementi}")
-            
-            # Stampa gli elementi
-            if num_elementi > 0:
-                print("Elementi:")
-                for i, elemento in enumerate(risultato, 1):
-                    print(f"{i}. {elemento}")
-        
-        except Exception as e:
-            print(f"Errore durante la stampa del risultato: {str(e)}")    
-
-    @staticmethod
-    @error_logger(logger=logger)
-    def trova_differenze(df1, df2, col1, col2):
-        """
-        Trova gli elementi nella prima colonna che non sono presenti nella seconda.
-        
-        Parameters:
-        -----------
-        df1 : pandas.DataFrame
-            Il primo dataframe
-        df2 : pandas.DataFrame
-            Il secondo dataframe
-        col1 : str
-            Nome della colonna nel primo dataframe
-        col2 : str
-            Nome della colonna nel secondo dataframe
-        
-        Returns:
-        --------
-        list o None
-            Lista di elementi presenti in df1[col1] ma non in df2[col2],
-            o None se tutti gli elementi sono presenti
-            
-        Raises:
-        -------
-        TypeError
-            Se gli input non sono del tipo corretto
-        ValueError
-            Se i dataframe sono vuoti o le colonne non esistono
-        """
-        try:
-            # Verifiche sui tipi
-            if not isinstance(df1, pd.DataFrame) or not isinstance(df2, pd.DataFrame):
-                raise TypeError("Gli input devono essere pandas DataFrame")
-            if not isinstance(col1, str) or not isinstance(col2, str):
-                raise TypeError("I nomi delle colonne devono essere stringhe")
-            
-            # Verifica dataframe vuoti
-            if df1.empty:
-                raise ValueError("Il primo dataframe è vuoto")
-            if df2.empty:
-                raise ValueError("Il secondo dataframe è vuoto")
-            
-            # Verifica esistenza colonne
-            if col1 not in df1.columns:
-                raise ValueError(f"La colonna '{col1}' non esiste nel primo dataframe")
-            if col2 not in df2.columns:
-                raise ValueError(f"La colonna '{col2}' non esiste nel secondo dataframe")
-            
-            # Estrazione dei valori unici, escludendo stringhe vuote e valori null
-            valori_col1 = {x for x in df1[col1].unique() if pd.notna(x) and (not isinstance(x, str) or x.strip() != '')}
-            valori_col2 = {x for x in df2[col2].unique() if pd.notna(x) and (not isinstance(x, str) or x.strip() != '')}
-            
-            # Trova elementi in col1 ma non in col2
-            differenze = valori_col1 - valori_col2
-            
-            # Restituisci risultato
-            if not differenze:
-                return None
-            return sorted(list(differenze))  # Converti in lista ordinata per output più leggibile
-        
-        except Exception as e:
-            # Cattura errori non previsti
-            raise Exception(f"Errore durante il confronto delle colonne: {str(e)}")
-
-    @staticmethod
     def pivot_hierarchy(df, values_col, level_col):
         """
         Trasforma un dataframe pivottando i livelli gerarchici in colonne.
@@ -644,57 +236,7 @@ class DataFrameTools:
         except Exception as e:
             # Cattura eventuali altri errori non previsti
             raise Exception(f"Errore durante l'elaborazione del dataframe: {str(e)}")
-    
-
-    @staticmethod
-    def get_last_char(df, colonna):
-        """
-        Restituisce i primi due caratteri di una colonna contenente dati univoci
         
-        Args:
-            df: DataFrame da verificare
-            colonna: nome della colonna in cui analizzare il dato
-            
-        Returns:
-            none : se sono presenti solo valori nulli
-            i primi due caratteri della colonna indicata
-        """        
-        try:
-            # Prende il primo valore non nullo
-            primo_valore = df[colonna].dropna().iloc[0]
-            if pd.notna(primo_valore):  # verifica che non sia nullo
-                return primo_valore[2:3]
-            else:
-                return None
-        except Exception as e:
-            print(f"Errore nell'elaborazione della colonna {colonna}: {str(e)}")
-            return None
-        
-    @staticmethod
-    def get_first_two_chars(df, colonna):
-        """
-        Restituisce i primi due caratteri di una colonna contenente dati univoci
-        
-        Args:
-            df: DataFrame da verificare
-            colonna: nome della colonna in cui analizzare il dato
-            
-        Returns:
-            none : se sono presenti solo valori nulli
-            i primi due caratteri della colonna indicata
-        """        
-        try:
-            # Prende il primo valore non nullo
-            primo_valore = df[colonna].dropna().iloc[0]
-            if pd.notna(primo_valore):  # verifica che non sia nullo
-                return primo_valore[:2]
-            else:
-                return None
-        except Exception as e:
-            print(f"Errore nell'elaborazione della colonna {colonna}: {str(e)}")
-            return None
-        
-    @staticmethod
     def check_dataframe(df, name="DataFrame"):
         """
         Esegue un controllo completo su un DataFrame
@@ -733,11 +275,9 @@ class DataFrameTools:
             print(f"Errore durante la verifica di {name}: {str(e)}")
             return False
 
-    @staticmethod
     def clean_data(data: pd.DataFrame) -> pd.DataFrame:
         """
-        Legge i dati dalla clipboard, rimuove le righe di separazione e le colonne vuote,
-        e gestisce le intestazioni duplicate.
+        Verifica e pulisce i dati prima di caricarli in un DataFrame.
         
         Returns:
             DataFrame Pandas pulito o None in caso di errore
@@ -804,18 +344,17 @@ class DataFrameTools:
                         if corrected_line.count('|') == expected_pipes:
                             corrected_lines.append(corrected_line)
                         else:
-                            # Fallback: se la correzione non ha funzionato, rimuovi tutti i pipe extra
-                            parts = line.split('|')
-                            if len(parts) > expected_pipes + 1:
-                                # Unisci i campi extra nella Descrizione (indice 4 considerando i separatori)
-                                merged_description = '-'.join(parts[4:4+extra_pipes+1])
-                                new_parts = parts[:4] + [merged_description] + parts[4+extra_pipes+1:]
-                                corrected_line = '|'.join(new_parts)
-                                corrected_lines.append(corrected_line)
-                            else:
-                                print(f"Impossibile correggere la riga: {line}")
+                            msg = (f"Impossibile correggere la riga: {line}")
+                            # Se la correzione non ha funzionato, segnala l'errore
+                            print(msg)
+                            # Genera un exception
+                            raise ValueError(msg)
                     else:
-                        print(f"La riga non ha abbastanza separatori pipe: {line}")
+                        msg = (f"La riga non ha abbastanza separatori pipe: {line}")
+                        # Se la correzione non ha funzionato, segnala l'errore
+                        print(msg)
+                        # Genera un exception
+                        raise ValueError(msg)                                            
                 else:
                     # La riga è già corretta o ha meno pipe del previsto
                     corrected_lines.append(line)
@@ -848,8 +387,7 @@ class DataFrameTools:
         except Exception as e:
             print(f"Errore durante la pulizia dei dati: {str(e)}")
             return None
-    
-    @staticmethod        
+         
     def handle_duplicate_headers(headers: List[str]) -> List[str]:
         """
         Gestisce le intestazioni duplicate aggiungendo un postfisso numerico
@@ -891,175 +429,8 @@ class DataFrameTools:
                 header_counts[header] = 0
                 unique_headers.append(header)
         
-        return unique_headers       
-
-
-    @staticmethod
-    @error_logger(logger=logger) 
-    def add_level_lunghezza(df: pd.DataFrame, col1: str) -> pd.DataFrame:
-        """
-        Divide i valori di una colonna usando '-' come separatore e crea 6 nuove colonne con i risultati.
-        
-        Args:
-            df: DataFrame da elaborare
-            col1: Nome della colonna da splittare
-        
-        Returns:
-            DataFrame con le nuove colonne aggiunte
-            
-        Raises:
-            TypeError: Se df non è un DataFrame valido
-            ValueError: Se col1 non è presente nel DataFrame
-            ValueError: Se col1 contiene valori non-stringa che non possono essere splittati
-        """
-        # Controllo che df sia un DataFrame
-        if not isinstance(df, pd.DataFrame):
-            raise TypeError("Il parametro df deve essere un DataFrame pandas")
-        
-        # Controllo che df non sia vuoto
-        if df.empty:
-            return df.copy()  # Restituisce una copia del DataFrame vuoto
-        
-        # Controllo che col1 sia una stringa
-        if not isinstance(col1, str):
-            raise TypeError(f"Il nome della colonna deve essere una stringa, ricevuto {type(col1)}")
-        
-        # Controllo che col1 esista nel DataFrame
-        if col1 not in df.columns:
-            raise ValueError(f"La colonna '{col1}' non è presente nel DataFrame. "
-                            f"Colonne disponibili: {', '.join(df.columns)}")
-        
-        # Crea una copia per non modificare l'originale
-        result_df = df.copy()
-        
-        # Controllo valori non-stringa nella colonna
-        non_string_mask = ~result_df[col1].apply(lambda x: isinstance(x, str))
-        if non_string_mask.any():
-            # Converti i valori non-stringa in stringhe
-            result_df[col1] = result_df[col1].astype(str)
-        
-        # Funzione per splittare e padare a 6 elementi
-        def split_and_pad(x):
-            try:
-                parts = x.split('-')
-                # Converte ogni elemento in stringa e rimuove spazi
-                parts = [str(part).strip() for part in parts]
-                # Estende la lista a 6 elementi aggiungendo stringhe vuote
-                parts.extend([''] * (6 - len(parts)))
-                return pd.Series(parts[:6])
-            except Exception as e:
-                # Gestione di qualsiasi errore nello splitting
-                raise ValueError(f"Errore nello splitting del valore '{x}': {str(e)}")
-        
-        try:
-            # Crea le colonne numerate da 1 a 6
-            result_df[['Livello_1', 'Livello_2', 'Livello_3', 'Livello_4', 'Livello_5', 'Livello_6']] = result_df[col1].apply(split_and_pad)
-            # Aggiunge la colonna FL_Lunghezza con il numero di elementi dopo lo split
-            result_df['FL_Lunghezza'] = result_df['FL'].apply(lambda x: len(x.split('-')))
-
-        except Exception as e:
-            raise ValueError(f"Errore nella creazione delle colonne di livello: {str(e)}")
-        
-        return result_df
-
-    @staticmethod
-    @error_logger(logger=logger) 
-    def add_concatenated_column_FL(df: pd.DataFrame, 
-                            col1: str, 
-                            col2: str, 
-                            col3: str, 
-                            col4: str,
-                            col5: str,
-                            new_column_name: str = 'Check',
-                            separator: str = '_') -> pd.DataFrame:
-        """
-        Aggiunge una nuova colonna che concatena i valori di 4 colonne specificate usando un separatore
-        
-        Args:
-            df: DataFrame di input
-            col1: Nome della prima colonna -> Valore Livello
-            col2: Nome della seconda colonna -> Valore Liv. Superiore
-            col3: Nome della terza colonna -> Valore Liv. Superiore_1
-            col4: Nome della quarta colonna -> colonna contenente la lunghezza della FL
-            new_column_name: Nome della nuova colonna da creare (default: 'Check')
-            separator: Carattere/i da usare come separatore (default: '_')
-                
-        Returns:
-            DataFrame con la nuova colonna contenente i valori concatenati
-        """
-        # Verifica che tutte le colonne esistano nel DataFrame
-        required_cols = [col1, col2, col3, col4, col5]
-        if not all(col in df.columns for col in required_cols):
-            raise ValueError("Una o più colonne specificate non esistono nel DataFrame")
-
-        def create_concatenated_value(row):
-            # Verifica che col4 non sia nullo
-            if (str(row[col3]).strip(' \t\n\r') == ""):
-                return None
-            # add_concatenated_column(df, "Livello_6", "Livello_5", "Livello_4",  "Livello_3", "FL_Lunghezza")
-            #                               col1        col2         col3           col4        col5
-            if (row[col1].strip(' \t\n\r') != ""): # se è presente il 6 livello allora concateno 6-5-4-Lunghezza
-                result = f"{str(row[col1].strip(' \t\n\r'))}{separator}{str(row[col2].strip(' \t\n\r'))}{separator}{str(row[col3].strip(' \t\n\r'))}{separator}{str(str(row[col5]).strip(' \t\n\r'))}"
-                return result
-            elif (row[col2].strip(' \t\n\r') != ""): # se è presente il 5 livello allora concateno 5-4-3-Lunghezza
-                result = f"{str(row[col2].strip(' \t\n\r'))}{separator}{str(row[col3].strip(' \t\n\r'))}{separator}{str(str(row[col4]).strip(' \t\n\r'))}{separator}{str(str(row[col5]).strip(' \t\n\r'))}"
-                return result
-            elif (row[col3].strip(' \t\n\r') != ""):
-                result = f"{str(row[col3].strip(' \t\n\r'))}{separator}{str(str(row[col4]).strip(' \t\n\r'))}{separator}{str(str(row[col5]).strip(' \t\n\r'))}"
-                return result
-            else:
-                return None                 
-        
-        df_copy = df.copy()
-        df_copy[new_column_name] = df_copy.apply(create_concatenated_value, axis=1)
-        return df_copy
+        return unique_headers         
     
-    @staticmethod
-    def add_concatenated_column_SAP(df: pd.DataFrame, 
-                            col1: str, 
-                            col2: str, 
-                            col3: str, 
-                            col4: str,
-                            new_column_name: str = 'Check',
-                            separator: str = '_') -> pd.DataFrame:
-        """
-        Aggiunge una nuova colonna che concatena i valori di 4 colonne specificate usando un separatore
-        
-        Args:
-            df: DataFrame di input
-            col1: Nome della prima colonna -> Valore Livello
-            col2: Nome della seconda colonna -> Valore Liv. Superiore
-            col3: Nome della terza colonna -> Valore Liv. Superiore_1
-            col4: Nome della quarta colonna -> colonna contenente la lunghezza della FL
-            new_column_name: Nome della nuova colonna da creare (default: 'Check')
-            separator: Carattere/i da usare come separatore (default: '_')
-                
-        Returns:
-            DataFrame con la nuova colonna contenente i valori concatenati
-        """
-        # Verifica che tutte le colonne esistano nel DataFrame
-        required_cols = [col1, col2, col3, col4]
-        if not all(col in df.columns for col in required_cols):
-            raise ValueError("Una o più colonne specificate non esistono nel DataFrame")
-
-        def create_concatenated_value(row):
-            if (row[col3].strip(' \t\n\r') != ""):
-                result = f"{str(row[col1].strip(' \t\n\r'))}{separator}{str(row[col2].strip(' \t\n\r'))}{separator}{str(row[col3].strip(' \t\n\r'))}{separator}{str(str(row[col4]).strip(' \t\n\r'))}"
-                return result
-            elif (row[col2].strip(' \t\n\r') != ""):
-                result = f"{str(row[col1].strip(' \t\n\r'))}{separator}{str(row[col2].strip(' \t\n\r'))}{separator}{str(str(row[col4]).strip(' \t\n\r'))}"
-                return result
-            elif (row[col1].strip(' \t\n\r') != ""):
-                result = f"{str(row[col1].strip(' \t\n\r'))}{separator}{str(str(row[col4]).strip(' \t\n\r'))}"
-                return result
-            else:
-                return None    
-        
-        df_copy = df.copy()
-        df_copy[new_column_name] = df_copy.apply(create_concatenated_value, axis=1)
-        return df_copy    
-    
-    @staticmethod
     def analyze_data(df: pd.DataFrame, df_name: str = '') -> None:
         """
         Analizza il DataFrame pulito e mostra informazioni utili
@@ -1075,7 +446,6 @@ class DataFrameTools:
         print("\nPrime 5 righe:")
         print(df.head())
     
-    @staticmethod
     def strip_column_headers(df: pd.DataFrame) -> pd.DataFrame:
         """
         Rimuove gli spazi iniziali e finali dai nomi delle colonne
@@ -1090,26 +460,6 @@ class DataFrameTools:
         df_copy.columns = df_copy.columns.str.strip()
         return df_copy
     
-    @staticmethod
-    def combine_columns(df: pd.DataFrame, col1: str, col2: str, new_col: str, separator: str = '-') -> pd.DataFrame:
-        """
-        Crea una nuova colonna combinando due colonne esistenti
-        
-        Args:
-            df: DataFrame di input
-            col1: Nome della prima colonna
-            col2: Nome della seconda colonna
-            new_col: Nome della nuova colonna
-            separator: Separatore da usare nella concatenazione
-            
-        Returns:
-            DataFrame con la nuova colonna combinata
-        """
-        df_copy = df.copy()
-        df_copy[new_col] = df_copy[col1] + separator + df_copy[col2]
-        return df_copy
-    
-    @staticmethod
     def export_df_to_excel(df, output_path=None, sheet_name="Avvisi", verify_columns=True):
         """
         Esporta un DataFrame in un file Excel dopo aver verificato la presenza di valori mancanti

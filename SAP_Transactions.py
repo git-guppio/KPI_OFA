@@ -35,32 +35,43 @@ class SAPDataExtractor(QObject):
         self.tipo_estrazioni = ["Creazione", "Modifica", "Lista"]
         self.df_utils = DF_Tools.DataFrameTools()
 
-    # Aggiorna il segnale includendo min_display_seconds
-    logMessage = pyqtSignal(str, str, bool, bool, object, tuple, dict)  
-    # (message, level, update_status, update_log, min_display_seconds, args, kwargs)
+    # Definizione aggiornata del segnale nella classe SAPDataExtractor
+    logMessage = pyqtSignal(str, str, bool, bool, object, str, tuple, dict)
+    # (message, level, update_status, update_log, min_display_seconds, origin, args, kwargs)
 
-    def log(self, message, level='info', update_status=True, update_log=True, min_display_seconds=None, *args, **kwargs):
+    def log(self, message, level='info', update_status=True, update_log=True, min_display_seconds=None, origin="SAPDataExtractor", *args, **kwargs):
         """
-        Emette un segnale di log unificato con tempo minimo di visualizzazione
+        Emette un segnale di log con controllo dell'origine
+        
+        Args:
+            message: Il messaggio da registrare
+            level: Livello del log ('info', 'warning', 'error', ecc.)
+            update_status: Se aggiornare la statusBar
+            update_log: Se aggiornare il widget di log visuale
+            min_display_seconds: Tempo minimo di visualizzazione
+            origin: Origine del messaggio per evitare duplicazioni ('main' o altro)
+            *args, **kwargs: Argomenti per la formattazione del messaggio
         """
         # Registra nel logger locale
         logger_method = getattr(logger, level) if hasattr(logger, level) else logger.info
         
-        # Formatta il messaggio per il logger se necessario
-        if args or kwargs:
-            try:
-                if kwargs and not args:
-                    formatted_message = message.format(**kwargs)
-                else:
-                    formatted_message = message % args
-            except Exception as e:
-                formatted_message = f"{message} (Errore formattazione: {str(e)})"
-            logger_method(formatted_message)
-        else:
-            logger_method(message)
+        # Formatta il messaggio per il logger
+        try:
+            if kwargs and not args:
+                formatted_message = message.format(**kwargs)
+            elif args:
+                formatted_message = message % args
+            else:
+                formatted_message = message
+        except Exception as e:
+            formatted_message = f"{message} (Errore formattazione: {str(e)})"
         
-        # Emetti il segnale con tutti i parametri
-        self.logMessage.emit(message, level, update_status, update_log, min_display_seconds, args, kwargs)        
+        # Registra nel logger locale
+        logger_method(formatted_message)
+        
+        # Emetti il segnale con l'informazione sull'origine
+        # Passa origin come parametro aggiuntivo al segnale
+        self.logMessage.emit(message, level, update_status, update_log, min_display_seconds, origin, args, kwargs)
 
     def copy_values_for_sap_selection(self, values):
         """
@@ -489,6 +500,8 @@ class SAPDataExtractor(QObject):
         try:
             # Dividi il testo in righe
             lines = result.split('\n')
+            # Conta il numero di righe
+            num_lines = len(lines)
             
             # Verifica se ci sono almeno 4 righe
             if len(lines) < 4:
@@ -525,7 +538,7 @@ class SAPDataExtractor(QObject):
                             prefix = prev_line[:last_pipe_index + 1]
                             
                             # Unisci con la riga corrente
-                            merged_line = prefix + " " + current_line.strip()
+                            merged_line = prefix + current_line.strip()
 
                             # verifico che il numero di "|" sia coerente
                             merged_pipes = merged_line.count('|')
@@ -533,14 +546,13 @@ class SAPDataExtractor(QObject):
                                 msg = (f"Attenzione: il numero di '|' non è coerente nella riga unita: {merged_line}")
                                 self.log(msg, "error", True, True, 0)
                                 return False, msg
-                            else:
-                                # Aggiungi la riga unita alla lista
-                                processed_lines.append(merged_line)
-                            
-                            # Sostituisci la riga precedente
-                            processed_lines[-1] = merged_line
-                            
-                            replacements_count += 1
+                            else: # se in lnumero di pipe è maggiore o uguale allora la riga, presumibilmente, è corretta.
+                                # La sostituisco alla riga
+                                processed_lines[-2] = merged_line
+                                # Elimino la riga corrente
+                                processed_lines.pop()
+                                # Incrementa il contatore delle sostituzioni
+                                replacements_count += 1
                         else:
                             # Se non troviamo '|' nella riga precedente allora genera un errore
                             msg = (f"Errore: non è possibile unire la riga corrente '{current_line}' con una riga precedente.")
@@ -561,10 +573,16 @@ class SAPDataExtractor(QObject):
             
             # Ricostruisci il testo elaborato
             processed_result = '\n'.join(processed_lines)
+            # Conta il numero di righe
+            processed_result_lines = len(processed_lines)
+
             
             # Stampa il numero di sostituzioni
             msg = (f"Elaborazione completata. Sono state eseguite {replacements_count} sostituzioni.")
             self.log(msg, "success", True, True, 0)
+            # Stampa il numero di sostituzioni
+            msg = (f"Righe iniziali: {num_lines} - Righe finali: {processed_result_lines}.")
+            self.log(msg, "success", True, True, 0)            
             # Restituisci il risultato dell'elaborazione
             return True, processed_result
             
