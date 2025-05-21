@@ -1,15 +1,38 @@
 {
-    "save_directory": "C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/Dati",
+    "save_directory": "C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/data/SAP",
     "technologies": {
-        "BESS": [],
-        "SOLAR": [],
+        "BESS": [
+            "ITE",
+            "USE",
+            "CLE"
+        ],
+        "SOLAR": [
+            "ITS",
+            "USS",
+            "CLS",
+            "BRS",
+            "COS",
+            "MXS",
+            "PAS",
+            "ZAS",
+            "ESS",
+            "ZMS"
+        ],
         "WIND": [
-            "CLW"
+            "ITW",
+            "USW",
+            "CLW",
+            "BRW",
+            "CAW",
+            "MXW",
+            "ZAW",
+            "ESW"
         ]
     },
     "operations": {
-        "estrai_AdM": true,
+        "estrai_AdM": false,
         "estrai_OdM": false,
-        "elabora_xls": false
+        "estrai_AFKO": false,
+        "elabora_xls": true
     }
 }

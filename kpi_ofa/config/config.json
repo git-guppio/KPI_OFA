@@ -4,7 +4,13 @@
         "BESS": [],
         "SOLAR": [],
         "WIND": [
-            "ESW"
+            "CLW"
         ]
+    },
+    "operations": {
+        "estrai_AdM": true,
+        "estrai_OdM": false,
+        "estrai_AFKO": false,
+        "elabora_xls": false
     }
 }

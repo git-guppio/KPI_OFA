@@ -40,8 +40,9 @@ default_config = {
     },
     "operations": {
         "estrai_AdM": True, 
-        "estrai_OdM": True, 
-        "elabora_xls": True   
+        "estrai_OdM": True,
+        "estrai_AFKO": True,        
+        "elabora_xls": True
     }   
 }
 
