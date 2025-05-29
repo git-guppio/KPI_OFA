@@ -24,9 +24,10 @@ class ExcelDataProcessor:
     def __init__(self):
         """Inizializza il processore di dati."""
         # DataFrame contenenti i dati elaborati
-        self.df_AdM = None
-        self.df_OdM = None
-        self.df_normalized = None
+        self.df_excel = pd.DataFrame()
+        self.df_AdM = pd.DataFrame()
+        self.df_OdM = pd.DataFrame()
+        self.df_excel_normalized = pd.DataFrame()
         
         # Percorso del file Excel selezionato
         self.excel_file_path = None
@@ -49,7 +50,7 @@ class ExcelDataProcessor:
         # Utilizza il LogManager per registrare il messaggio
         self.log_manager.log(message, level, update_status, update_log, origin="excel_data_processor")
     
-    def process_excel_file(self, file_path: str, required_sheet: str, required_columns: List[str]) -> bool:
+    def process_excel_file(self, file_path: str, required_sheet: str, required_columns: List[str]) -> Tuple[bool, Optional[pd.DataFrame]]:
         """
         Processa il file Excel, verificandone la struttura e estraendo AdM e OdM.
         
@@ -75,17 +76,24 @@ class ExcelDataProcessor:
             return False
             
         self.log("Struttura file Excel verificata con successo", "success")
+        # salvo il df per poterlo usare in altre funzioni
+        self.df_excel = df
         
-        # Normalizzazione dei dati
+        # Normalizzazione dei dati -> Creo la colonna idItem_normalized contenente i valori della colonna idItem 
         self.log("Normalizzazione degli idItem", "loading")
-        result, self.df_normalized = self.normalize_df(df)
+        result, self.df_excel_normalized = self.normalize_excel_df(df)
         if not result:
             self.log("Normalizzazione degli idItem fallita", "error")
             return False
         
+        # Aggiungo la colonna AdM e OdM al DataFrame normalizzato
+        self.df_excel_normalized["AdM"] = self.df_excel_normalized["idItem_normalized"].where(self.df_excel_normalized["idItem_normalized"] < 2000000000)
+        
+        self.df_excel_normalized["OdM"] = self.df_excel_normalized["idItem_normalized"].where(self.df_excel_normalized["idItem_normalized"] > 2000000000)
+        
         # Estrazione AdM
         self.log("Estrazione degli Avvisi di Manutenzione (AdM)", "loading")
-        result, self.df_AdM = self.extract_adm(self.df_normalized)
+        result, self.df_AdM = self.extract_adm(self.df_excel_normalized)
         if not result:
             self.log("Estrazione degli AdM fallita", "error")
             return False
@@ -94,15 +102,41 @@ class ExcelDataProcessor:
         
         # Estrazione OdM
         self.log("Estrazione degli Ordini di Manutenzione (OdM)", "loading")
-        result, self.df_OdM = self.extract_odm(self.df_normalized)
+        result, self.df_OdM = self.extract_odm(self.df_excel_normalized)
         if not result:
             self.log("Estrazione degli OdM fallita", "error")
             return False
-            
-        self.log(f"OdM estratti: {len(self.df_OdM)}", "success")
-        self.log("File Excel elaborato con successo", "success")
         
-        return True
+        self.log(f"OdM estratti: {len(self.df_OdM)}", "success")
+
+        # Creo le colonne 'country' e 'tecnologia' nel dataframe df_excel_normalized
+        # Crea colonna TL (terzo carattere)
+        def extract_and_transform_tech(functional_location):
+            """Estrae il primo carattere e lo trasforma in tecnologia"""
+            if pd.isna(functional_location) or not isinstance(functional_location, str) or len(functional_location) == 0:
+                return None
+            
+            first_char = functional_location[0].upper()
+            
+            mapping = {
+                'S': 'Solar',
+                'E': 'Bess',
+                'W': 'WIND'
+            }
+            
+            return mapping.get(first_char, None)
+
+        # Applica tutto insieme
+        self.df_excel_normalized['tecnologia'] = self.df_excel_normalized['functionalLocation'].apply(extract_and_transform_tech)
+
+        # Crea colonna tecnologia (primi due caratteri)
+        self.df_excel_normalized['country'] = self.df_excel_normalized['functionalLocation'].apply(
+            lambda x: x[:2] if pd.notna(x) and isinstance(x, str) and len(x) >= 2 else None
+        )
+
+        self.log("File Excel elaborato con successo", "success")
+
+        return True, self.df_excel_normalized
     
     def check_excel_file(self, file_path: str, required_sheet: str, 
                          required_columns: List[str]) -> Tuple[bool, Optional[pd.DataFrame]]:
@@ -167,109 +201,155 @@ class ExcelDataProcessor:
             self.log(f"Errore nella lettura del file Excel: {str(e)}", "error")
             return False, None
     
-    def normalize_df(self, df: pd.DataFrame) -> Tuple[bool, Optional[pd.DataFrame]]:
+    def normalize_excel_df(self, df: pd.DataFrame) -> Tuple[bool, Optional[pd.DataFrame]]:
         """
         Normalizza il DataFrame, elaborando i dati nella colonna 'idItem'.
         
+        Crea una nuova colonna 'idItem_normalized' con i valori base estratti,
+        mantenendo tutte le righe originali (anche quelle con valori vuoti).
+        
         Estrae il valore numerico base dagli idItem, considerando formati come:
         - Numeri semplici (es. 1000001)
-        - Stringhe con trattino (es. "1000003-1")
-        - Stringhe con slash (es. "2000003/1")
+        - Stringhe con trattino (es. "1000003-1" → 1000003)
+        - Stringhe con slash (es. "2000003/1" → 2000003)
+        - Formati complessi (es. "240000493108-0010-2001113622" → 240000493108)
         
         Args:
             df (pd.DataFrame): DataFrame originale.
             
         Returns:
-            tuple: (bool, DataFrame) - True se la normalizzazione è riuscita, DataFrame normalizzato.
+            tuple: (bool, DataFrame) - True se la normalizzazione è riuscita, DataFrame con nuova colonna.
         """
         try:
             self.log("Normalizzazione della colonna idItem del DataFrame")
-            self.log(f"Presenti {len(df)} idItem nel DataFrame")
+            self.log(f"Presenti {len(df)} righe nel DataFrame")
             
-            # Crea un nuovo DataFrame con solo la colonna idItem
-            id_items_df = df[["idItem"]].copy()
+            # Lavora su una copia del DataFrame originale
+            df_result = df.copy()
             
             # Verifica che il DataFrame non sia vuoto
-            if id_items_df.empty:
-                self.log("Nessun elemento trovato nel file Excel", "error")
+            if df_result.empty:
+                self.log("DataFrame vuoto", "error")
                 return False, None
             
-            # Rimuovi eventuali valori nulli
-            id_items_df_notnull = id_items_df.dropna(subset=["idItem"])
-            if len(id_items_df_notnull) < len(id_items_df):
-                self.log(f"Rimossi {len(id_items_df) - len(id_items_df_notnull)} valori nulli", "warning")
+            # Verifica che la colonna idItem esista
+            if 'idItem' not in df_result.columns:
+                self.log("Colonna 'idItem' non trovata nel DataFrame", "error")
+                return False, None
             
-            id_items_df = id_items_df_notnull
-            
+            def is_valid_iditem(value):
+                """Controlla se un idItem è valido per la normalizzazione"""
+                if pd.isna(value):
+                    return False
+                str_val = str(value).strip()
+                return str_val not in ['', 'nan', 'None', '0']
+           
+            # Rimuove eventuali righe dal DF in cui idItem è NaN o vuoto oppure vale 0
+            self.log("Rimozione righe con idItem vuoto o NaN", "info")
+            num_righe = len(df_result)
+            df_clean = df_result[df_result['idItem'].apply(is_valid_iditem)].copy()
+            if num_righe != len(df_clean):
+                self.log(f"Rimosse {num_righe - len(df_clean)} righe non valide", "warning")
+            self.log(f"Righe rimanenti dopo rimozione: {len(df_clean)}", "info")
+            df_result = df_clean
+
             # Funzione per estrarre la parte prima del primo - o / e convertire in intero
             def extract_base_id(id_text):
+                """
+                Estrae il valore base da un idItem
+                
+                Esempi:
+                - 240000493138/0010 → 240000493138
+                - 240000493124-0010 → 240000493124  
+                - 240000493108-0010-2001113622 → 240000493108
+                - 1000001 → 1000001
+                - None → None
+                - "" → None
+                """
+                # Gestisci valori nulli o vuoti
+                if pd.isna(id_text) or id_text == '' or id_text is None:
+                    return None
+                    
+                # Se non è una stringa, prova a convertirlo
                 if not isinstance(id_text, str):
                     try:
                         # Se è già un numero, prova a convertirlo direttamente
                         return int(id_text)
                     except (ValueError, TypeError):
-                        logger.warning(f"Impossibile convertire '{id_text}' in intero")
+                        self.log(f"Impossibile convertire '{id_text}' in intero", "warning")
                         return None
-                        
+                
+                # Converte in stringa per sicurezza
+                id_str = str(id_text).strip()
+                
+                # Se stringa vuota dopo strip
+                if not id_str:
+                    return None
+                    
                 # Cerca il primo trattino o slash
-                dash_pos = id_text.find('-')
-                slash_pos = id_text.find('/')
+                dash_pos = id_str.find('-')
+                slash_pos = id_str.find('/')
                 
                 # Determina quale carattere appare per primo (se presente)
                 if dash_pos >= 0 and (slash_pos < 0 or dash_pos < slash_pos):
-                    base_id = id_text[:dash_pos]
+                    base_id = id_str[:dash_pos]
                 elif slash_pos >= 0:
-                    base_id = id_text[:slash_pos]
+                    base_id = id_str[:slash_pos]
                 else:
-                    base_id = id_text  # Nessun trattino o slash trovato
+                    base_id = id_str  # Nessun trattino o slash trovato
                     
                 # Converti in intero se possibile
                 try:
                     return int(base_id)
                 except ValueError:
-                    logger.warning(f"Impossibile convertire '{base_id}' in intero")
+                    self.log(f"Impossibile convertire '{base_id}' (da '{id_text}') in intero", "warning")
                     return None
+
+            # Applica la normalizzazione e crea la nuova colonna
+            self.log("Applicazione della normalizzazione...")
+            df_result['idItem_normalized'] = df_result['idItem'].apply(extract_base_id)
+
+            # Statistiche sulla normalizzazione
+            righe_totali = len(df_result)
+            valori_originali_nulli = df_result['idItem'].isna().sum()
+            valori_originali_vuoti = (df_result['idItem'] == '').sum()
+            valori_normalizzati_nulli = df_result['idItem_normalized'].isna().sum()
+            valori_normalizzati_validi = righe_totali - valori_normalizzati_nulli
             
-            # Crea una nuova colonna con i valori normalizzati
-            id_items_df['idItem_base'] = id_items_df['idItem'].apply(extract_base_id)
+            # Conta i valori unici normalizzati (escludendo None)
+            valori_unici_normalizzati = df_result['idItem_normalized'].nunique()
             
-            # Rimuovi righe con valori None nella colonna idItem_base
-            id_items_df_clean = id_items_df.dropna(subset=['idItem_base'])
-            if len(id_items_df_clean) < len(id_items_df):
-                self.log(f"Rimossi {len(id_items_df) - len(id_items_df_clean)} valori non convertibili", "warning")
+            self.log(f"📊 STATISTICHE NORMALIZZAZIONE:", "info")
+            self.log(f"   Righe totali: {righe_totali}", "info")
+            self.log(f"   Valori originali nulli: {valori_originali_nulli}", "info")
+            self.log(f"   Valori originali vuoti: {valori_originali_vuoti}", "info")
+            self.log(f"   Valori normalizzati validi: {valori_normalizzati_validi}", "info")
+            self.log(f"   Valori normalizzati nulli: {valori_normalizzati_nulli}", "info")
+            self.log(f"   Valori unici normalizzati: {valori_unici_normalizzati}", "info")
             
-            id_items_df = id_items_df_clean
+            # Verifica se ci sono errori di conversione
+            errori_conversione = df_result[
+                df_result['idItem'].notna() & 
+                (df_result['idItem'] != '') & 
+                df_result['idItem_normalized'].isna()
+            ]
             
-            # Usa la colonna normalizzata come colonna principale
-            id_items_df['idItem'] = id_items_df['idItem_base']
-            id_items_df = id_items_df[['idItem']]  # Mantieni solo la colonna idItem
+            if len(errori_conversione) > 0:
+                self.log(f"⚠️  {len(errori_conversione)} valori non sono stati convertiti correttamente", "warning")
             
-            # Rimuovi eventuali duplicati
-            id_items_df_unique = id_items_df.drop_duplicates()
-            if len(id_items_df_unique) < len(id_items_df):
-                self.log(f"Rimossi {len(id_items_df) - len(id_items_df_unique)} valori duplicati", "info")
+            self.log(f"✅ Normalizzazione completata con successo", "success")
+            self.log(f"   DataFrame risultante: {len(df_result)} righe, {len(df_result.columns)} colonne", "success")
             
-            id_items_df = id_items_df_unique
-            
-            # Resetta l'indice
-            id_items_df = id_items_df.reset_index(drop=True)
-            
-            self.log(f"Estratti {len(id_items_df)} idItem unici come valori interi", "success")
-            if (len(id_items_df) != len(df)):
-                self.log(f"{len(df) - len(id_items_df)} righe eliminate durante la normalizzazione", "info")
-                
-            return True, id_items_df
+            return True, df_result
             
         except Exception as e:
-            self.log(f"Errore nell'estrazione degli idItem: {str(e)}", "error")
+            self.log(f"Errore nella normalizzazione: {str(e)}", "error")
             logger.error(f"Dettaglio errore: {str(e)}", exc_info=True)
             return False, None
     
     def extract_adm(self, df: pd.DataFrame) -> Tuple[bool, Optional[pd.DataFrame]]:
         """
         Estrae gli Avvisi di Manutenzione (AdM) dal DataFrame normalizzato.
-        
-        Gli AdM sono identificati da idItem < 2000000000.
         
         Args:
             df (pd.DataFrame): DataFrame normalizzato.
@@ -281,28 +361,17 @@ class ExcelDataProcessor:
             self.log(f"Estrazione AdM - Presenti {len(df)} idItem nel DataFrame")
             
             # Assicurati che i valori siano numerici
-            df_numeric = df.copy()
-            df_numeric["idItem"] = pd.to_numeric(df_numeric["idItem"], errors="coerce")
+            try:
+                # Crea nuovo DataFrame con valori AdM non-None, senza duplicati
+                df_adm_unique = df[df['AdM'].notna()]['AdM'].drop_duplicates().astype(int).reset_index(drop=True).to_frame()
+            except Exception as e:
+                self.log(f"Errore nella estrazione della colonna 'AdM': {str(e)}", "error")
+                return False, None
+
             
-            # Rimuovi le righe con valori NaN
-            df_numeric_clean = df_numeric.dropna(subset=["idItem"])
+            self.log(f"Filtrati {len(df_adm_unique)} record con idItem < 2000000000 su {len(df)} totali", "success")
             
-            if len(df_numeric_clean) < len(df_numeric):
-                self.log(f"Rimossi {len(df_numeric) - len(df_numeric_clean)} valori non numerici", "warning")
-            
-            df_numeric = df_numeric_clean
-            
-            self.log(f"Presenti {len(df_numeric)} idItem numerici nel DataFrame")
-            
-            # Filtra il DataFrame per ottenere solo i valori minori di 2000000000
-            AdM_df = df_numeric[df_numeric["idItem"] < 2000000000]
-            
-            # Resetta l'indice
-            AdM_df = AdM_df.reset_index(drop=True)
-            
-            self.log(f"Filtrati {len(AdM_df)} record con idItem < 2000000000 su {len(df_numeric)} totali", "success")
-            
-            return True, AdM_df
+            return True, df_adm_unique
             
         except Exception as e:
             self.log(f"Errore nell'estrazione degli AdM: {str(e)}", "error")
@@ -312,8 +381,6 @@ class ExcelDataProcessor:
     def extract_odm(self, df: pd.DataFrame) -> Tuple[bool, Optional[pd.DataFrame]]:
         """
         Estrae gli Ordini di Manutenzione (OdM) dal DataFrame normalizzato.
-        
-        Gli OdM sono identificati da idItem >= 2000000000.
         
         Args:
             df (pd.DataFrame): DataFrame normalizzato.
@@ -325,34 +392,42 @@ class ExcelDataProcessor:
             self.log(f"Estrazione OdM - Presenti {len(df)} idItem nel DataFrame")
             
             # Assicurati che i valori siano numerici
-            df_numeric = df.copy()
-            df_numeric["idItem"] = pd.to_numeric(df_numeric["idItem"], errors="coerce")
+            try:
+                # Crea nuovo DataFrame con valori OdM non-None, senza duplicati
+                df_OdM_unique = df[df['OdM'].notna()]['OdM'].drop_duplicates().astype(int).reset_index(drop=True).to_frame()
+            except Exception as e:
+                self.log(f"Errore nella estrazione della colonna 'OdM': {str(e)}", "error")
+                return False, None
+
             
-            # Rimuovi le righe con valori NaN
-            df_numeric_clean = df_numeric.dropna(subset=["idItem"])
+            self.log(f"Filtrati {len(df_OdM_unique)} record con idItem < 2000000000 su {len(df)} totali", "success")
             
-            if len(df_numeric_clean) < len(df_numeric):
-                self.log(f"Rimossi {len(df_numeric) - len(df_numeric_clean)} valori non numerici", "warning")
-            
-            df_numeric = df_numeric_clean
-            
-            self.log(f"Presenti {len(df_numeric)} idItem numerici nel DataFrame")
-            
-            # Filtra il DataFrame per ottenere solo i valori maggiori o uguali a 2000000000
-            OdM_df = df_numeric[df_numeric["idItem"] >= 2000000000]
-            
-            # Resetta l'indice
-            OdM_df = OdM_df.reset_index(drop=True)
-            
-            self.log(f"Filtrati {len(OdM_df)} record con idItem >= 2000000000 su {len(df_numeric)} totali", "success")
-            
-            return True, OdM_df
+            return True, df_OdM_unique
             
         except Exception as e:
             self.log(f"Errore nell'estrazione degli OdM: {str(e)}", "error")
             logger.error(f"Dettaglio errore: {str(e)}", exc_info=True)
             return False, None
     
+ 
+    def get_df_excel_normalized(self) -> Optional[pd.DataFrame]:
+        """
+        Restituisce il DataFrame normalizzato contenente gli idItem.
+        
+        Returns:
+            pd.DataFrame: DataFrame normalizzato con la colonna 'idItem_normalized'.
+        """
+        return self.df_excel_normalized
+    
+    def get_df_excel(self) -> Optional[pd.DataFrame]:
+        """
+        Restituisce il DataFrame contenente il file excel.
+        
+        Returns:
+            pd.DataFrame: DataFrame contenente il file excel
+        """
+        return self.df_excel    
+
     def get_adm(self) -> Optional[pd.DataFrame]:
         """
         Restituisce il DataFrame degli Avvisi di Manutenzione (AdM).
@@ -417,7 +492,7 @@ class ExcelDataProcessor:
         """
         stats = {
             "file_elaborato": os.path.basename(self.excel_file_path) if self.excel_file_path else "Nessuno",
-            "totale_righe_originali": len(self.df_normalized) if self.df_normalized is not None else 0,
+            "totale_righe_originali": len(self.df_excel_normalized) if self.df_excel_normalized is not None else 0,
             "num_adm": len(self.df_AdM) if self.df_AdM is not None else 0,
             "num_odm": len(self.df_OdM) if self.df_OdM is not None else 0
         }
@@ -436,7 +511,7 @@ class ExcelDataProcessor:
         """Pulisce tutti i dati elaborati."""
         self.df_AdM = None
         self.df_OdM = None
-        self.df_normalized = None
+        self.df_excel_normalized = None
         self.excel_file_path = None
         
         self.log("Dati elaborati cancellati", "info")

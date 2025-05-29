@@ -347,17 +347,32 @@ class MainWindow(QMainWindow):
             self.log_manager.log("Verifico file excel", "loading", update_status=True, update_log=True)
             
             # Processo il file Excel
-            result = self.process_excel_file(file_path, constants.required_sheet, constants.required_columns)
-            
-            if result:
-                # Abilita il pulsante di avvio
-                self.update_start_button_state()
-                self.log_manager.log("File excel caricato correttamente", "success")
-            else:
+            result, df_excel_norm = self.process_excel_file(file_path, constants.required_sheet, constants.required_columns)
+            if (result == False):
+                self.log_manager.log("Errore durante l'elaborazione del file excel", "error")
                 self.update_start_button_state(False)
                 # Se la verifica fallisce, pulisci il campo
                 self.file_text.setText("")
                 self.excel_file_path = None
+                return
+            else:
+                self.log_manager.log("File excel verificato correttamente", "success")
+                self.update_start_button_state()
+                # Salvo il df in un file excel per eventuali elaborazioni successive
+                try:
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    # Verifica della directory di salvataggio
+                    save_dir = self.config.get("save_directory", "")
+                    if not save_dir or not os.path.exists(save_dir):
+                        self.log_manager.log("Errore: Directory di salvataggio non valida", "critical", origin=logger.name)
+                        return
+                    # Salva il DataFrame in un file Excel
+                    output_file = os.path.join(save_dir, f"df_excel_norm_{timestamp}.xlsx")
+                    df_excel_norm.to_excel(output_file, index=False)
+                    self.log_manager.log(f"File salvato in: {output_file}", "success")
+                except Exception as e:
+                    self.log_manager.log(f"Errore: Salvataggio file IW29 fallito: {str(e)}", "error")
+                    return    
         else:
             self.log_manager.log("Nessun file selezionato", "warning")
     
@@ -474,7 +489,7 @@ class MainWindow(QMainWindow):
                                 start_date, 
                                 end_date, 
                                 tech_config, 
-                                self.excel_data_processor.get_adm()["idItem"]
+                                self.excel_data_processor.get_adm()["AdM"]
                             )
                             
                             if not result:
@@ -498,7 +513,7 @@ class MainWindow(QMainWindow):
                                 start_date, 
                                 end_date, 
                                 tech_config, 
-                                self.excel_data_processor.get_odm()
+                                self.excel_data_processor.get_odm()["OdM"]
                             )
                             
                             if not result:
@@ -516,54 +531,78 @@ class MainWindow(QMainWindow):
                             
                         # Verifico la check box self.estrai_AFKO_enabled per l'estrazione delle date inizio cardine degli OdM relativi al DF AdM     
                         if (self.estrai_AFKO_enabled):
+                            # TEST 
+                            # Se non è stata compiuta l'estrazione AdM, allora considero il file Excel di una estrazione precedente.
+                            if not(self.estrai_adm_enabled):
+                                self.log_manager.log("Estrazione AdM non effettuata, utilizzo file Excel di una estrazione precedente", "info")
+                                # Per effettuare test carico nel df il file excel di una estrazione precedente.
+                                # data\SAP\IW29_AdM_20250523_190439.xlsx
+                                Excel_IW29_file = os.path.join(save_dir, f"IW29_AdM_20250523_190439.xlsx")
+                                df_IW29 = pd.read_excel(Excel_IW29_file)
+                            
+                            # Ricavato il DF proseguo con l'estrazione degli OdM, procedo con l'estrazione degli OdM dal dataframe creato con l'estrazione IW29
                             if (df_IW29 is not None and not df_IW29.empty):
-                                # Estrazione dati dal dataframe df_IW29
-                                df_OdM = pd
-                                df_AdM = (df_IW29["Avvisi"])
-                                self.log_manager.log("Estrazione dati SE16 tabella AFKO", "info")
-                                # Ricavo la lista degli OdM presenti nel 
-                                result, df_AFKO = extractor.extract_SE16(df_AdM)
-                                
-                                if not result:
-                                    self.log_manager.log("Errore: Estrazione AFKO fallita", "error")
-                                    return
-                                
-                                # Salva il DataFrame in un file Excel
-                                output_file = os.path.join(save_dir, f"AFKO_{timestamp}.xlsx")
                                 try:
-                                    df_AFKO.to_excel(output_file, index=False)
-                                    self.log_manager.log(f"File salvato in: {output_file}", "success")
+                                    # Estrazione dati dal dataframe df_IW29
+                                    df_OdM = (df_IW29["Ordine"]          
+                                        .astype(str)                           # Converte tutto in stringa
+                                        .str.strip()                           # Rimuove spazi
+                                        .replace(['', 'nan', 'NaN', 'None', 'null'], pd.NA)  # Sostituisce valori vuoti
+                                        .pipe(pd.to_numeric, errors='raise')  # Conversione sicura (NaN per errori)
+                                        .dropna()                              # Rimuove NaN dalla conversione
+                                        .astype('Int64'))                      # Converte in Int64
                                 except Exception as e:
-                                    self.log_manager.log(f"Errore: Salvataggio file AFKO fallito: {str(e)}", "error")
+                                    self.log_manager.log(f"Errore durante la conversione degli Ordini in df_IW29: {str(e)}", "error")
+                                    return 
+
+                            # Numero di OdM estratti
+                            num_odm = df_OdM.drop_duplicates(subset=['OdM']).shape[0]
+                            self.log_manager.log(f"Totale OdM = {num_odm}", "info")
+                            self.log_manager.log("Estrazione dati SE16 tabella AFKO", "info")
+                            # Ricavo la lista degli OdM presenti nel 
+                            result, df_AFKO = extractor.extract_SE16(df_OdM)
+                            
+                            if not result:
+                                self.log_manager.log("Errore: Estrazione AFKO fallita", "error")
+                                return
+                            
+                            # Verifico che il numero di OdM estratti sia uguale a quello di OdM presenti nel df_IW29
+                            if df_AFKO is not None and not df_AFKO.empty:
+                                num_afko = df_AFKO.shape[0]
+                                if num_afko != num_odm:
+                                    self.log_manager.log(f"Attenzione: Numero di OdM estratti ({num_afko}) diverso da quello atteso ({num_odm})", "error")
                                     return
+                                else:
+                                    self.log_manager.log(f"Numero di OdM estratti ({num_afko}) corrisponde a quello atteso ({num_odm})", "success")
+                                    # Salva il DataFrame in un file Excel
+                                    output_file = os.path.join(save_dir, f"df_AFKO_{timestamp}.xlsx")
+                                    try:
+                                        df_AFKO.to_excel(output_file, index=False)
+                                        self.log_manager.log(f"File salvato in: {output_file}", "success")
+                                    except Exception as e:
+                                        self.log_manager.log(f"Errore: Salvataggio file AFKO fallito: {str(e)}", "error")
+                                        return                                    
                             else:
                                 self.log_manager.log("Errore estrazione dati SE16 - tabella df_IW29 non esistente.", "errore")
                                 return
 
                         # Estrazione dati completata
                         self.log_manager.log("Estrazione completata con successo", "success")
-                        # Elaboro i dati estratti
-                        # Verifico i dati ottenuti
-                        if ((df_IW29 is not None and not df_IW29.empty) and
-                            (df_IW39 is not None and not df_IW39.empty) and
-                            (df_AFKO is not None and not df_AFKO.empty)):
-                            self.log_manager.log("Elaboro i dati estratti", "info")
-                            # Elaboro i dati
-                            result, data = self.process_data(df_IW29, df_IW39, df_AFKO)
-                            if result:
-                                self.log_manager.log("Elaborazione dati completata con successo", "success")
-                        else:
-                            self.log_manager.log("Errore: Dati estratti vuoti o non validi", "error")
-                            return
-
                 else:
                     self.log_manager.log("Connessione SAP NON attiva", "error")
                     return
         except Exception as e:
             self.log_manager.log(f"Estrazione dati SAP: Errore: {str(e)}", "error")
             return
-    
-    def process_data(self, df_IW29, df_IW39, df_AFKO) -> Tuple[bool, Dict[str, pd.DataFrame]]:
+
+        # Processa i dati estratti
+        result, data = self.process_data(df_IW29, df_IW39, df_AFKO)
+        if not result:
+            self.log_manager.log("Errore durante l'elaborazione dei dati estratti", "error")
+            return
+        self.log_manager.log("Elaborazione dati completata con successo", "success")
+
+    def process_data(self, df_IW29, df_IW39, df_AFKO) -> Tuple[bool, Dict[str, pd.DataFrame]|None]:
         """
         Elabora i dati estratti da SAP.
         
@@ -577,7 +616,55 @@ class MainWindow(QMainWindow):
             - bool: True se almeno un DataFrame è stato estratto con successo
             - Dict: Dizionario con chiavi come nomi delle tabelle e valori come DataFrame
         """
+        # Verifico che i DataFrame non siano vuoti
+        if not((df_IW29 is not None and not df_IW29.empty) and
+            (df_IW39 is not None and not df_IW39.empty) and
+            (df_AFKO is not None and not df_AFKO.empty)):
+            self.log_manager.log("Errore: Dataframe vuoti o non validi", "error")
+            return False, None
+        # Inizio l'elaborazione dei dati estratti
         self.log_manager.log("Inizio elaborazione dati estratti", "info")
+        # Elaboro il file Excel per ricavare le attività
+        df_excel = self.get_excel_df()
+        if df_excel is None:
+            self.log_manager.log("Errore: DataFrame Excel non valido", "error")
+            return False, None
+        
+
+        # Inserisco Data inizio cardine presente nel dataframe df_AFKO nel df_IW29
+        self.log_manager.log("Inserisco Data inizio cardine ordini nel df_IW29", "info")
+        try:
+            # Converto i dati presenti nella colonan 'Ordini' in valori numerici per consentire il merge
+            df_IW29['Ordine'] = (df_IW29['Ordine']
+                .astype(str)
+                .str.strip()
+                .replace(['', 'nan', 'NaN', 'None'], pd.NA)
+                .pipe(pd.to_numeric, errors='raise')
+                .astype('Int64'))
+
+            df_AFKO['Ordine'] = (df_AFKO['Ordine']
+                .astype(str)
+                .str.strip()
+                .replace(['', 'nan', 'NaN', 'None'], pd.NA)
+                .pipe(pd.to_numeric, errors='raise')
+                .astype('Int64'))
+        except Exception as e:
+            self.log_manager.log(f"Errore durante la conversione degli Ordini nei df: {str(e)}", "error")
+            return False, None
+        try:
+            df_IW29_DIC = df_IW29.merge(
+                df_AFKO, 
+                left_on='Ordine',      # Colonna nel DataFrame df_IW29
+                right_on='Ordine',     # Colonna nel DataFrame df_AFKO
+                how='left'
+            )
+        except Exception as e:
+            self.log_manager.log(f"Errore durante il merge dei DataFrame: {str(e)}", "error")
+            return False, None
+    
+
+    # Verifico se il merge ha prodotto risultati
+               
         # Inizializza i DataFrame
         dataframes = {
             'AdM': pd.DataFrame(),

@@ -1,0 +1,175 @@
+2025-05-28 09:57:33,709 - INFO - 🚀 INIZIO TEST NORMALIZZAZIONE
+2025-05-28 09:57:33,710 - INFO - 📂 File input: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-28 09:57:33,710 - INFO - 📂 File output: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25_norm.xlsx
+2025-05-28 09:57:33,710 - INFO - 📖 Caricamento file Excel...
+2025-05-28 09:57:33,713 - ERROR - ❌ Errore durante l'elaborazione: [Errno 13] Permission denied: 'C:\\Users\\a259046\\OneDrive - Enel Spa\\SCRIPT AHK e VBA\\GITHUB\\KPI_OFA\\data\\attivita_utenti_dal_01-04-25_al_29-04-25.xlsx'
+2025-05-28 09:57:33,713 - ERROR - Dettagli completi dell'errore:
+Traceback (most recent call last):
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\tests\test_excel_norm.py", line 232, in main
+    df = pd.read_excel(input_file)
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 495, in read_excel
+    io = ExcelFile(
+        io,
+    ...<2 lines>...
+        engine_kwargs=engine_kwargs,
+    )
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 1550, in __init__
+    ext = inspect_excel_format(
+        content_or_path=path_or_buffer, storage_options=storage_options
+    )
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 1402, in inspect_excel_format
+    with get_handle(
+         ~~~~~~~~~~^
+        content_or_path, "rb", storage_options=storage_options, is_text=False
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as handle:
+    ^
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\.venv\Lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\a259046\\OneDrive - Enel Spa\\SCRIPT AHK e VBA\\GITHUB\\KPI_OFA\\data\\attivita_utenti_dal_01-04-25_al_29-04-25.xlsx'
+2025-05-28 09:57:33,720 - ERROR - 💥 Test fallito!
+2025-05-28 09:58:30,228 - INFO - 🚀 INIZIO TEST NORMALIZZAZIONE
+2025-05-28 09:58:30,229 - INFO - 📂 File input: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-28 09:58:30,229 - INFO - 📂 File output: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25_norm.xlsx
+2025-05-28 09:58:30,229 - INFO - 📖 Caricamento file Excel...
+2025-05-28 09:58:33,317 - INFO - ✅ File caricato con successo: 61121 righe, 7 colonne
+2025-05-28 09:58:33,318 - INFO - 📋 Colonne disponibili: ['user', 'creationDate', 'country', 'tecnology', 'action', 'idItem', 'functionalLocation']
+2025-05-28 09:58:33,318 - INFO - 🔍 ANALISI COLONNA idItem:
+2025-05-28 09:58:33,318 - INFO -    Valori totali: 61121
+2025-05-28 09:58:33,324 - INFO -    Valori nulli: 194
+2025-05-28 09:58:33,327 - INFO -    Valori vuoti: 0
+2025-05-28 09:58:33,332 - INFO -    Valori unici: 8348
+2025-05-28 09:58:33,336 - INFO -    Primi esempi: ['900000047289-0010-2001263437', '900000047289-0010-2000072277', '900000047289-0010-2000067088', '900000047289-0010-0060', '900000047289-0010-0060', '900000047281-0010-2001223336', '900000047281-0010-2001185580', '900000047281-0010-2001056155', '900000047252-0010', '900000047244-0010-2000714979']
+2025-05-28 09:58:52,252 - INFO - Normalizzazione della colonna idItem del DataFrame
+2025-05-28 09:58:52,252 - INFO - Presenti 61121 righe nel DataFrame
+2025-05-28 09:58:52,784 - WARNING - Rimosse 194 righe con idItem vuoto o NaN
+2025-05-28 09:58:52,785 - INFO - Righe rimanenti dopo rimozione: 60927
+2025-05-28 09:58:52,785 - INFO - Applicazione della normalizzazione...
+2025-05-28 09:58:53,091 - INFO - 📊 STATISTICHE NORMALIZZAZIONE:
+2025-05-28 09:58:53,091 - INFO -    Righe totali: 60927
+2025-05-28 09:58:53,091 - INFO -    Valori originali nulli: 0
+2025-05-28 09:58:53,092 - INFO -    Valori originali vuoti: 0
+2025-05-28 09:58:53,092 - INFO -    Valori normalizzati validi: 60927
+2025-05-28 09:58:53,092 - INFO -    Valori normalizzati nulli: 0
+2025-05-28 09:58:53,093 - INFO -    Valori unici normalizzati: 5707
+2025-05-28 09:58:53,093 - INFO - 📋 ESEMPI DI NORMALIZZAZIONE:
+2025-05-28 09:58:53,100 - INFO -    '900000047289-0010-2001263437' → 900000047289
+2025-05-28 09:58:53,101 - INFO -    '900000047289-0010-2000072277' → 900000047289
+2025-05-28 09:58:53,102 - INFO -    '900000047289-0010-2000067088' → 900000047289
+2025-05-28 09:58:53,102 - INFO -    '900000047289-0010-0060' → 900000047289
+2025-05-28 09:58:53,103 - INFO -    '900000047289-0010-0060' → 900000047289
+2025-05-28 09:58:53,109 - INFO - ✅ ✅ Normalizzazione completata con successo
+2025-05-28 09:58:53,109 - INFO - ✅    DataFrame risultante: 60927 righe, 8 colonne
+2025-05-28 10:01:07,496 - INFO - 💾 Salvataggio file Excel normalizzato...
+2025-05-28 10:03:08,810 - INFO - ✅ FILE SALVATO CON SUCCESSO!
+2025-05-28 10:03:10,421 - INFO - 📊 RIEPILOGO FINALE:
+2025-05-28 10:03:10,580 - INFO -    Righe elaborate: 60927
+2025-05-28 10:03:10,734 - INFO -    Colonne totali: 8
+2025-05-28 10:03:10,888 - INFO -    File output: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25_norm.xlsx
+2025-05-28 10:04:06,422 - INFO - 🔍 Verifica file salvato...
+2025-05-28 10:04:06,424 - ERROR - ❌ Errore durante l'elaborazione: [Errno 13] Permission denied: 'C:\\Users\\a259046\\OneDrive - Enel Spa\\SCRIPT AHK e VBA\\GITHUB\\KPI_OFA\\data\\attivita_utenti_dal_01-04-25_al_29-04-25_norm.xlsx'
+2025-05-28 10:04:06,424 - ERROR - Dettagli completi dell'errore:
+Traceback (most recent call last):
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\tests\test_excel_norm.py", line 271, in main
+    df_check = pd.read_excel(output_file)
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 495, in read_excel
+    io = ExcelFile(
+        io,
+    ...<2 lines>...
+        engine_kwargs=engine_kwargs,
+    )
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 1550, in __init__
+    ext = inspect_excel_format(
+        content_or_path=path_or_buffer, storage_options=storage_options
+    )
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\.venv\Lib\site-packages\pandas\io\excel\_base.py", line 1402, in inspect_excel_format
+    with get_handle(
+         ~~~~~~~~~~^
+        content_or_path, "rb", storage_options=storage_options, is_text=False
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as handle:
+    ^
+  File "c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\.venv\Lib\site-packages\pandas\io\common.py", line 882, in get_handle
+    handle = open(handle, ioargs.mode)
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\a259046\\OneDrive - Enel Spa\\SCRIPT AHK e VBA\\GITHUB\\KPI_OFA\\data\\attivita_utenti_dal_01-04-25_al_29-04-25_norm.xlsx'
+2025-05-28 10:04:06,430 - ERROR - 💥 Test fallito!
+2025-05-28 10:04:23,521 - INFO - 🚀 INIZIO TEST NORMALIZZAZIONE
+2025-05-28 10:04:23,523 - INFO - 📂 File input: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-28 10:04:23,523 - INFO - 📂 File output: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25_norm.xlsx
+2025-05-28 10:04:23,523 - INFO - 📖 Caricamento file Excel...
+2025-05-28 10:04:26,351 - INFO - ✅ File caricato con successo: 61121 righe, 7 colonne
+2025-05-28 10:04:26,352 - INFO - 📋 Colonne disponibili: ['user', 'creationDate', 'country', 'tecnology', 'action', 'idItem', 'functionalLocation']
+2025-05-28 10:04:26,352 - INFO - 🔍 ANALISI COLONNA idItem:
+2025-05-28 10:04:26,352 - INFO -    Valori totali: 61121
+2025-05-28 10:04:26,358 - INFO -    Valori nulli: 194
+2025-05-28 10:04:26,361 - INFO -    Valori vuoti: 0
+2025-05-28 10:04:26,364 - INFO -    Valori unici: 8348
+2025-05-28 10:04:26,369 - INFO -    Primi esempi: ['900000047289-0010-2001263437', '900000047289-0010-2000072277', '900000047289-0010-2000067088', '900000047289-0010-0060', '900000047289-0010-0060', '900000047281-0010-2001223336', '900000047281-0010-2001185580', '900000047281-0010-2001056155', '900000047252-0010', '900000047244-0010-2000714979']
+2025-05-28 10:04:26,370 - INFO - Normalizzazione della colonna idItem del DataFrame
+2025-05-28 10:04:26,370 - INFO - Presenti 61121 righe nel DataFrame
+2025-05-28 10:04:26,738 - WARNING - Rimosse 194 righe con idItem vuoto o NaN
+2025-05-28 10:04:26,738 - INFO - Righe rimanenti dopo rimozione: 60927
+2025-05-28 10:04:26,738 - INFO - Applicazione della normalizzazione...
+2025-05-28 10:04:26,790 - INFO - 📊 STATISTICHE NORMALIZZAZIONE:
+2025-05-28 10:04:26,790 - INFO -    Righe totali: 60927
+2025-05-28 10:04:26,791 - INFO -    Valori originali nulli: 0
+2025-05-28 10:04:26,791 - INFO -    Valori originali vuoti: 0
+2025-05-28 10:04:26,791 - INFO -    Valori normalizzati validi: 60927
+2025-05-28 10:04:26,791 - INFO -    Valori normalizzati nulli: 0
+2025-05-28 10:04:26,791 - INFO -    Valori unici normalizzati: 5707
+2025-05-28 10:04:26,791 - INFO - 📋 ESEMPI DI NORMALIZZAZIONE:
+2025-05-28 10:04:26,798 - INFO -    '900000047289-0010-2001263437' → 900000047289
+2025-05-28 10:04:26,798 - INFO -    '900000047289-0010-2000072277' → 900000047289
+2025-05-28 10:04:26,799 - INFO -    '900000047289-0010-2000067088' → 900000047289
+2025-05-28 10:04:26,799 - INFO -    '900000047289-0010-0060' → 900000047289
+2025-05-28 10:04:26,799 - INFO -    '900000047289-0010-0060' → 900000047289
+2025-05-28 10:04:26,805 - INFO - ✅ ✅ Normalizzazione completata con successo
+2025-05-28 10:04:26,805 - INFO - ✅    DataFrame risultante: 60927 righe, 8 colonne
+2025-05-28 10:04:26,805 - INFO - 💾 Salvataggio file Excel normalizzato...
+2025-05-28 10:04:33,841 - INFO - ✅ FILE SALVATO CON SUCCESSO!
+2025-05-28 10:04:33,841 - INFO - 📊 RIEPILOGO FINALE:
+2025-05-28 10:04:33,841 - INFO -    Righe elaborate: 60927
+2025-05-28 10:04:33,842 - INFO -    Colonne totali: 8
+2025-05-28 10:04:33,842 - INFO -    File output: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25_norm.xlsx
+2025-05-28 10:04:33,842 - INFO - 🔍 Verifica file salvato...
+2025-05-28 10:04:38,613 - INFO - ✅ Verifica completata: 60927 righe caricate dal file salvato
+2025-05-28 10:04:38,613 - INFO - 🎉 Test completato con successo!
+2025-05-28 10:05:33,322 - INFO - 🚀 INIZIO TEST NORMALIZZAZIONE
+2025-05-28 10:05:33,324 - INFO - 📂 File input: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25.xlsx
+2025-05-28 10:05:33,324 - INFO - 📂 File output: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25_norm.xlsx
+2025-05-28 10:05:33,324 - INFO - 📖 Caricamento file Excel...
+2025-05-28 10:05:36,066 - INFO - ✅ File caricato con successo: 61121 righe, 7 colonne
+2025-05-28 10:05:36,067 - INFO - 📋 Colonne disponibili: ['user', 'creationDate', 'country', 'tecnology', 'action', 'idItem', 'functionalLocation']
+2025-05-28 10:05:36,068 - INFO - 🔍 ANALISI COLONNA idItem:
+2025-05-28 10:05:36,068 - INFO -    Valori totali: 61121
+2025-05-28 10:05:36,074 - INFO -    Valori nulli: 194
+2025-05-28 10:05:36,078 - INFO -    Valori vuoti: 0
+2025-05-28 10:05:36,081 - INFO -    Valori unici: 8348
+2025-05-28 10:05:36,086 - INFO -    Primi esempi: ['900000047289-0010-2001263437', '900000047289-0010-2000072277', '900000047289-0010-2000067088', '900000047289-0010-0060', '900000047289-0010-0060', '900000047281-0010-2001223336', '900000047281-0010-2001185580', '900000047281-0010-2001056155', '900000047252-0010', '900000047244-0010-2000714979']
+2025-05-28 10:05:36,087 - INFO - Normalizzazione della colonna idItem del DataFrame
+2025-05-28 10:05:36,087 - INFO - Presenti 61121 righe nel DataFrame
+2025-05-28 10:05:36,453 - WARNING - Rimosse 194 righe con idItem vuoto o NaN
+2025-05-28 10:05:36,453 - INFO - Righe rimanenti dopo rimozione: 60927
+2025-05-28 10:05:36,453 - INFO - Applicazione della normalizzazione...
+2025-05-28 10:05:36,506 - INFO - 📊 STATISTICHE NORMALIZZAZIONE:
+2025-05-28 10:05:36,506 - INFO -    Righe totali: 60927
+2025-05-28 10:05:36,507 - INFO -    Valori originali nulli: 0
+2025-05-28 10:05:36,507 - INFO -    Valori originali vuoti: 0
+2025-05-28 10:05:36,507 - INFO -    Valori normalizzati validi: 60927
+2025-05-28 10:05:36,507 - INFO -    Valori normalizzati nulli: 0
+2025-05-28 10:05:36,507 - INFO -    Valori unici normalizzati: 5707
+2025-05-28 10:05:36,507 - INFO - 📋 ESEMPI DI NORMALIZZAZIONE:
+2025-05-28 10:05:36,514 - INFO -    '900000047289-0010-2001263437' → 900000047289
+2025-05-28 10:05:36,514 - INFO -    '900000047289-0010-2000072277' → 900000047289
+2025-05-28 10:05:36,515 - INFO -    '900000047289-0010-2000067088' → 900000047289
+2025-05-28 10:05:36,515 - INFO -    '900000047289-0010-0060' → 900000047289
+2025-05-28 10:05:36,515 - INFO -    '900000047289-0010-0060' → 900000047289
+2025-05-28 10:05:36,521 - INFO - ✅ ✅ Normalizzazione completata con successo
+2025-05-28 10:05:36,521 - INFO - ✅    DataFrame risultante: 60927 righe, 8 colonne
+2025-05-28 10:05:36,521 - INFO - 💾 Salvataggio file Excel normalizzato...
+2025-05-28 10:05:43,547 - INFO - ✅ FILE SALVATO CON SUCCESSO!
+2025-05-28 10:05:43,547 - INFO - 📊 RIEPILOGO FINALE:
+2025-05-28 10:05:43,547 - INFO -    Righe elaborate: 60927
+2025-05-28 10:05:43,548 - INFO -    Colonne totali: 8
+2025-05-28 10:05:43,548 - INFO -    File output: C:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\data\attivita_utenti_dal_01-04-25_al_29-04-25_norm.xlsx
+2025-05-28 10:05:43,548 - INFO - 🔍 Verifica file salvato...

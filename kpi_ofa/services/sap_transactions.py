@@ -73,6 +73,20 @@ class SAPDataExtractor(QObject):
         # Passa origin come parametro aggiuntivo al segnale
         self.logMessage.emit(message, level, update_status, update_log, min_display_seconds, origin, args, kwargs)
 
+    def remove_first_row_containing(self, text, value) -> tuple[bool, str | None]:
+        """Rimuove solo la prima riga che contiene il valore"""
+        lines = text.split('\r\n')
+        found = False
+        
+        filtered_lines = []
+        for line in lines:
+            if value in line and not found:
+                found = True  # Salta solo la prima occorrenza
+                continue
+            filtered_lines.append(line)
+        
+        return found, '\r\n'.join(filtered_lines)        
+
     def copy_values_for_sap_selection(self, values):
         """
         Copia valori formattati nella clipboard per utilizzarli in un campo di selezione multipla SAP.
@@ -108,19 +122,83 @@ class SAPDataExtractor(QObject):
                     self.log("L'argomento values non è un iterabile valido", "error", False, False, 0)
                     return False
             
-            # Formatta i valori uno per riga (formato accettato da SAP per selezioni multiple)
-            text = '\r\n'.join(str(item) for item in values_list)
+            # Funzione per estrarre solo valori numerici e convertirli in interi
+            def extract_integer(value):
+                """Estrae e converte solo valori numerici in interi, esclude tutto il resto"""
+                try:
+                    import numpy as np
+                    
+                    # Se il valore è NaN o None, escludi
+                    if pd.isna(value) or value is None:
+                        return None
+                    
+                    # Se è già un intero, convertilo direttamente
+                    if isinstance(value, int):
+                        return int(value)
+                    
+                    # Se è un float, convertilo in int (rimuove decimali)
+                    if isinstance(value, float):
+                        return int(value)
+                    
+                    # Se è una stringa, prova a convertirla solo se rappresenta un numero
+                    if isinstance(value, str):
+                        # Rimuovi spazi
+                        value_clean = value.strip()
+                        
+                        # Se stringa vuota, escludi
+                        if not value_clean:
+                            return None
+                        
+                        # Prova a convertire in float poi in int
+                        return int(float(value_clean))
+                    
+                    # Per altri tipi, prova conversione diretta
+                    return int(float(value))
+                    
+                except (ValueError, TypeError, OverflowError):
+                    # Se la conversione fallisce, escludi il valore (non loggare per evitare spam)
+                    return None
+            
+            # Estrai solo valori numerici convertibili in interi
+            integer_values = []
+            non_convertible_count = 0
+            
+            for item in values_list:
+                integer_item = extract_integer(item)
+                if integer_item is not None:
+                    integer_values.append(integer_item)
+                else:
+                    non_convertible_count += 1
+            
+            # Verifica che ci siano valori numerici validi
+            if not integer_values:
+                self.log("Nessun valore numerico valido trovato per la conversione", "warning", False, False, 0)
+                return False
+            
+            # Log sui valori esclusi se ce ne sono
+            if non_convertible_count > 0:
+                self.log(f"{non_convertible_count} valori non numerici esclusi dalla copia", "info", False, False, 0)
+            
+            # Converte gli interi in stringhe per la clipboard
+            text = '\r\n'.join(str(value) for value in integer_values)
             
             # Copia nella clipboard
             pyperclip.copy(text)
             time.sleep(0.1)
             
-            # Invio di un messaggio di log
-            self.log(f"Copiati {len(values_list)} valori nella clipboard per SAP", "success", False, False, 0)
+            # Log con informazioni sui valori numerici copiati
+            self.log(f"Copiati {len(integer_values)} valori numerici nella clipboard per SAP", "success", False, False, 0)
+            
+            # Log di esempio dei primi valori numerici (per debug)
+            if len(integer_values) > 0:
+                esempi = [str(val) for val in integer_values[:3]]  # Primi 3 valori
+                self.log(f"Esempi copiati: {', '.join(esempi)}", "info", False, False, 0)
+            
             return True
+            
         except Exception as e:
             self.log(f"Errore durante la copia nella clipboard: {str(e)}", "error", False, False, 0)
-            return False       
+            return False   
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Estrazione degli AdM tramite la transazione IW29
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -156,6 +234,7 @@ class SAPDataExtractor(QObject):
         # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
         def handle_extraction_result(status_code, result, tipo_estrazione, prefix=None):
             nonlocal totale_estratti
+            nonlocal single_value_set
             if status_code == -1:  # codice_stato: -1=errore
                 self.log(f"Fallita estrazione IW29 per {prefix or ''} - {tipo_estrazione}", "error", True, True, 0)
                 return False
@@ -173,7 +252,7 @@ class SAPDataExtractor(QObject):
                     self.log(f"DataFrame vuoto per {key}", "error", True, True, 0)
                     return False
                 # Verifica se il DataFrame contenga lo stesso numero di righe della tabella SAP da cui sono stati estratti i dati
-                if (status_code != len(df)):
+                if (status_code != len(df)) and (tipo_estrazione != "ListaSingoli"): # Se il tipo di estrazione è "ListaSingoli", non controllo il numero di righe
                     self.log(f"Il DataFrame {key} non ha lo stesso numero di righe della tabella SAP", "error", True, True, 0)
                     return False 
                 # Aggiungo la colonna con la tipologia di estrazione per tenere traccia del tipo di dati
@@ -193,7 +272,9 @@ class SAPDataExtractor(QObject):
             elif status_code == 0:  # Nessun risultato
                 self.log(f"Nessun dato trovato per {prefix or ''} - {tipo_estrazione}", "info", True, True, 0)
                 return True
-            return False
+            else:
+                self.log(f"Valore di status_code non valido: {status_code}", "error", True, True, 0)
+                return False
         
         # Gestisci prima l'estrazione di tipo "Lista", che deve essere eseguita una sola volta
         if "Lista" in self.tipo_estrazioni_AdM:
@@ -251,8 +332,16 @@ class SAPDataExtractor(QObject):
                 list_value = list(single_value_set)
                 # Ripeto l'estrazione per i valori risultanti
                 status_code, result = self.extract_IW29_single(str_dataInizio, str_dataFine, "ListaSingoli", list_value, None)
+                # Elimino l'lemento che ho aggiunto al set
+                # Trova e rimuovi la prima occorrenza
+                found, clean_result = self.remove_first_row_containing(result, avviso_singolo)
+                if found: 
+                    self.log(f"Rimossa riga contenente Avviso {avviso_singolo}", "info", True, True, 0)
+                else:
+                    self.log(f"Nessuna riga trovata con Avviso = {avviso_singolo}", "info", True, True, 0)
+
                 # Utilizzo della funzione handle_extraction_result
-                if not handle_extraction_result(status_code, result, "ListaSingoli"):
+                if not handle_extraction_result(status_code, clean_result, "ListaSingoli"): # non serve modificare anche lo status_code
                     self.log(f"Fallita estrazione IW29 ListaSingoli", "critical", True, True, 0)
                     return False, None
             else:
@@ -277,16 +366,28 @@ class SAPDataExtractor(QObject):
         
         # Concatena tutti i DataFrame in un unico DataFrame
         self.log(f"Creazione unico DF", "info", True, True, 0)
+        # Visualizzo statistiche sul numero di righe per ogni DataFrame contenuto nel dizionario iw29
+        # Numero di righe attese 
+        for key, df in iw29.items():
+            self.log(f"{key} ha {len(df)} righe", "info", True, True, 0)
+        self.log(f"{key} ha {len(df)} righe", "info", True, True, 0)
+
         result_df = pd.concat(iw29.values(), ignore_index=True) if iw29 else None
-        # Rimuovi le righe duplicate
-        result_df = result_df.drop_duplicates()
-        self.log(f"Eliminazione duplicati", "info", True, True, 0)
         # Verifica che il totale degli elementi estratti corrisponda al numero di righe nel DataFrame
+        # Devo farlo prima di eliminare i duplicati, altrimenti il conteggio potrebbe essere errato
         if len(result_df) != totale_estratti:
             self.log(f"Il numero totale di righe estratte ({len(result_df)}) non corrisponde al numero di elementi estratti ({totale_estratti})", "error", True, True, 0)
             return False, None
+        # Se i valori sono uguali continua
+        self.log(f"Numero totale righe df: ({len(result_df)}) - Numero di elementi estratti ({totale_estratti})", "info", True, True, 0)
+        # Gestisco le righe duplicate
+        num_duplicati = result_df.duplicated(subset=['Avviso']).sum()
+        if num_duplicati > 0:
+            result_df = result_df.drop_duplicates(subset=['Avviso'], keep='first')
+            self.log(f"Eliminati {num_duplicati} duplicati", "info", True, True, 0)
         self.log(f"Estrazione IW29 terminata - {len(result_df)} elementi estratti.", "success", True, True, 0)
         return True, result_df
+    
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     def extract_IW29_single(self, dataInizio, dataFine, tipo_estrazione, lista_AdM, prefix=None) -> tuple[int, str | None]:
         """
@@ -417,12 +518,12 @@ class SAPDataExtractor(QObject):
                 self.log(msg, "warning", True, True, 0)
                 return 0, msg # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
             # Verifico se è stato estratto un solo valore
-            if self.session.findById("wnd[0]").text == "Visualizzare avviso PM: Segnalazione guasto":
+            elif "Visualizzare avviso PM:" in self.session.findById("wnd[0]").text: # Il titolo della finestra può essere diverso in base al tipo di avviso
                 msg = "Un solo valore trovato"
                 self.log(msg, "info", True, True, 0)
                 AdM = self.session.findById("wnd[0]/usr/subSCREEN_1:SAPLIQS0:1050/txtVIQMEL-QMNUM").text
                 return 1, AdM # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
-            if (self.session.findById("wnd[0]").text == "Visualizzare avvisi: lista avvisi"):      # Titolo della finestra
+            elif (self.session.findById("wnd[0]").text == "Visualizzare avvisi: lista avvisi"):      # Titolo della finestra
                 # Ricavo il numero di righe della tabella
                 try:
                     numero_righe = self.session.findById("wnd[0]/usr/cntlGRID1/shellcont/shell").rowCount
@@ -462,10 +563,11 @@ class SAPDataExtractor(QObject):
                 if data: #
                     self.log("Dati prelevati dalla clipboard", "info", True, True, 0)
                     return numero_righe, data
-            # Se arriviamo qui, la condizione della finestra non è stata riconosciuta
-            msg = "Stato SAP non riconosciuto"
-            self.log(msg, "error", True, True, 0)
-            return -1, msg
+            else:
+                # Se arriviamo qui, la condizione della finestra non è stata riconosciuta
+                msg = "Stato SAP non riconosciuto"
+                self.log(msg, "error", True, True, 0)
+                return -1, msg
             
         except Exception as e:
             # Gestione generale degli errori
@@ -515,8 +617,6 @@ class SAPDataExtractor(QObject):
                 self.log(f"Eseguita estrazione IW39 per {prefix or ''} - {tipo_estrazione}", "success", True, True, 0)
                 # verifico la coerenza delle righe nel risultato (presenza del carattere #)
                 success, fixed_content = self.fix_clipboard_table_content(result)
-                pyperclip.copy(fixed_content)
-                time.sleep(0.1)
                 if not success:
                     self.log(f"Non è stato possibile correggere il contenuto della clipboard.", "error", True, True, 0)
                     return False                    
@@ -527,7 +627,7 @@ class SAPDataExtractor(QObject):
                     self.log(f"DataFrame vuoto per {key}", "error", True, True, 0)
                     return False
                 # Verifica se il DataFrame contenga lo stesso numero di righe della tabella SAP da cui sono stati estratti i dati
-                if (status_code != len(df)):
+                if (status_code != len(df)) and (tipo_estrazione != "ListaSingoli"): # Se il tipo di estrazione è "ListaSingoli", non controllo il numero di righe
                     self.log(f"Il DataFrame {key} non ha lo stesso numero di righe della tabella SAP", "error", True, True, 0)
                     return False              
                 # aggiungo la colonna con la tipologia di estrazione per tenere traccia
@@ -542,12 +642,14 @@ class SAPDataExtractor(QObject):
                 self.log(f"Singolo valore trovato per {prefix or ''} - {tipo_estrazione}", "info", True, True, 0)
                 single_value_set.add(result)  # set.add() aggiunge solo se non esiste già
                 # Incremento il contatore totale degli estratti, il caso == 1 è per tutti i tipi di estrazione
-                totale_estratti += status_code                
+                totale_estratti += status_code               
                 return True
             elif status_code == 0:  # Nessun risultato
                 self.log(f"Nessun dato trovato per {prefix or ''} - {tipo_estrazione}", "info", True, True, 0)
                 return True
-            return False
+            else:
+                self.log(f"Valore di status_code non valido: {status_code}", "error", True, True, 0)
+                return False
         
         # Gestisci prima l'estrazione di tipo "Lista", che deve essere eseguita una sola volta
         if "Lista" in self.tipo_estrazioni_OdM:
@@ -558,7 +660,7 @@ class SAPDataExtractor(QObject):
             # Utilizzo della funzione interna per gestire il risultato
             if not handle_extraction_result(status_code, result, "Lista"):
                 self.log(f"Fallita estrazione IW39_single per 'Lista'", "critical", True, True, 0)
-                return False, None
+                return False
         
         # Itera attraverso le estrazioni, escludendo "Lista" che è già stata gestita
         for tipo_estrazione in [t for t in self.tipo_estrazioni_OdM if t != "Lista"]:
@@ -579,7 +681,7 @@ class SAPDataExtractor(QObject):
                     # Utilizzo della funzione interna per gestire il risultato
                     if not handle_extraction_result(status_code, result, tipo_estrazione, prefix):
                         self.log(f"Fallita estrazione IW39_single per {tech} - {prefix} - {tipo_estrazione}", "critical", True, True, 0)
-                        return False, None
+                        return False
         
         # verifico al termine dei cicli se la lista contenente i valori singoli è vuota
         # Verifico la dimensione del set di valori singoli
@@ -594,7 +696,7 @@ class SAPDataExtractor(QObject):
             # Prelevo un ordine dalla collezione dei df e lo aggiungo al valore singolo
             ordine_singolo = None
             for key, df in iw39.items():
-                if not df.empty and "ordine" in df.columns:
+                if not df.empty and "Ordine" in df.columns:
                     # Prendi il primo ordine disponibile e interrompi il ciclo
                     ordine_singolo = df["Ordine"].iloc[0]
                     break
@@ -606,10 +708,19 @@ class SAPDataExtractor(QObject):
                 list_value = list(single_value_set)
                 # Ripeto l'estrazione per i valori risultanti
                 status_code, result = self.extract_IW39_single(str_dataInizio, str_dataFine, "ListaSingoli", list_value, None)
+                # Elimino l'lemento che ho aggiunto al set
+                # Trova e rimuovi la prima occorrenza
+                found, clean_result = self.remove_first_row_containing(result, ordine_singolo)
+                if found: 
+                    self.log(f"Rimossa riga contenente Ordine {ordine_singolo}", "info", True, True, 0)
+                else:
+                    self.log(f"Nessuna riga trovata con Ordine = {ordine_singolo}", "info", True, True, 0)
+
                 # Utilizzo della funzione handle_extraction_result
-                if not handle_extraction_result(status_code, result, "ListaSingoli"):
+                if not handle_extraction_result(status_code, clean_result, "ListaSingoli"): # non serve modificare anche lo status_code
                     self.log(f"Fallita estrazione IW39 ListaSingoli", "critical", True, True, 0)
                     return False, None
+           
             else:
                 self.log(f"Nessun ordine trovato per l'estrazione di un lista", "error", True, True, 0)
                 return False, None
@@ -633,17 +744,29 @@ class SAPDataExtractor(QObject):
         # Concatena tutti i DataFrame in un unico DataFrame
         self.log(f"Creazione unico DF", "info", True, True, 0)
         result_df = pd.concat(iw39.values(), ignore_index=True) if iw39 else None
-        # Rimuovi le righe duplicate
-        result_df = result_df.drop_duplicates()
-        self.log(f"Eliminazione duplicati", "info", True, True, 0)
+        # Visualizzo statistiche sul numero di righe per ogni DataFrame contenuto nel dizionario iw29
+        # Numero di righe attese 
+        for key, df in iw39.items():
+            self.log(f"{key} ha {len(df)} righe", "info", True, True, 0)
+        self.log(f"{key} ha {len(df)} righe", "info", True, True, 0)
+
         # Verifica che il totale degli elementi estratti corrisponda al numero di righe nel DataFrame
+        # Devo farlo prima di eliminare i duplicati, altrimenti il conteggio potrebbe essere errato
         if len(result_df) != totale_estratti:
             self.log(f"Il numero totale di righe estratte ({len(result_df)}) non corrisponde al numero di elementi estratti ({totale_estratti})", "error", True, True, 0)
-            return False, None        
+            return False, None
+        # Se i valori sono uguali continua
+        self.log(f"Numero totale righe df: ({len(result_df)}) - Numero di elementi estratti ({totale_estratti})", "info", True, True, 0)      
+        # Gestisco le righe duplicate
+        num_duplicati = result_df.duplicated(subset=['Ordine']).sum()
+        if num_duplicati > 0:
+            result_df = result_df.drop_duplicates(subset=['Ordine'], keep='first')
+            self.log(f"Eliminati {num_duplicati} duplicati", "info", True, True, 0)       
         self.log(f"Estrazione IW39 terminata - {len(result_df)} elementi estratti.", "success", True, True, 0)
         return True, result_df
     
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
     def extract_IW39_single(self, dataInizio, dataFine, tipo_estrazione, lista_OdM, prefix=None) -> tuple[int, str | None]:
         """
         Estrae dati relativi agli avvisi di manutenzione utilizzando la transazione IW39
@@ -782,12 +905,12 @@ class SAPDataExtractor(QObject):
                 self.log(msg, "warning", True, True, 0)
                 return 0, msg # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
             # Verifico se è stato estratto un solo valore
-            if "Visualizzare Manutenzione" in self.session.findById("wnd[0]").text:
+            elif "Visualizzare Manutenzione" in self.session.findById("wnd[0]").text: # Il titolo della finestra può essere diverso in base al tipo di ordine
                 msg = "Un solo valore trovato"
                 self.log(msg, "info", True, True, 0)
                 OdM = self.session.findById("wnd[0]/usr/subSUB_ALL:SAPLCOIH:3001/ssubSUB_LEVEL:SAPLCOIH:1100/subSUB_KOPF:SAPLCOIH:1102/txtCAUFVD-AUFNR").text
                 return 1, OdM # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
-            if (self.session.findById("wnd[0]").text == "Visualizzare ordini PM: lista ordini"):      # Titolo della finestra
+            elif (self.session.findById("wnd[0]").text == "Visualizzare ordini PM: lista ordini"):      # Titolo della finestra
                 # Ricavo il numero di righe della tabella
                 try:
                     numero_righe = self.session.findById("wnd[0]/usr/cntlGRID1/shellcont/shell").rowCount
@@ -827,10 +950,11 @@ class SAPDataExtractor(QObject):
                 if data: #
                     self.log("Dati prelevati dalla clipboard", "info", True, True, 0)
                     return numero_righe, data # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
-            # Se arriviamo qui, la condizione della finestra non è stata riconosciuta
-            msg = "Stato SAP non riconosciuto"
-            self.log(msg, "error", True, True, 0)
-            return -1, msg
+            else:
+                # Se arriviamo qui, la condizione della finestra non è stata riconosciuta
+                msg = "Stato SAP non riconosciuto"
+                self.log(msg, "error", True, True, 0)
+                return -1, msg
             
         except Exception as e:
             # Gestione generale degli errori
@@ -842,7 +966,11 @@ class SAPDataExtractor(QObject):
 # Estrazione degli OdM tramite la transazione SE16
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    def extract_SE16(self, lista_OdM) -> tuple[bool, pd.DataFrame | None]:
+    # def extract_SE16(self, lista_OdM) -> tuple[bool, pd.DataFrame | None]:
+
+# Da inserire controllo numero di righe della tabella con numero di righe salvate nel datraframe creato
+
+    def extract_SE16(self, lista_OdM) -> tuple[int, str | None]:
         """
         Estrae dati relativi agli ordini di manutenzione utilizzando la transazione SE16
         Args:
@@ -887,19 +1015,28 @@ class SAPDataExtractor(QObject):
         # Avvio estrazione
             self.session.findById("wnd[0]/tbar[1]/btn[8]").press()
         # Verifica del risultato delle estrazioni
+            window_text = self.session.findById("wnd[0]").text # Ricavo il testo della finestra
         # Caso 1 - Nessun risultato
-            if "Data Browser: tabella AFKO: videata di selezione" in self.session.findById("wnd[0]").text:
+            if "Data Browser: tabella AFKO: videata di selezione" in window_text:
                 if self.session.findById("wnd[0]/sbar").text == "Non sono stati trovati inserimenti tab. relativi alla chiave indicata":
                     msg =  "Nessun dato trovato"
                     self.log(msg, "warning", True, True, 0)
                     return False, None
         # Caso 2 - Lista di uno o più valori
-            elif re.search(r"Data Browser: tabella AFKO\s+(\d+) hit", self.session.findById("wnd[0]").text):
-                # Ottenere il numero di hit (opzionale)
-                match = re.search(r"Data Browser: tabella AFKO\s+(\d+) hit", self.session.findById("wnd[0]").text)
-                numero_hit = int(match.group(1))
-                self.log(f"Ottenuti {str(numero_hit)} ordini", "info", True, True, 0)
-                # Seleziono il layout
+            # Ricerco un pattern per trovare il numero di hit considerando anche i separatori di migliaia
+            elif (match := re.search(r"Data Browser: tabella AFKO\s+(\d{1,3}(?:[.,]\d{3})*)\s+hit", window_text)):
+                numero_formattato = match.group(1)  # Ottengo il numero formattato
+                # Rimuovo i separatori di migliaia e converto in intero  
+                try:
+                    numero_int = int(numero_formattato.replace('.', '').replace(',', ''))
+                    # Stampo il risultato
+                    self.log(f"Data Browser AFKO: {numero_formattato} -> {numero_int} records", "info", True, True, 0)                    
+                except ValueError:
+                    self.log(f"Errore nella conversione del numero: {numero_formattato}", "error", True, True, 0)
+                    return False, None
+                self.log(f"Ottenuti {str(numero_int)} ordini", "info", True, True, 0)
+                
+                ## Seleziono il layout
                 self.session.findById("wnd[0]/tbar[1]/btn[33]").press()
                 time.sleep(0.25)
                 # Ottieni il riferimento alla tabella dei layout
@@ -910,14 +1047,10 @@ class SAPDataExtractor(QObject):
                 if not numero_righe:
                     raise Exception(f"La tabella Layout non contiene elementi")                
                 # Itera attraverso tutte le righe per trovare il layout con il nome desiderato
-
                 nome_layout = "/OFAKPIWO"
                 self.log(f"Imposto il layout {nome_layout}", "info", True, True, 0)
                 # Ricerco il nome del Layout nella colonna 0 della tabella
-                try:        
-                    # Ottieni il numero di righe nella tabella
-                    numero_righe = tabella_layout.rowCount
-                    
+                try:                          
                     # Cerca il layout in tutte le righe, usando la prima colonna (indice 0)
                     layout_trovato = False
                     for i in range(numero_righe):
@@ -933,6 +1066,7 @@ class SAPDataExtractor(QObject):
                                 tabella_layout.clickCurrentCell()
                                 #print(f"Layout '{nome_layout}' trovato e selezionato")
                                 layout_trovato = True
+                                break # Esci dal ciclo se il layout è stato trovato
                         except Exception as e:
                             self.log(f"Errore nella lettura della riga {i}: {str(e)}", "error", True, True, 0)
                             continue
@@ -940,10 +1074,10 @@ class SAPDataExtractor(QObject):
                     # Gestisci il caso in cui il layout non venga trovato
                     if not layout_trovato:
                         self.log(f"Layout '{nome_layout}' non trovato nella lista dei layout disponibili", "error", True, True, 0)
-                        return False
+                        return False, None
                 except Exception as e:
                     self.log(f"Errore durante la selezione del layout: {str(e)}", "info", True, True, 0)
-                    return False
+                    return False, None
                 # Salvo i dati nella clipboard
                 self.session.findById("wnd[0]/mbar/menu[0]/menu[10]/menu[3]/menu[2]").select()
                 time.sleep(0.1)
@@ -978,8 +1112,9 @@ class SAPDataExtractor(QObject):
                 if data:
                     self.log("Dati prelevati dalla clipboard", "info", True, True, 0)
                     df = self.df_utils.clean_data_SE16(data)
+
                 if df is None:
-                    self.log(f"DataFrame vuoto per {key}", "error", True, True, 0)
+                    self.log(f"DataFrame vuoto", "error", True, True, 0)
                     return False, None
                 else:    
                     return True, df

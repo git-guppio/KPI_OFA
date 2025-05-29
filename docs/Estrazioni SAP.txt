@@ -66,6 +66,38 @@ ESW
 
 ----------- Calcolo KPI ---------------------
 -- Notification
+    Calcolare la TL -> terzo carattere della sede  tecnica -> nuova colonna con tecnologia estesa (S->Solar, E->Bess, W->WIND)
+
+    # Calcolo KPI
+        - Riguarda solo gli AdM per i quali è stato creato un OdM oppure che sono stati gestiti già in OFA
+        5 colonne - 'Creazione_in_OFA', 'Visualizzazione_in_OFA', 'Modifica_in_OFA', 'Allegati_in_OFA', 'Chiusura_in_OFA'.
+        - Creazione_in_OFA:
+            Sis.Legacy = OFA -> 1 oppure
+        - Dal file di Simone cerca se l'AdM ha uno dei seguneti stati:
+            CREATE NOTIFICATION -> Creato in OFA
+            DETAIL NOTIFICATION -> View in OFA
+            UPDATE NOTIFICATION -> Modificato in OFA
+            OPEN TEXT UPLOAD ATTACHMEMT NOTIFICATION o OPEN TEXT UPLOAD ATTACHMEMT -> Allegato in OFA
+            CLOSED NOTIFICATION -> Chiuso in OFA
+            WORKORDER UPDATE TECO -> da ricercare con numero di Ordine di manutenzione a cui l'avviso afferisce -> AdM chiuso in OFA
+        Calcolo KPI
+            Numeratore: 
+                1 se almento una delle azioni sopra è stata eseguita, zero altrimenti
+            Denominatore:
+                1 se vale 1 il numeratore oppure:
+                                se data creazione all'interno dell'intervallo date impostato
+                                E se data inizio cardine all'interno dell'intervallo date impostato
+        Fare Pivot
+
+-- Azioni
+    Inserire nei dati di Simone la TL e la tecnologia estesa (S->Solar, E->Bess, W->WIND) dal file delle notification.
+    Fare Pivot in base ad action e ordinare in base a tecnologia e country
+    PTW (voce in action: DETAIL PTW), OdM, AdM 
+
+
+-- WorkOrder
+
+    
     Controlla se la colonna sis.Legacy è OFA oppure 
-    colonna G del file di Simonedeve esssere normalizzata estrarre solo gli elementi con 10 digit 
+    colonna G del file di Simone deve esssere normalizzata estrarre solo gli elementi con 10 digit 
 

@@ -30,7 +30,7 @@
         ]
     },
     "operations": {
-        "estrai_AdM": true,
+        "estrai_AdM": false,
         "estrai_OdM": true,
         "estrai_AFKO": true,
         "elabora_xls": true
