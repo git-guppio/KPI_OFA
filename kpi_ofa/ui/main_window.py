@@ -18,6 +18,7 @@ from kpi_ofa.ui.widgets.date_widget import DateRangeWidget
 from kpi_ofa.ui.config_dialog import ConfigDialog
 from kpi_ofa.core.excel_data_processor import ExcelDataProcessor
 from kpi_ofa.core.log_manager import LogManager
+from kpi_ofa.core.test_data_loader import TestDataLoader, TestDataLoadError
 from kpi_ofa.services.sap_connection import SAPGuiConnection
 from kpi_ofa.services.sap_transactions import SAPDataExtractor
 
@@ -49,6 +50,10 @@ class MainWindow(QMainWindow):
         # Ottieni l'istanza del LogManager
         self.log_manager = LogManager()
 
+        # === DATAFRAMES PRINCIPALI ===
+        # Inizializza tutti i DataFrame come vuoti
+        self._init_dataframes()        
+
         # Configura la finestra
         self.setup_window()    
 
@@ -60,12 +65,80 @@ class MainWindow(QMainWindow):
         
         # Configura i segnali
         self.setup_signals()
+
+        # Inizializza TestDataLoader con dependency injection
+        self.test_data_loader = TestDataLoader(main_window=self)
+        self.dataframes = {} # Dizionario per memorizzare i DataFrame elaborati
         
         # Carica la configurazione
         self.load_config()
+
+        # Inizializza la modalità di debug
+        self._init_debug_mode()
+
+    def _init_debug_mode(self):
+        """
+        Inizializza tutti i DataFrame dell'applicazione.
         
-        # Messaggio di avvio
-        self.log_manager.log("Sistema pronto!", "info", origin=logger.name)
+        Questo metodo centralizza l'inizializzazione di tutti i DataFrame
+        per una gestione più pulita e organizzata.
+        """
+        # Carica i file di test se in modalità debug
+        if constants.DEBUG_MODE:
+            try:
+                # Carica tutti i file di test
+                success = self.test_data_loader.load_test_files()
+                
+                if success:
+                    self.log_manager.log("🎯 File di test caricati con successo", "success", origin=logger.name)
+                    self.disable_buttons()  # Disabilita i pulsanti in modalità debug
+                    # Messaggio di avvio
+                    self.log_manager.log("Sistema avviato in modalità DEBUG!", "info", origin=logger.name)
+                    # Ora puoi usare i DataFrame direttamente
+                    if hasattr(self.test_data_loader, 'df_IW29'):
+                        rows = len(self.test_data_loader.df_IW29)
+                        self.log_manager.log(f"📊 IW29: {rows} righe disponibili", "info", origin=logger.name)
+                    
+            except TestDataLoadError as e:
+                # Errore specifico di caricamento
+                self.log_manager.log(f"❌ Errore caricamento file di test: {str(e)}", "error", origin=logger.name)
+                self.start_button.setEnabled(False)
+                return
+                
+            except Exception as e:
+                # Altri errori inaspettati
+                self.log_manager.log(f"💥 Errore critico: {str(e)}", "error", origin=logger.name)
+                self.start_button.setEnabled(False)
+                return
+        else:
+            self.start_button.setEnabled(False)
+            # Messaggio di avvio
+            self.log_manager.log("Sistema pronto!", "info", origin=logger.name)
+
+    def _init_dataframes(self):
+        """
+        Inizializza tutti i DataFrame dell'applicazione.
+        
+        Questo metodo centralizza l'inizializzazione di tutti i DataFrame
+        per una gestione più pulita e organizzata.
+        """
+        # === DATAFRAMES DA SAP ===
+        self.df_IW29 = pd.DataFrame()           # Avvisi di manutenzione
+        self.df_IW39 = pd.DataFrame()           # Ordini di manutenzione  
+        self.df_AFKO = pd.DataFrame()           # Date inizio cardine
+        
+        # === DATAFRAMES DA FILE EXCEL ===
+        self.df_excel_normalized = pd.DataFrame()  # Excel normalizzato
+        
+        # === DATAFRAMES ELABORATI ===
+        self.df_merged = pd.DataFrame()         # Dati uniti/elaborati
+        self.df_final_report = pd.DataFrame()  # Report finale
+        
+        # === DATAFRAMES AUSILIARI ===
+        self.df_AdM = pd.DataFrame()            # Avvisi di manutenzione filtrati
+        self.df_OdM = pd.DataFrame()            # Ordini di manutenzione filtrati
+        
+        self.log_manager.log("DataFrame inizializzati come vuoti", "info", origin=logger.name)
     
     def init_components(self):
         """Inizializza i componenti di supporto dell'applicazione."""
@@ -75,9 +148,6 @@ class MainWindow(QMainWindow):
         
         # Processore di dati
         self.excel_data_processor = ExcelDataProcessor()
-        
-        # Factory per le connessioni SAP
-        self.sap_factory = SAPGuiConnection()
         
         # Percorso del file Excel selezionato
         self.excel_file_path = None
@@ -266,6 +336,10 @@ class MainWindow(QMainWindow):
     def load_config(self):
         """Carica la configurazione dell'applicazione."""
         self.config = self.config_manager.get_config()
+
+        # Aggiorna configurazione in TestDataLoader
+        if hasattr(self, 'test_data_loader'):
+            self.test_data_loader.set_config(self.config)        
         
         # Assegna lo stato delle operazioni a variabili di classe
         operations = self.config.get("operations", {})
@@ -323,7 +397,29 @@ class MainWindow(QMainWindow):
         if dates_valid_bool and file_selected_bool:
             self.start_button.setEnabled(True)
 
+    def disable_buttons(self):
+        """Disabilita i pulsanti di avvio e configurazione nella modalità di debug"""
+        self.start_button.setEnabled(False)
+        self.config_button.setEnabled(False)
+        self.config_button2.setEnabled(False)
+        self.browse_button.setEnabled(False)
+        self.date_widget.start_date_picker.setEnabled(False)
+        self.date_widget.end_date_picker.setEnabled(False)
+        self.start_button.setEnabled(True)
+
+    def enable_buttons(self):
+        """Disabilita i pulsanti di avvio e configurazione nella modalità di debug"""
+        self.start_button.setEnabled(True)
+        self.config_button.setEnabled(True)
+        self.config_button2.setEnabled(True)
+        self.browse_button.setEnabled(True)
+        self.date_widget.start_date_picker.setEnabled(True)
+        self.date_widget.end_date_picker.setEnabled(True)
+        self.update_start_button_state(False)    
+
+
     def select_excel_file(self):
+        
         """Apre un dialogo per selezionare il file Excel."""
         file_path, _ = QFileDialog.getOpenFileName(
             self,
@@ -347,7 +443,7 @@ class MainWindow(QMainWindow):
             self.log_manager.log("Verifico file excel", "loading", update_status=True, update_log=True)
             
             # Processo il file Excel
-            result, df_excel_norm = self.process_excel_file(file_path, constants.required_sheet, constants.required_columns)
+            result, self.df_excel_normalized = self.process_excel_file(file_path, constants.required_sheet, constants.required_columns)
             if (result == False):
                 self.log_manager.log("Errore durante l'elaborazione del file excel", "error")
                 self.update_start_button_state(False)
@@ -368,7 +464,7 @@ class MainWindow(QMainWindow):
                         return
                     # Salva il DataFrame in un file Excel
                     output_file = os.path.join(save_dir, f"df_excel_norm_{timestamp}.xlsx")
-                    df_excel_norm.to_excel(output_file, index=False)
+                    self.df_excel_normalized.to_excel(output_file, index=False)
                     self.log_manager.log(f"File salvato in: {output_file}", "success")
                 except Exception as e:
                     self.log_manager.log(f"Errore: Salvataggio file IW29 fallito: {str(e)}", "error")
@@ -389,6 +485,29 @@ class MainWindow(QMainWindow):
             bool: True se il processing è riuscito, False altrimenti.
         """
         return self.excel_data_processor.process_excel_file(file_path, required_sheet, required_columns)
+        
+    def load_excel_file(self, file_path, sheet_name=0):
+        """Carica un file Excel con gestione errori"""
+        try:
+            # Verifica che il file esista
+            if not os.path.exists(file_path):
+                self.log_manager.log(f"❌ File non trovato: {file_path}")
+                return None
+            
+            # Carica il file
+            df = pd.read_excel(file_path, sheet_name=sheet_name)
+            self.log_manager.log(f"✅ File caricato: {len(df)} righe, {len(df.columns)} colonne")
+            return df
+            
+        except FileNotFoundError:
+            self.log_manager.log(f"❌ File non trovato: {file_path}")
+            return None
+        except PermissionError:
+            self.log_manager.log(f"❌ Permessi insufficienti per leggere: {file_path}")
+            return None
+        except Exception as e:
+            self.log_manager.log(f"❌ Errore nel caricamento: {str(e)}")
+            return None
     
     def on_reset_clicked(self):
         """Resetta i campi di input e il log."""
@@ -397,8 +516,10 @@ class MainWindow(QMainWindow):
         self.date_widget.end_date_picker.setDate(QDate.currentDate())
         self.log_widget.clear_logs()
         self.log_manager.log("Eseguito reset dell'applicativo")
-        self.start_button.setEnabled(False)
         self.excel_file_path = None  # Resetta il percorso del file Excel
+
+        # Carico i file di test se in modalità debug
+        self._init_debug_mode()	
     
     def on_config_clicked(self):
         """Apre la finestra di configurazione."""
@@ -419,190 +540,223 @@ class MainWindow(QMainWindow):
             self.log_manager.log("Configurazione non modificata")
     
     def on_start_clicked(self):
-        """Avvia l'estrazione dei dati."""
-        self.log_manager.log("Avvio estrazioni SAP", origin=logger.name)
-        
-        # Verifico se è stato selezionato un file
-        self.log_manager.log("Verifico selezione file excel")
-        if not hasattr(self, 'excel_file_path') or not self.excel_file_path:
-            QMessageBox.warning(
-                self, 
-                "Nessun file selezionato", 
-                "Seleziona un file Excel prima di procedere."
-            )
-            self.log_manager.log("Nessun file excel selezionato", "critical", origin=logger.name)
-            return
-        
-        self.log_manager.log("Verifica file excel - OK", "success", origin=logger.name)
-        
-        # Verifica la validità delle date inserite
-        if not self.date_widget.validate_date_range():
-            self.log_manager.log("Errore nella verifica delle date inserite", "critical")
-            return
-        
-        # Ottieni la data di inizio e fine
-        start_date, end_date = self.date_widget.get_date_range()
-        
-        # Ottieni la configurazione delle tecnologie
-        tech_config = self.config.get("technologies", {})
-        
-        # Verifica la configurazione delle tecnologie
-        if not self.validate_technology_config(tech_config):
-            self.log_manager.log("Errore nella verifica dei codici tecnologia", "critical", origin=logger.name)
-            return
-        
-        # Test stato configurazione
-        self.log_manager.log(f"Stato configurazione Check Box AdM: {self.estrai_adm_enabled}", "info", origin=logger.name)
-        self.log_manager.log(f"Stato configurazione Check Box OdM: {self.estrai_odm_enabled}", "info", origin=logger.name)
-        self.log_manager.log(f"Stato configurazione Check Box AdM: {self.estrai_AFKO_enabled}", "info", origin=logger.name)
-        
-        # Estraggo i dati da SAP
-        self.log_manager.log("Avvio estrazione SAP...", origin=logger.name)
-        # Inizializzo i dataframe
-        df_IW29 = pd.DataFrame()
-        df_IW39 = pd.DataFrame()
-        df_AFKO = pd.DataFrame()
+        # Verifica se il sistema è in modalità debug
+        if constants.DEBUG_MODE:
+            """Elabora dati solo se tutti i file sono caricati."""
+            if not self.test_data_loader.is_loaded():
+                self.log_warning("❌ Non tutti i file di test sono caricati")
+                return False
+            
+            # Se arriviamo qui, TUTTI i DataFrame sono disponibili
+            self.df_IW29 = self.test_data_loader.df_IW29
+            self.df_IW39 = self.test_data_loader.df_IW39
+            self.df_AFKO = self.test_data_loader.df_AFKO
+            self.df_excel_normalized = self.test_data_loader.df_excel_normalized
 
-        try:
-            # Verifica della directory di salvataggio
-            save_dir = self.config.get("save_directory", "")
-            if not save_dir or not os.path.exists(save_dir):
-                self.log_manager.log("Errore: Directory di salvataggio non valida", "critical", origin=logger.name)
+        else:
+            # se non siamo in modalità debug, procediamo con l'estrazione dei dati da SAP
+            """Avvia l'estrazione dei dati."""
+            self.log_manager.log("Avvio estrazioni SAP", origin=logger.name)
+            # Misura il tempo
+            start_time = time.perf_counter()
+
+            # Verifico se è stato selezionato un file
+            self.log_manager.log("Verifico selezione file excel")
+            if not hasattr(self, 'excel_file_path') or not self.excel_file_path:
+                QMessageBox.warning(
+                    self, 
+                    "Nessun file selezionato", 
+                    "Seleziona un file Excel prima di procedere."
+                )
+                self.log_manager.log("Nessun file excel selezionato", "critical", origin=logger.name)
                 return
             
-            # Utilizza la factory per creare una connessione SAP
-            with SAPGuiConnection() as sap:
-                if sap.is_connected():
-                    session = sap.get_session()
-                    if session:
-                        self.log_manager.log("Connessione SAP attiva")
-                        
-                        # Crea un estrattore di dati SAP
-                        extractor = SAPDataExtractor(session, self)
-                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                        
-                        # Verifico la check box per l'estrazione AdM self.estrai_adm_enabled
-                        if self.estrai_adm_enabled:
-                            # Estrazione dati AdM
-                            self.log_manager.log("Estrazione dati IW29", "info")
-                            result, df_IW29 = extractor.extract_IW29(
-                                start_date, 
-                                end_date, 
-                                tech_config, 
-                                self.excel_data_processor.get_adm()["AdM"]
-                            )
-                            
-                            if not result:
-                                self.log_manager.log("Errore: Estrazione IW29 fallita", "error")
-                                return
-                            
-                            # Salva il DataFrame in un file Excel
-                            output_file = os.path.join(save_dir, f"IW29_AdM_{timestamp}.xlsx")
-                            try:
-                                df_IW29.to_excel(output_file, index=False)
-                                self.log_manager.log(f"File salvato in: {output_file}", "success")
-                            except Exception as e:
-                                self.log_manager.log(f"Errore: Salvataggio file IW29 fallito: {str(e)}", "error")
-                                return
-                        
-                        # Verifico la check box per l'estrazione OdM self.estrai_odm_enabled
-                        if self.estrai_odm_enabled:
-                            # Estrazione dati OdM
-                            self.log_manager.log("Estrazione dati IW39")
-                            result, df_IW39 = extractor.extract_IW39(
-                                start_date, 
-                                end_date, 
-                                tech_config, 
-                                self.excel_data_processor.get_odm()["OdM"]
-                            )
-                            
-                            if not result:
-                                self.log_manager.log("Errore: Estrazione IW39 fallita", "error")
-                                return
-                            
-                            # Salva il DataFrame in un file Excel
-                            output_file = os.path.join(save_dir, f"IW39_OdM_{timestamp}.xlsx")
-                            try:
-                                df_IW39.to_excel(output_file, index=False)
-                                self.log_manager.log(f"File salvato in: {output_file}", "success")
-                            except Exception as e:
-                                self.log_manager.log(f"Errore: Salvataggio file IW39 fallito: {str(e)}", "error")
-                                return
-                            
-                        # Verifico la check box self.estrai_AFKO_enabled per l'estrazione delle date inizio cardine degli OdM relativi al DF AdM     
-                        if (self.estrai_AFKO_enabled):
-                            # TEST 
-                            # Se non è stata compiuta l'estrazione AdM, allora considero il file Excel di una estrazione precedente.
-                            if not(self.estrai_adm_enabled):
-                                self.log_manager.log("Estrazione AdM non effettuata, utilizzo file Excel di una estrazione precedente", "info")
-                                # Per effettuare test carico nel df il file excel di una estrazione precedente.
-                                # data\SAP\IW29_AdM_20250523_190439.xlsx
-                                Excel_IW29_file = os.path.join(save_dir, f"IW29_AdM_20250523_190439.xlsx")
-                                df_IW29 = pd.read_excel(Excel_IW29_file)
-                            
-                            # Ricavato il DF proseguo con l'estrazione degli OdM, procedo con l'estrazione degli OdM dal dataframe creato con l'estrazione IW29
-                            if (df_IW29 is not None and not df_IW29.empty):
-                                try:
-                                    # Estrazione dati dal dataframe df_IW29
-                                    df_OdM = (df_IW29["Ordine"]          
-                                        .astype(str)                           # Converte tutto in stringa
-                                        .str.strip()                           # Rimuove spazi
-                                        .replace(['', 'nan', 'NaN', 'None', 'null'], pd.NA)  # Sostituisce valori vuoti
-                                        .pipe(pd.to_numeric, errors='raise')  # Conversione sicura (NaN per errori)
-                                        .dropna()                              # Rimuove NaN dalla conversione
-                                        .astype('Int64'))                      # Converte in Int64
-                                except Exception as e:
-                                    self.log_manager.log(f"Errore durante la conversione degli Ordini in df_IW29: {str(e)}", "error")
-                                    return 
-
-                            # Numero di OdM estratti
-                            num_odm = df_OdM.drop_duplicates(subset=['OdM']).shape[0]
-                            self.log_manager.log(f"Totale OdM = {num_odm}", "info")
-                            self.log_manager.log("Estrazione dati SE16 tabella AFKO", "info")
-                            # Ricavo la lista degli OdM presenti nel 
-                            result, df_AFKO = extractor.extract_SE16(df_OdM)
-                            
-                            if not result:
-                                self.log_manager.log("Errore: Estrazione AFKO fallita", "error")
-                                return
-                            
-                            # Verifico che il numero di OdM estratti sia uguale a quello di OdM presenti nel df_IW29
-                            if df_AFKO is not None and not df_AFKO.empty:
-                                num_afko = df_AFKO.shape[0]
-                                if num_afko != num_odm:
-                                    self.log_manager.log(f"Attenzione: Numero di OdM estratti ({num_afko}) diverso da quello atteso ({num_odm})", "error")
-                                    return
-                                else:
-                                    self.log_manager.log(f"Numero di OdM estratti ({num_afko}) corrisponde a quello atteso ({num_odm})", "success")
-                                    # Salva il DataFrame in un file Excel
-                                    output_file = os.path.join(save_dir, f"df_AFKO_{timestamp}.xlsx")
-                                    try:
-                                        df_AFKO.to_excel(output_file, index=False)
-                                        self.log_manager.log(f"File salvato in: {output_file}", "success")
-                                    except Exception as e:
-                                        self.log_manager.log(f"Errore: Salvataggio file AFKO fallito: {str(e)}", "error")
-                                        return                                    
-                            else:
-                                self.log_manager.log("Errore estrazione dati SE16 - tabella df_IW29 non esistente.", "errore")
-                                return
-
-                        # Estrazione dati completata
-                        self.log_manager.log("Estrazione completata con successo", "success")
-                else:
-                    self.log_manager.log("Connessione SAP NON attiva", "error")
+            self.log_manager.log("Verifica file excel - OK", "success", origin=logger.name)
+            
+            # Verifica la validità delle date inserite
+            if not self.date_widget.validate_date_range():
+                self.log_manager.log("Errore nella verifica delle date inserite", "critical")
+                return
+            
+            # Ottieni la data di inizio e fine
+            start_date, end_date = self.date_widget.get_date_range()
+            
+            # Ottieni la configurazione delle tecnologie
+            tech_config = self.config.get("technologies", {})
+            
+            # Verifica la configurazione delle tecnologie
+            if not self.validate_technology_config(tech_config):
+                self.log_manager.log("Errore nella verifica dei codici tecnologia", "critical", origin=logger.name)
+                return
+            
+            # Test stato configurazione
+            self.log_manager.log(f"Stato configurazione Check Box AdM: {self.estrai_adm_enabled}", "info", origin=logger.name)
+            self.log_manager.log(f"Stato configurazione Check Box OdM: {self.estrai_odm_enabled}", "info", origin=logger.name)
+            self.log_manager.log(f"Stato configurazione Check Box AdM: {self.estrai_AFKO_enabled}", "info", origin=logger.name)
+            
+            # Estraggo i dati da SAP
+            self.log_manager.log("Avvio estrazione SAP...", origin=logger.name)
+            try:
+                # Verifica della directory di salvataggio
+                save_dir = self.config.get("save_directory", "")
+                if not save_dir or not os.path.exists(save_dir):
+                    self.log_manager.log("Errore: Directory di salvataggio non valida", "critical", origin=logger.name)
                     return
-        except Exception as e:
-            self.log_manager.log(f"Estrazione dati SAP: Errore: {str(e)}", "error")
-            return
+                
+                # Utilizza la factory per creare una connessione SAP
+                with SAPGuiConnection() as sap:
+                    if sap.is_connected():
+                        session = sap.get_session()
+                        if session:
+                            self.log_manager.log("Connessione SAP attiva")
+                            
+                            # Crea un estrattore di dati SAP
+                            extractor = SAPDataExtractor(session, self)
+                            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                            
+                            # Verifico la check box per l'estrazione AdM self.estrai_adm_enabled
+                            if self.estrai_adm_enabled:
+                                # Estrazione dati AdM
+                                self.log_manager.log("Estrazione dati IW29", "info")
+                                result, self.df_IW29 = extractor.extract_IW29(
+                                    start_date, 
+                                    end_date, 
+                                    tech_config, 
+                                    self.excel_data_processor.get_adm()["AdM"]
+                                )
+                                
+                                if not result:
+                                    self.log_manager.log("Errore: Estrazione IW29 fallita", "error")
+                                    return
+                                
+                                # Salva il DataFrame in un file Excel
+                                output_file = os.path.join(save_dir, f"IW29_AdM_{timestamp}.xlsx")
+                                try:
+                                    self.df_IW29.to_excel(output_file, index=False)
+                                    self.log_manager.log(f"File salvato in: {output_file}", "success")
+                                except Exception as e:
+                                    self.log_manager.log(f"Errore: Salvataggio file IW29 fallito: {str(e)}", "error")
+                                    return
+                            
+                            # Verifico la check box per l'estrazione OdM self.estrai_odm_enabled
+                            if self.estrai_odm_enabled:
+                                # Estrazione dati OdM
+                                self.log_manager.log("Estrazione dati IW39")
+                                result, self.df_IW39 = extractor.extract_IW39(
+                                    start_date, 
+                                    end_date, 
+                                    tech_config, 
+                                    self.excel_data_processor.get_odm()["OdM"]
+                                )
+                                
+                                if not result:
+                                    self.log_manager.log("Errore: Estrazione IW39 fallita", "error")
+                                    return
+                                
+                                # Salva il DataFrame in un file Excel
+                                output_file = os.path.join(save_dir, f"IW39_OdM_{timestamp}.xlsx")
+                                try:
+                                    self.df_IW39.to_excel(output_file, index=False)
+                                    self.log_manager.log(f"File salvato in: {output_file}", "success")
+                                except Exception as e:
+                                    self.log_manager.log(f"Errore: Salvataggio file IW39 fallito: {str(e)}", "error")
+                                    return
+                                
+                            # Verifico la check box self.estrai_AFKO_enabled per l'estrazione delle date inizio cardine degli OdM relativi al DF AdM     
+                            if (self.estrai_AFKO_enabled):
+                                # TEST 
+                                # Se non è stata compiuta l'estrazione AdM, allora considero il file Excel di una estrazione precedente.
+                                if not(self.estrai_adm_enabled):
+                                    self.log_manager.log("Estrazione AdM non effettuata. Impossibile estrarre AFKO.", "error")
+                                    return False
+                                
+                                # Procedo con l'estrazione degli OdM dal dataframe creato con l'estrazione IW29
+                                if (self.df_IW29 is not None and not self.df_IW29.empty):
+                                    try:
+                                        # Estrazione dati dal dataframe df_IW29
+                                        df_OdM = (self.df_IW29["Ordine"]          
+                                            .astype(str)                           # Converte tutto in stringa
+                                            .str.strip()                           # Rimuove spazi
+                                            .replace(['', 'nan', 'NaN', 'None', 'null'], pd.NA)  # Sostituisce valori vuoti
+                                            .pipe(pd.to_numeric, errors='raise')  # Conversione sicura (NaN per errori)
+                                            .dropna()                              # Rimuove NaN dalla conversione
+                                            .astype('Int64'))                      # Converte in Int64
+                                    except Exception as e:
+                                        self.log_manager.log(f"Errore durante la conversione degli Ordini in df_IW29: {str(e)}", "error")
+                                        return 
+
+                                # Numero di OdM estratti
+                                num_odm = df_OdM.drop_duplicates().shape[0]
+                                self.log_manager.log(f"Totale OdM = {num_odm}", "info")
+                                self.log_manager.log("Estrazione dati SE16 tabella AFKO", "info")
+                                # Ricavo la lista degli OdM presenti nel
+                                result, self.df_AFKO = extractor.extract_SE16(df_OdM)
+                                
+                                if not result:
+                                    self.log_manager.log("Errore: Estrazione AFKO fallita", "error")
+                                    return
+                                
+                                # Verifico che il numero di OdM estratti sia uguale a quello di OdM presenti nel df_IW29
+                                if self.df_AFKO is not None and not self.df_AFKO.empty:
+                                    num_afko = self.df_AFKO.shape[0]
+                                    if num_afko != num_odm:
+                                        self.log_manager.log(f"Attenzione: Numero di OdM estratti ({num_afko}) diverso da quello atteso ({num_odm})", "error")
+                                        return
+                                    else:
+                                        self.log_manager.log(f"Numero di OdM estratti ({num_afko}) corrisponde a quello atteso ({num_odm})", "success")
+                                        # Salva il DataFrame in un file Excel
+                                        output_file = os.path.join(save_dir, f"df_AFKO_{timestamp}.xlsx")
+                                        try:
+                                            self.df_AFKO.to_excel(output_file, index=False)
+                                            self.log_manager.log(f"File salvato in: {output_file}", "success")
+                                        except Exception as e:
+                                            self.log_manager.log(f"Errore: Salvataggio file AFKO fallito: {str(e)}", "error")
+                                            return                                    
+                                else:
+                                    self.log_manager.log("Errore estrazione dati SE16 - tabella df_IW29 non esistente.", "errore")
+                                    return
+
+                            # Estrazione dati completata
+                            self.log_manager.log("Estrazione completata con successo", "success")
+                            # Calcola il tempo di esecuzione
+                            end_time = time.perf_counter()
+                            execution_time = end_time - start_time
+                            time_str = self.format_execution_time(execution_time)
+                            self.log_manager.log(f"Tempo estrazioni SAP: {time_str}", "info")
+                    else:
+                        self.log_manager.log("Connessione SAP NON attiva", "error")
+                        return
+            except Exception as e:
+                self.log_manager.log(f"Estrazione dati SAP: Errore: {str(e)}", "error")
+                return
 
         # Processa i dati estratti
-        result, data = self.process_data(df_IW29, df_IW39, df_AFKO)
+        result, data = self.process_data(self.df_IW29, self.df_IW39, self.df_AFKO, self.df_excel_normalized)
         if not result:
             self.log_manager.log("Errore durante l'elaborazione dei dati estratti", "error")
             return
         self.log_manager.log("Elaborazione dati completata con successo", "success")
 
-    def process_data(self, df_IW29, df_IW39, df_AFKO) -> Tuple[bool, Dict[str, pd.DataFrame]|None]:
+    def format_execution_time(seconds: float) -> str:
+        """
+        Formatta il tempo di esecuzione in modo leggibile.
+        
+        Args:
+            seconds: Tempo in secondi
+            
+        Returns:
+            Stringa formattata (es. "1.23s", "123ms", "12.3μs")
+        """
+        if seconds >= 1.0:
+            return f"{seconds:.2f}s"
+        elif seconds >= 0.001:
+            return f"{seconds * 1000:.1f}ms"
+        elif seconds >= 0.000001:
+            return f"{seconds * 1000000:.1f}μs"
+        else:
+            return f"{seconds * 1000000000:.0f}ns"
+
+    def process_data(self, df_IW29, df_IW39, df_AFKO, df_excel_normalized) -> Tuple[bool, Dict[str, pd.DataFrame]|None]:
         """
         Elabora i dati estratti da SAP.
         
@@ -619,17 +773,14 @@ class MainWindow(QMainWindow):
         # Verifico che i DataFrame non siano vuoti
         if not((df_IW29 is not None and not df_IW29.empty) and
             (df_IW39 is not None and not df_IW39.empty) and
-            (df_AFKO is not None and not df_AFKO.empty)):
+            (df_AFKO is not None and not df_AFKO.empty) and
+            (df_excel_normalized is not None and not df_excel_normalized.empty)):
+            # Se uno dei DataFrame è vuoto, loggo l'errore e ritorno False
             self.log_manager.log("Errore: Dataframe vuoti o non validi", "error")
             return False, None
-        # Inizio l'elaborazione dei dati estratti
-        self.log_manager.log("Inizio elaborazione dati estratti", "info")
-        # Elaboro il file Excel per ricavare le attività
-        df_excel = self.get_excel_df()
-        if df_excel is None:
-            self.log_manager.log("Errore: DataFrame Excel non valido", "error")
-            return False, None
         
+        # Inizio l'elaborazione dei dati estratti
+        self.log_manager.log("Inizio elaborazione dati estratti", "info")    
 
         # Inserisco Data inizio cardine presente nel dataframe df_AFKO nel df_IW29
         self.log_manager.log("Inserisco Data inizio cardine ordini nel df_IW29", "info")

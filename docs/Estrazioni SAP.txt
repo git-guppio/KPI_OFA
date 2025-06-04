@@ -24,9 +24,10 @@ Il dato Inizio Cardine deve essere riportato nella tabella Notification
 
 --------- Inizio WorkOrder ----------------
 
-Estrazione 3) IW39 -> estrazione ordini di manutenzione x data creazione
-stessa estrazione ma con data modifica
-stessa estrazione ma con data inizio cardine
+Estrazione 3) IW39 -> estrazione ordini di manutenzione x
+- data creazione
+- stessa estrazione ma con data modifica
+- stessa estrazione ma con data inizio cardine
 
 Estrazione in SAP IW39 della lista di ordini condivisa a partire dalla lista condivisa da Simone (stessa degli AdM)
 
@@ -65,28 +66,30 @@ ESW
 ----------- Fine estrazioni ---------------------
 
 ----------- Calcolo KPI ---------------------
+
 -- Notification
     Calcolare la TL -> terzo carattere della sede  tecnica -> nuova colonna con tecnologia estesa (S->Solar, E->Bess, W->WIND)
 
     # Calcolo KPI
         - Riguarda solo gli AdM per i quali è stato creato un OdM oppure che sono stati gestiti già in OFA
-        5 colonne - 'Creazione_in_OFA', 'Visualizzazione_in_OFA', 'Modifica_in_OFA', 'Allegati_in_OFA', 'Chiusura_in_OFA'.
-        - Creazione_in_OFA:
+        5 colonne - 'Creati_in_OFA', 'Visualizzati_in_OFA', 'Modificati_in_OFA', 'Allegati_in_OFA', 'Chiusi_in_OFA'.
+        - Creati_in_OFA:
             Sis.Legacy = OFA -> 1 oppure
         - Dal file di Simone cerca se l'AdM ha uno dei seguneti stati:
-            CREATE NOTIFICATION -> Creato in OFA
-            DETAIL NOTIFICATION -> View in OFA
-            UPDATE NOTIFICATION -> Modificato in OFA
-            OPEN TEXT UPLOAD ATTACHMEMT NOTIFICATION o OPEN TEXT UPLOAD ATTACHMEMT -> Allegato in OFA
-            CLOSED NOTIFICATION -> Chiuso in OFA
-            WORKORDER UPDATE TECO -> da ricercare con numero di Ordine di manutenzione a cui l'avviso afferisce -> AdM chiuso in OFA
+            CREATE NOTIFICATION -> Creati_in_OFA
+            DETAIL NOTIFICATION -> Visualizzati_in_OFA
+            UPDATE NOTIFICATION -> Modificati_in_OFA
+            OPEN TEXT UPLOAD ATTACHMEMT NOTIFICATION o OPEN TEXT UPLOAD ATTACHMEMT -> Allegati_in_OFA
+            CLOSED NOTIFICATION -> Chiusi_in_OFA
+            WORKORDER UPDATE TECO -> da ricercare con numero di Ordine di manutenzione a cui l'avviso afferisce -> Chiusi_in_OFA
+
         Calcolo KPI
             Numeratore: 
                 1 se almento una delle azioni sopra è stata eseguita, zero altrimenti
             Denominatore:
                 1 se vale 1 il numeratore oppure:
-                                se data creazione all'interno dell'intervallo date impostato
-                                E se data inizio cardine all'interno dell'intervallo date impostato
+                                - Se data creazione all'interno dell'intervallo date impostato
+                                - E se data inizio cardine all'interno dell'intervallo date impostato
         Fare Pivot
 
 -- Azioni
@@ -96,8 +99,30 @@ ESW
 
 
 -- WorkOrder
+    Calcolo KPI
+        - Riguarda solo gli OdM che sono stati creati o gestiti in OFA
+            9 colonne - 'Creati_in_OFA', 'Visualizzati_in_OFA', 'Modificati_in_OFA', 'Operazione_gestita_in_OFA',
+                        'Aggiunto_materiale', 'Gestione_materiale', 'Allegati_in_OFA', 'Conferma_ore_in_OFA',
+                        'Chiusi_in_OFA'.
+        - Creati_in_OFA:
+            Sis.Legacy = OFA -> 1 oppure:                      
+        - Dal file di Simone cerca se l'OdM ha uno dei seguneti stati:
+            CREATE WORKORDER -> Creati_in_OFA
+            DETAIL WORK ORDER -> Visualizzati_in_OFA
+            WORKORDER UPDATE RELEASE, WORKORDER HEADER UPDATE -> Modificati_in_OFA
+            WORKORDER UPDATE OPERATION -> Operazione_gestita_in_OFA
+            WORKORDER ADD COMPONENT -> Aggiunto_materiale
+            WORKORDER UPDATE COMPONENT, DETAIL WORK ORDER MATERIAL, WORKORDER DELETE COMPONENT -> Gestione_materiale
+            OPEN TEXT UPLOAD ATTACHMEMT WORKORDER, OPEN TEXT DETAIL WORK ORDER OPERATION -> Allegati_in_OFA
+            DETAIL WORK ORDER CONFERMATION, CREATE TIME CONFERMATION -> Conferma_ore_in_OFA
+            WORKORDER UPDATE TECO -> Chiusi_in_OFA
 
-    
-    Controlla se la colonna sis.Legacy è OFA oppure 
-    colonna G del file di Simone deve esssere normalizzata estrarre solo gli elementi con 10 digit 
+        Calcolo KPI
+            Numeratore: 
+                1 se almento una delle azioni sopra è stata eseguita, zero altrimenti
+            Denominatore:
+                1 se vale 1 il numeratore oppure:
+                                - Se data creazione all'interno dell'intervallo date impostato
+                                - E se data inizio cardine all'interno dell'intervallo date impostato
+        Fare Pivot
 

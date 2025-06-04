@@ -1,6 +1,6 @@
 import pandas as pd
 from collections import Counter
-from typing import List, Dict, Optional
+from typing import Tuple, List, Dict, Optional
 import os
 import logging
 from PyQt5.QtCore import QObject, pyqtSignal

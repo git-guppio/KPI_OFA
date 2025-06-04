@@ -233,48 +233,106 @@ class SAPDataExtractor(QObject):
         # Funzione interna per gestire il risultato dell'estrazione
         # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
         def handle_extraction_result(status_code, result, tipo_estrazione, prefix=None):
-            nonlocal totale_estratti
-            nonlocal single_value_set
-            if status_code == -1:  # codice_stato: -1=errore
-                self.log(f"Fallita estrazione IW29 per {prefix or ''} - {tipo_estrazione}", "error", True, True, 0)
-                return False
-            elif status_code > 1:  # Successo con lista, status_code indica il numero di elementi presenti nella lista SAP
-                self.log(f"Eseguita estrazione IW29 per {prefix or ''} - {tipo_estrazione}", "success", True, True, 0)
-                # verifico la coerenza delle righe nel risultato (presenza del carattere #)
+            """
+            Gestisce il risultato di un'estrazione IW29.
+            
+            Args:
+                status_code: Codice di stato dell'estrazione
+                result: Risultato dell'estrazione
+                tipo_estrazione: Tipo di estrazione eseguita
+                prefix: Prefisso opzionale per il logging
+            
+            Returns:
+                bool: True se l'elaborazione è riuscita, False altrimenti
+            """
+            # Faccio riferimento allo scope esterno per le variabili
+            nonlocal iw29, single_value_set, totale_estratti
+            # Funzione helper per creare il prefisso del log
+            def get_log_prefix():
+                return f"{prefix or ''} - {tipo_estrazione}"
+            
+            # Funzione helper per elaborare i dati e creare DataFrame
+            def process_dataframe_creation():
+                """Elabora il risultato e crea il DataFrame"""
+                # Verifica e corregge il contenuto della clipboard
                 success, fixed_content = self.fix_clipboard_table_content(result)
                 if not success:
-                    self.log(f"Non è stato possibile correggere il contenuto della clipboard.", "error", True, True, 0)
-                    return False                    
-                # La chiave sarà 'df_Creazione', 'df_Modifica', ecc.
-                key = f"df_{tipo_estrazione}{f'_{prefix}' if prefix else ''}"
+                    self.log("Non è stato possibile correggere il contenuto della clipboard.", "error", True, True, 0)
+                    return None
+                
+                # Crea il DataFrame
                 df = self.df_utils.clean_data(fixed_content)
                 if df is None:
-                    self.log(f"DataFrame vuoto per {key}", "error", True, True, 0)
-                    return False
-                # Verifica se il DataFrame contenga lo stesso numero di righe della tabella SAP da cui sono stati estratti i dati
-                if (status_code != len(df)) and (tipo_estrazione != "ListaSingoli"): # Se il tipo di estrazione è "ListaSingoli", non controllo il numero di righe
-                    self.log(f"Il DataFrame {key} non ha lo stesso numero di righe della tabella SAP", "error", True, True, 0)
-                    return False 
-                # Aggiungo la colonna con la tipologia di estrazione per tenere traccia del tipo di dati
+                    return None
+                
+                # Verifica coerenza numero righe
+                if status_code != len(df):
+                    self.log(f"Il DataFrame non ha lo stesso numero di righe della tabella SAP", "error", True, True, 0)
+                    return None
+                
+                # Aggiunge colonna tipo estrazione
                 df['TipoEstrazione'] = tipo_estrazione
+                return df
+            
+            # Funzione helper per salvare DataFrame
+            def save_dataframe(df):
+                """Salva il DataFrame nel dizionario iw29"""
+                key = f"df_{tipo_estrazione}{f'_{prefix}' if prefix else ''}"
                 iw29[key] = df
                 self.log(f"DataFrame {key} creato con {len(df)} righe", "success", True, True, 0)
-                # Incremento il contatore totale degli estratti solo per le estrazioni != da "ListaSingoli"
-                if(tipo_estrazione!="ListaSingoli"):
-                    totale_estratti += status_code
                 return True
-            elif status_code == 1:  # Singolo valore
-                self.log(f"Singolo valore trovato per {prefix or ''} - {tipo_estrazione}", "info", True, True, 0)
-                single_value_set.add(result)  # set.add() aggiunge solo se non esiste già
-                # Incremento il contatore totale degli estratti, il caso == 1 è per tutti i tipi di estrazione
-                totale_estratti += status_code
-                return True
-            elif status_code == 0:  # Nessun risultato
-                self.log(f"Nessun dato trovato per {prefix or ''} - {tipo_estrazione}", "info", True, True, 0)
-                return True
-            else:
-                self.log(f"Valore di status_code non valido: {status_code}", "error", True, True, 0)
+            
+            # Gestione dei diversi codici di stato
+            if status_code == -1:
+                # Errore
+                self.log(f"Fallita estrazione IW29 per {get_log_prefix()}", "error", True, True, 0)
                 return False
+            
+            elif status_code == 0:
+                # Nessun risultato
+                self.log(f"Nessun dato trovato per {get_log_prefix()}", "info", True, True, 0)
+                return True
+            
+            elif status_code == 1:
+                # Singolo valore
+                self.log(f"Singolo valore trovato per {get_log_prefix()}", "info", True, True, 0)                
+                if tipo_estrazione != "ListaSingoli":
+                    # single_value_set può contenere solo valori unici,
+                    # se il valore è già presente non lo inserisco e non incremento il contatore dei totali estratti
+                    if result not in single_value_set:
+                        single_value_set.add(result)
+                        totale_estratti += status_code
+                        self.log(f"Nuovo valore aggiunto - numero elementi: {len(single_value_set)}", "info", True, True, 0)
+                    else:
+                        self.log(f"Valore '{result}' già presente, ignorato", "warning", True, True, 0)
+                    return True
+                else:
+                    # Tratta come DataFrame anche se singolo valore
+                    self.log(f"Eseguita estrazione IW39 per {get_log_prefix()}", "success", True, True, 0)
+                    df = process_dataframe_creation()
+                    if df is None:
+                        self.log(f"DataFrame vuoto per {get_log_prefix()}", "error", True, True, 0)
+                        return False
+                    return save_dataframe(df)
+            
+            elif status_code > 1:
+                # Lista con più elementi
+                self.log(f"Eseguita estrazione IW29 per {get_log_prefix()}", "success", True, True, 0)
+                df = process_dataframe_creation()
+                if df is None:
+                    self.log(f"DataFrame vuoto per {get_log_prefix()}", "error", True, True, 0)
+                    return False
+                
+                # Incrementa contatore solo se non è "ListaSingoli"
+                if tipo_estrazione != "ListaSingoli":
+                    totale_estratti += status_code
+                
+                return save_dataframe(df)
+            
+            else:
+                # Valore non valido
+                self.log(f"Valore di status_code non valido: {status_code}", "error", True, True, 0)
+                return False 
         
         # Gestisci prima l'estrazione di tipo "Lista", che deve essere eseguita una sola volta
         if "Lista" in self.tipo_estrazioni_AdM:
@@ -337,8 +395,11 @@ class SAPDataExtractor(QObject):
                 found, clean_result = self.remove_first_row_containing(result, avviso_singolo)
                 if found: 
                     self.log(f"Rimossa riga contenente Avviso {avviso_singolo}", "info", True, True, 0)
+                    # Rimuovo una unità dal conteggio totale degli estratti status_code
+                    status_code -= 1                    
                 else:
                     self.log(f"Nessuna riga trovata con Avviso = {avviso_singolo}", "info", True, True, 0)
+                    return False, None
 
                 # Utilizzo della funzione handle_extraction_result
                 if not handle_extraction_result(status_code, clean_result, "ListaSingoli"): # non serve modificare anche lo status_code
@@ -365,13 +426,7 @@ class SAPDataExtractor(QObject):
             return False, None
         
         # Concatena tutti i DataFrame in un unico DataFrame
-        self.log(f"Creazione unico DF", "info", True, True, 0)
-        # Visualizzo statistiche sul numero di righe per ogni DataFrame contenuto nel dizionario iw29
-        # Numero di righe attese 
-        for key, df in iw29.items():
-            self.log(f"{key} ha {len(df)} righe", "info", True, True, 0)
-        self.log(f"{key} ha {len(df)} righe", "info", True, True, 0)
-
+        self.log(f"Creazione unico DF", "info", True, True, 0)         
         result_df = pd.concat(iw29.values(), ignore_index=True) if iw29 else None
         # Verifica che il totale degli elementi estratti corrisponda al numero di righe nel DataFrame
         # Devo farlo prima di eliminare i duplicati, altrimenti il conteggio potrebbe essere errato
@@ -379,6 +434,7 @@ class SAPDataExtractor(QObject):
             self.log(f"Il numero totale di righe estratte ({len(result_df)}) non corrisponde al numero di elementi estratti ({totale_estratti})", "error", True, True, 0)
             return False, None
         # Se i valori sono uguali continua
+        self.log(f"IW29 Verifica elementi estratti OK)", "success", True, True, 0) 
         self.log(f"Numero totale righe df: ({len(result_df)}) - Numero di elementi estratti ({totale_estratti})", "info", True, True, 0)
         # Gestisco le righe duplicate
         num_duplicati = result_df.duplicated(subset=['Avviso']).sum()
@@ -609,47 +665,106 @@ class SAPDataExtractor(QObject):
         # Funzione interna per gestire il risultato dell'estrazione
         # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
         def handle_extraction_result(status_code, result, tipo_estrazione, prefix=None):
-            nonlocal totale_estratti
-            if status_code == -1:  # codice_stato: -1=errore
-                self.log(f"Fallita estrazione IW39 per {prefix or ''} - {tipo_estrazione}", "error", True, True, 0)
-                return False
-            elif status_code > 1:  # Successo con lista, status_code indica il numero di elementi presenti nella lista SAP
-                self.log(f"Eseguita estrazione IW39 per {prefix or ''} - {tipo_estrazione}", "success", True, True, 0)
-                # verifico la coerenza delle righe nel risultato (presenza del carattere #)
+            """
+            Gestisce il risultato di un'estrazione IW39.
+            
+            Args:
+                status_code: Codice di stato dell'estrazione
+                result: Risultato dell'estrazione
+                tipo_estrazione: Tipo di estrazione eseguita
+                prefix: Prefisso opzionale per il logging
+            
+            Returns:
+                bool: True se l'elaborazione è riuscita, False altrimenti
+            """
+            # Faccio riferimento allo scope esterno per le variabili
+            nonlocal iw39, single_value_set, totale_estratti
+            # Funzione helper per creare il prefisso del log
+            def get_log_prefix():
+                return f"{prefix or ''} - {tipo_estrazione}"
+            
+            # Funzione helper per elaborare i dati e creare DataFrame
+            def process_dataframe_creation():
+                """Elabora il risultato e crea il DataFrame"""
+                # Verifica e corregge il contenuto della clipboard
                 success, fixed_content = self.fix_clipboard_table_content(result)
                 if not success:
-                    self.log(f"Non è stato possibile correggere il contenuto della clipboard.", "error", True, True, 0)
-                    return False                    
-                # La chiave sarà 'df_Creazione', 'df_Modifica', ecc.
-                key = f"df_{tipo_estrazione}{f'_{prefix}' if prefix else ''}"
+                    self.log("Non è stato possibile correggere il contenuto della clipboard.", "error", True, True, 0)
+                    return None
+                
+                # Crea il DataFrame
                 df = self.df_utils.clean_data(fixed_content)
                 if df is None:
-                    self.log(f"DataFrame vuoto per {key}", "error", True, True, 0)
-                    return False
-                # Verifica se il DataFrame contenga lo stesso numero di righe della tabella SAP da cui sono stati estratti i dati
-                if (status_code != len(df)) and (tipo_estrazione != "ListaSingoli"): # Se il tipo di estrazione è "ListaSingoli", non controllo il numero di righe
-                    self.log(f"Il DataFrame {key} non ha lo stesso numero di righe della tabella SAP", "error", True, True, 0)
-                    return False              
-                # aggiungo la colonna con la tipologia di estrazione per tenere traccia
+                    return None
+                
+                # Verifica coerenza numero righe
+                if status_code != len(df):
+                    self.log(f"Il DataFrame non ha lo stesso numero di righe della tabella SAP", "error", True, True, 0)
+                    return None
+                
+                # Aggiunge colonna tipo estrazione
                 df['TipoEstrazione'] = tipo_estrazione
+                return df
+            
+            # Funzione helper per salvare DataFrame
+            def save_dataframe(df):
+                """Salva il DataFrame nel dizionario iw39"""
+                key = f"df_{tipo_estrazione}{f'_{prefix}' if prefix else ''}"
                 iw39[key] = df
                 self.log(f"DataFrame {key} creato con {len(df)} righe", "success", True, True, 0)
-                # Incremento il contatore totale degli estratti solo per le estrazioni != da "ListaSingoli"
-                if(tipo_estrazione!="ListaSingoli"):
-                    totale_estratti += status_code                
                 return True
-            elif status_code == 1:  # Singolo valore
-                self.log(f"Singolo valore trovato per {prefix or ''} - {tipo_estrazione}", "info", True, True, 0)
-                single_value_set.add(result)  # set.add() aggiunge solo se non esiste già
-                # Incremento il contatore totale degli estratti, il caso == 1 è per tutti i tipi di estrazione
-                totale_estratti += status_code               
-                return True
-            elif status_code == 0:  # Nessun risultato
-                self.log(f"Nessun dato trovato per {prefix or ''} - {tipo_estrazione}", "info", True, True, 0)
-                return True
-            else:
-                self.log(f"Valore di status_code non valido: {status_code}", "error", True, True, 0)
+            
+            # Gestione dei diversi codici di stato
+            if status_code == -1:
+                # Errore
+                self.log(f"Fallita estrazione IW39 per {get_log_prefix()}", "error", True, True, 0)
                 return False
+            
+            elif status_code == 0:
+                # Nessun risultato
+                self.log(f"Nessun dato trovato per {get_log_prefix()}", "info", True, True, 0)
+                return True
+            
+            elif status_code == 1:
+                # Singolo valore
+                self.log(f"Singolo valore trovato per {get_log_prefix()}", "info", True, True, 0)                
+                if tipo_estrazione != "ListaSingoli":
+                    # single_value_set può contenere solo valori unici,
+                    # se il valore è già presente non lo inserisco e non incremento il contatore dei totali estratti
+                    if result not in single_value_set:
+                        single_value_set.add(result)
+                        totale_estratti += status_code
+                        self.log(f"Nuovo valore aggiunto - numero elementi: {len(single_value_set)}", "info", True, True, 0)
+                    else:
+                        self.log(f"Valore '{result}' già presente, ignorato", "warning", True, True, 0)
+                    return True
+                else:
+                    # Tratta come DataFrame anche se singolo valore
+                    self.log(f"Eseguita estrazione IW39 per {get_log_prefix()}", "success", True, True, 0)
+                    df = process_dataframe_creation()
+                    if df is None:
+                        self.log(f"DataFrame vuoto per {get_log_prefix()}", "error", True, True, 0)
+                        return False
+                    return save_dataframe(df)
+            
+            elif status_code > 1:
+                # Lista con più elementi
+                self.log(f"Eseguita estrazione IW39 per {get_log_prefix()}", "success", True, True, 0)
+                df = process_dataframe_creation()
+                if df is None:
+                    self.log(f"DataFrame vuoto per {get_log_prefix()}", "error", True, True, 0)
+                    return False
+                
+                # Incrementa contatore solo se non è "ListaSingoli"
+                if tipo_estrazione != "ListaSingoli":
+                    totale_estratti += status_code
+                
+                return save_dataframe(df)
+            
+            else:
+                # Valore non valido
+                self.log(f"Valore di status_code non valido: {status_code}", "error", True, True, 0)
+                return False        
         
         # Gestisci prima l'estrazione di tipo "Lista", che deve essere eseguita una sola volta
         if "Lista" in self.tipo_estrazioni_OdM:
@@ -660,9 +775,10 @@ class SAPDataExtractor(QObject):
             # Utilizzo della funzione interna per gestire il risultato
             if not handle_extraction_result(status_code, result, "Lista"):
                 self.log(f"Fallita estrazione IW39_single per 'Lista'", "critical", True, True, 0)
-                return False
+                return False, None
         
         # Itera attraverso le estrazioni, escludendo "Lista" che è già stata gestita
+        # self.tipo_estrazioni_OdM = ["Creazione", "Modifica", "InizioCardine", "Lista"]
         for tipo_estrazione in [t for t in self.tipo_estrazioni_OdM if t != "Lista"]:
             self.log(f"Eseguo estrazione: {tipo_estrazione}", "loading", True, True, 0)
             # Estrazione dati per ogni tecnologia configurata
@@ -708,13 +824,15 @@ class SAPDataExtractor(QObject):
                 list_value = list(single_value_set)
                 # Ripeto l'estrazione per i valori risultanti
                 status_code, result = self.extract_IW39_single(str_dataInizio, str_dataFine, "ListaSingoli", list_value, None)
-                # Elimino l'lemento che ho aggiunto al set
-                # Trova e rimuovi la prima occorrenza
+                # Elimino l'elemento (la prima occorrenza) che ho aggiunto al set (result è una stringa)
                 found, clean_result = self.remove_first_row_containing(result, ordine_singolo)
                 if found: 
                     self.log(f"Rimossa riga contenente Ordine {ordine_singolo}", "info", True, True, 0)
+                    # Rimuovo una unità dal conteggio totale degli estratti status_code
+                    status_code -= 1
                 else:
                     self.log(f"Nessuna riga trovata con Ordine = {ordine_singolo}", "info", True, True, 0)
+                    return False, None
 
                 # Utilizzo della funzione handle_extraction_result
                 if not handle_extraction_result(status_code, clean_result, "ListaSingoli"): # non serve modificare anche lo status_code
@@ -744,18 +862,13 @@ class SAPDataExtractor(QObject):
         # Concatena tutti i DataFrame in un unico DataFrame
         self.log(f"Creazione unico DF", "info", True, True, 0)
         result_df = pd.concat(iw39.values(), ignore_index=True) if iw39 else None
-        # Visualizzo statistiche sul numero di righe per ogni DataFrame contenuto nel dizionario iw29
-        # Numero di righe attese 
-        for key, df in iw39.items():
-            self.log(f"{key} ha {len(df)} righe", "info", True, True, 0)
-        self.log(f"{key} ha {len(df)} righe", "info", True, True, 0)
-
         # Verifica che il totale degli elementi estratti corrisponda al numero di righe nel DataFrame
         # Devo farlo prima di eliminare i duplicati, altrimenti il conteggio potrebbe essere errato
         if len(result_df) != totale_estratti:
             self.log(f"Il numero totale di righe estratte ({len(result_df)}) non corrisponde al numero di elementi estratti ({totale_estratti})", "error", True, True, 0)
             return False, None
         # Se i valori sono uguali continua
+        self.log(f"IW39 Verifica elementi estratti OK)", "success", True, True, 0)      
         self.log(f"Numero totale righe df: ({len(result_df)}) - Numero di elementi estratti ({totale_estratti})", "info", True, True, 0)      
         # Gestisco le righe duplicate
         num_duplicati = result_df.duplicated(subset=['Ordine']).sum()
@@ -905,7 +1018,8 @@ class SAPDataExtractor(QObject):
                 self.log(msg, "warning", True, True, 0)
                 return 0, msg # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
             # Verifico se è stato estratto un solo valore
-            elif "Visualizzare Manutenzione" in self.session.findById("wnd[0]").text: # Il titolo della finestra può essere diverso in base al tipo di ordine
+            elif (("Visualizzare Manutenzione" in self.session.findById("wnd[0]").text) or 
+                ("Visualizzare Esercizio" in self.session.findById("wnd[0]").text)): # Il titolo della finestra può essere diverso in base al tipo di ordine
                 msg = "Un solo valore trovato"
                 self.log(msg, "info", True, True, 0)
                 OdM = self.session.findById("wnd[0]/usr/subSUB_ALL:SAPLCOIH:3001/ssubSUB_LEVEL:SAPLCOIH:1100/subSUB_KOPF:SAPLCOIH:1102/txtCAUFVD-AUFNR").text
