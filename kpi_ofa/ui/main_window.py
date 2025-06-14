@@ -723,6 +723,7 @@ class MainWindow(QMainWindow):
                             execution_time = end_time - start_time
                             time_str = self.format_execution_time(execution_time)
                             self.log_manager.log(f"Tempo estrazioni SAP: {time_str}", "info")
+                            return
                     else:
                         self.log_manager.log("Connessione SAP NON attiva", "error")
                         return
@@ -731,13 +732,15 @@ class MainWindow(QMainWindow):
                 return
 
         # Processa i dati estratti
+        """ 
         result, data = self.process_data(self.df_IW29, self.df_IW39, self.df_AFKO, self.df_excel_normalized)
         if not result:
             self.log_manager.log("Errore durante l'elaborazione dei dati estratti", "error")
             return
         self.log_manager.log("Elaborazione dati completata con successo", "success")
+        """
 
-    def format_execution_time(seconds: float) -> str:
+    def format_execution_time(self, seconds: float) -> str:
         """
         Formatta il tempo di esecuzione in modo leggibile.
         
@@ -745,15 +748,36 @@ class MainWindow(QMainWindow):
             seconds: Tempo in secondi
             
         Returns:
-            Stringa formattata (es. "1.23s", "123ms", "12.3μs")
+            Stringa formattata (es. "2h 30m 15s", "5m 23s", "1.23s", "123ms", "12.3μs")
         """
-        if seconds >= 1.0:
+        if seconds >= 3600:  # >= 1 ora
+            hours = int(seconds // 3600)
+            minutes = int((seconds % 3600) // 60)
+            remaining_seconds = seconds % 60
+            
+            if minutes > 0 and remaining_seconds >= 1:
+                return f"{hours}h {minutes}m {remaining_seconds:.0f}s"
+            elif minutes > 0:
+                return f"{hours}h {minutes}m"
+            else:
+                return f"{hours}h {remaining_seconds:.1f}s"
+                
+        elif seconds >= 60:  # >= 1 minuto
+            minutes = int(seconds // 60)
+            remaining_seconds = seconds % 60
+            
+            if remaining_seconds >= 1:
+                return f"{minutes}m {remaining_seconds:.0f}s"
+            else:
+                return f"{minutes}m {remaining_seconds:.1f}s"
+                
+        elif seconds >= 1.0:  # >= 1 secondo
             return f"{seconds:.2f}s"
-        elif seconds >= 0.001:
+        elif seconds >= 0.001:  # >= 1 millisecondo
             return f"{seconds * 1000:.1f}ms"
-        elif seconds >= 0.000001:
+        elif seconds >= 0.000001:  # >= 1 microsecondo
             return f"{seconds * 1000000:.1f}μs"
-        else:
+        else:  # < 1 microsecondo
             return f"{seconds * 1000000000:.0f}ns"
 
     def process_data(self, df_IW29, df_IW39, df_AFKO, df_excel_normalized) -> Tuple[bool, Dict[str, pd.DataFrame]|None]:

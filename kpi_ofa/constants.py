@@ -13,7 +13,8 @@ configuration_json = os.path.join(A_ScriptDir, "config.json")
 # ----------------------------------------------------
 # Debug mode
 # ----------------------------------------------------
-DEBUG_MODE = True
+#DEBUG_MODE = True
+DEBUG_MODE = False
 # Mapping tra file e attributi DataFrame
 test_file_to_df_mapping = {
     "df_AFKO_test.xlsx": "df_AFKO",
