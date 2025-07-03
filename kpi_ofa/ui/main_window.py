@@ -129,6 +129,7 @@ class MainWindow(QMainWindow):
         
         # === DATAFRAMES DA FILE EXCEL ===
         self.df_excel_normalized = pd.DataFrame()  # Excel normalizzato
+        self.df_plants = pd.DataFrame()           # Connettività impianti
         
         # === DATAFRAMES ELABORATI ===
         self.df_merged = pd.DataFrame()         # Dati uniti/elaborati
@@ -552,6 +553,7 @@ class MainWindow(QMainWindow):
             self.df_IW39 = self.test_data_loader.df_IW39
             self.df_AFKO = self.test_data_loader.df_AFKO
             self.df_excel_normalized = self.test_data_loader.df_excel_normalized
+            self.df_plants = self.test_data_loader.df_plants
 
         else:
             # se non siamo in modalità debug, procediamo con l'estrazione dei dati da SAP
@@ -629,6 +631,9 @@ class MainWindow(QMainWindow):
                                     self.log_manager.log("Errore: Estrazione IW29 fallita", "error")
                                     return
                                 
+                                # Aggiungo la colonna 'Data_fine_estrazione' con la data di fine estrazione per costurire il report in PowerBI
+                                self.df_IW29['Data_fine_estrazione'] = end_date.toString("dd.MM.yyyy")  # Formato gg.mm.aaaa
+                                
                                 # Salva il DataFrame in un file Excel
                                 output_file = os.path.join(save_dir, f"IW29_AdM_{timestamp}.xlsx")
                                 try:
@@ -652,6 +657,9 @@ class MainWindow(QMainWindow):
                                 if not result:
                                     self.log_manager.log("Errore: Estrazione IW39 fallita", "error")
                                     return
+
+                                # Aggiungo la colonna 'Data_fine_estrazione' con la data di fine estrazione per costurire il report in PowerBI
+                                self.df_IW39['Data_fine_estrazione'] = end_date.toString("dd.MM.yyyy")   # Formato gg.mm.aaaa
                                 
                                 # Salva il DataFrame in un file Excel
                                 output_file = os.path.join(save_dir, f"IW39_OdM_{timestamp}.xlsx")
@@ -695,6 +703,9 @@ class MainWindow(QMainWindow):
                                 if not result:
                                     self.log_manager.log("Errore: Estrazione AFKO fallita", "error")
                                     return
+                                
+                                # Aggiungo la colonna 'Data_fine_estrazione' con la data di fine estrazione per costurire il report in PowerBI
+                                self.df_AFKO['Data_fine_estrazione'] = end_date.toString("dd.MM.yyyy")   # Formato gg.mm.aaaa                             
                                 
                                 # Verifico che il numero di OdM estratti sia uguale a quello di OdM presenti nel df_IW29
                                 if self.df_AFKO is not None and not self.df_AFKO.empty:

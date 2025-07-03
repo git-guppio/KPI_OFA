@@ -81,7 +81,7 @@ ESW
             UPDATE NOTIFICATION -> Modificati_in_OFA
             OPEN TEXT UPLOAD ATTACHMEMT NOTIFICATION o OPEN TEXT UPLOAD ATTACHMEMT -> Allegati_in_OFA
             CLOSED NOTIFICATION -> Chiusi_in_OFA
-            WORKORDER UPDATE TECO -> da ricercare con numero di Ordine di manutenzione a cui l'avviso afferisce -> Chiusi_in_OFA
+            WORKORDER UPDATE TECO -> da ricercare con numero di Ordine di manutenzione a cui l'avviso afferisce e verificare che l' avviso sia effettivamente in stato MECO -> Chiusi_in_OFA
 
         Calcolo KPI
             Numeratore: 

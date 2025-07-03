@@ -16,7 +16,7 @@ class TestDataLoadError(Exception):
 
 class TestDataLoader:
     """
-    Classe per il caricamento semplice dei file di test.
+    Classe per il caricamento dei file di test.
     
     Carica i file Excel di test e assegna i DataFrame agli attributi dell'istanza.
     Se anche un solo file fallisce, solleva un'eccezione.
