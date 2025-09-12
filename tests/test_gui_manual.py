@@ -81,7 +81,7 @@ def setup_test_environment():
     # Crea un file di configurazione di test
     config_file = os.path.join(temp_dir, "config.json")
     config = {
-        "save_directory": save_dir,
+        "data_directory": save_dir,
         "technologies": {
             "BESS": ["ITE", "USE", "CLE"],
             "SOLAR": ["ITS", "USS", "CLS", "BRS", "COS"],
@@ -164,7 +164,7 @@ def run_test_gui():
         # Importa i moduli necessari
         from kpi_ofa.core.config_manager import ConfigManager
         from kpi_ofa.ui.main_window import MainWindow
-        import kpi_ofa.constants as constants
+        import kpi_ofa.config.constants as constants
         
         # Patch di constants per il test
         constants.configuration_json = config_file

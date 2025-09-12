@@ -16,13 +16,15 @@ from datetime import datetime
 from kpi_ofa.ui.widgets.log_widget import LogWidget
 from kpi_ofa.ui.widgets.date_widget import DateRangeWidget
 from kpi_ofa.ui.config_dialog import ConfigDialog
+from kpi_ofa.core.class_excel_file_mng import ExcelFileMng
 from kpi_ofa.core.excel_data_processor import ExcelDataProcessor
+from kpi_ofa.core.class_df_processor import DfProcessor
 from kpi_ofa.core.log_manager import LogManager
 from kpi_ofa.core.test_data_loader import TestDataLoader, TestDataLoadError
 from kpi_ofa.services.sap_connection import SAPGuiConnection
 from kpi_ofa.services.sap_transactions import SAPDataExtractor
 
-import kpi_ofa.constants as constants
+import kpi_ofa.config.constants as constants
 
 import logging
 logger = logging.getLogger(__name__)
@@ -72,6 +74,9 @@ class MainWindow(QMainWindow):
         
         # Carica la configurazione
         self.load_config()
+
+        # Elabora file Excel
+        self.excel_file_manager = ExcelFileMng(self.data_directory)    
 
         # Inizializza la modalità di debug
         self._init_debug_mode()
@@ -123,9 +128,9 @@ class MainWindow(QMainWindow):
         per una gestione più pulita e organizzata.
         """
         # === DATAFRAMES DA SAP ===
-        self.df_IW29 = pd.DataFrame()           # Avvisi di manutenzione
-        self.df_IW39 = pd.DataFrame()           # Ordini di manutenzione  
-        self.df_AFKO = pd.DataFrame()           # Date inizio cardine
+        self.df_IW29 = pd.DataFrame()           # Avvisi di manutenzione ottenuti con # transazione IW29
+        self.df_IW39 = pd.DataFrame()           # Ordini di manutenzione ottenuti con # transazione IW39
+        self.df_AFKO = pd.DataFrame()           # Date inizio cardine ottenuta con transazione S16 tabella AFKO
         
         # === DATAFRAMES DA FILE EXCEL ===
         self.df_excel_normalized = pd.DataFrame()  # Excel normalizzato
@@ -136,8 +141,8 @@ class MainWindow(QMainWindow):
         self.df_final_report = pd.DataFrame()  # Report finale
         
         # === DATAFRAMES AUSILIARI ===
-        self.df_AdM = pd.DataFrame()            # Avvisi di manutenzione filtrati
-        self.df_OdM = pd.DataFrame()            # Ordini di manutenzione filtrati
+        self.df_AdM = pd.DataFrame()            # Avvisi di manutenzione filtrati da file excel normalizzato
+        self.df_OdM = pd.DataFrame()            # Ordini di manutenzione filtrati da file excel normalizzato
         
         self.log_manager.log("DataFrame inizializzati come vuoti", "info", origin=logger.name)
     
@@ -148,7 +153,7 @@ class MainWindow(QMainWindow):
         self.log_manager.set_status_bar_callback(self.update_status_bar)
         
         # Processore di dati
-        self.excel_data_processor = ExcelDataProcessor()
+        self.excel_data_processor = ExcelDataProcessor()    
         
         # Percorso del file Excel selezionato
         self.excel_file_path = None
@@ -337,6 +342,11 @@ class MainWindow(QMainWindow):
     def load_config(self):
         """Carica la configurazione dell'applicazione."""
         self.config = self.config_manager.get_config()
+        # Salvo i percorsi delle directory leggendole dal file di configurazione
+        self.data_directory = self.config.get("data_directory", "")
+        self.sap_directory = os.path.join(self.data_directory, "SAP")
+        self.powerbi_directory = os.path.join(self.data_directory, "PowerBI")
+        self.test_directory = os.path.join(self.data_directory, "test")    
 
         # Aggiorna configurazione in TestDataLoader
         if hasattr(self, 'test_data_loader'):
@@ -409,7 +419,7 @@ class MainWindow(QMainWindow):
         self.start_button.setEnabled(True)
 
     def enable_buttons(self):
-        """Disabilita i pulsanti di avvio e configurazione nella modalità di debug"""
+        """Abilita i pulsanti di avvio e configurazione nella modalità di debug"""
         self.start_button.setEnabled(True)
         self.config_button.setEnabled(True)
         self.config_button2.setEnabled(True)
@@ -453,22 +463,24 @@ class MainWindow(QMainWindow):
                 self.excel_file_path = None
                 return
             else:
+                # Ottieni la data di inizio e fine dall'intervallo di date
+                start_date, end_date = self.date_widget.get_date_range()
+                # Aggiungi la colonna 'Data_fine_estrazione' al df
+                self.df_excel_normalized['Data_fine_estrazione'] = end_date.toString("dd.MM.yyyy")  # Formato gg.mm.aaaa
+                # Log di successo
                 self.log_manager.log("File excel verificato correttamente", "success")
                 self.update_start_button_state()
                 # Salvo il df in un file excel per eventuali elaborazioni successive
                 try:
                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    # Verifica della directory di salvataggio
-                    save_dir = self.config.get("save_directory", "")
-                    if not save_dir or not os.path.exists(save_dir):
-                        self.log_manager.log("Errore: Directory di salvataggio non valida", "critical", origin=logger.name)
-                        return
                     # Salva il DataFrame in un file Excel
-                    output_file = os.path.join(save_dir, f"df_excel_norm_{timestamp}.xlsx")
-                    self.df_excel_normalized.to_excel(output_file, index=False)
+                    output_file = os.path.join(self.data_directory, f"df_excel_norm_{timestamp}.xlsx")
+                    #self.df_excel_normalized.to_excel(output_file, index=False)
+                    if not self.excel_file_manager.save_excel_file_advanced(self.df_excel_normalized, output_file):
+                        raise Exception("Salvataggio file fallito")
                     self.log_manager.log(f"File salvato in: {output_file}", "success")
                 except Exception as e:
-                    self.log_manager.log(f"Errore: Salvataggio file IW29 fallito: {str(e)}", "error")
+                    self.log_manager.log(f"Errore: Salvataggio file {output_file} fallito: {str(e)}", "error")
                     return    
         else:
             self.log_manager.log("Nessun file selezionato", "warning")
@@ -487,28 +499,28 @@ class MainWindow(QMainWindow):
         """
         return self.excel_data_processor.process_excel_file(file_path, required_sheet, required_columns)
         
-    def load_excel_file(self, file_path, sheet_name=0):
-        """Carica un file Excel con gestione errori"""
-        try:
-            # Verifica che il file esista
-            if not os.path.exists(file_path):
-                self.log_manager.log(f"❌ File non trovato: {file_path}")
-                return None
+    # def load_excel_file(self, file_path, sheet_name=0):
+    #     """Carica un file Excel con gestione errori"""
+    #     try:
+    #         # Verifica che il file esista
+    #         if not os.path.exists(file_path):
+    #             self.log_manager.log(f"❌ File non trovato: {file_path}")
+    #             return None
             
-            # Carica il file
-            df = pd.read_excel(file_path, sheet_name=sheet_name)
-            self.log_manager.log(f"✅ File caricato: {len(df)} righe, {len(df.columns)} colonne")
-            return df
+    #         # Carica il file
+    #         df = pd.read_excel(file_path, sheet_name=sheet_name)
+    #         self.log_manager.log(f"✅ File caricato: {len(df)} righe, {len(df.columns)} colonne")
+    #         return df
             
-        except FileNotFoundError:
-            self.log_manager.log(f"❌ File non trovato: {file_path}")
-            return None
-        except PermissionError:
-            self.log_manager.log(f"❌ Permessi insufficienti per leggere: {file_path}")
-            return None
-        except Exception as e:
-            self.log_manager.log(f"❌ Errore nel caricamento: {str(e)}")
-            return None
+    #     except FileNotFoundError:
+    #         self.log_manager.log(f"❌ File non trovato: {file_path}")
+    #         return None
+    #     except PermissionError:
+    #         self.log_manager.log(f"❌ Permessi insufficienti per leggere: {file_path}")
+    #         return None
+    #     except Exception as e:
+    #         self.log_manager.log(f"❌ Errore nel caricamento: {str(e)}")
+    #         return None
     
     def on_reset_clicked(self):
         """Resetta i campi di input e il log."""
@@ -594,16 +606,11 @@ class MainWindow(QMainWindow):
             # Test stato configurazione
             self.log_manager.log(f"Stato configurazione Check Box AdM: {self.estrai_adm_enabled}", "info", origin=logger.name)
             self.log_manager.log(f"Stato configurazione Check Box OdM: {self.estrai_odm_enabled}", "info", origin=logger.name)
-            self.log_manager.log(f"Stato configurazione Check Box AdM: {self.estrai_AFKO_enabled}", "info", origin=logger.name)
+            self.log_manager.log(f"Stato configurazione Check Box AFKO: {self.estrai_AFKO_enabled}", "info", origin=logger.name)
             
             # Estraggo i dati da SAP
             self.log_manager.log("Avvio estrazione SAP...", origin=logger.name)
             try:
-                # Verifica della directory di salvataggio
-                save_dir = self.config.get("save_directory", "")
-                if not save_dir or not os.path.exists(save_dir):
-                    self.log_manager.log("Errore: Directory di salvataggio non valida", "critical", origin=logger.name)
-                    return
                 
                 # Utilizza la factory per creare una connessione SAP
                 with SAPGuiConnection() as sap:
@@ -635,9 +642,11 @@ class MainWindow(QMainWindow):
                                 self.df_IW29['Data_fine_estrazione'] = end_date.toString("dd.MM.yyyy")  # Formato gg.mm.aaaa
                                 
                                 # Salva il DataFrame in un file Excel
-                                output_file = os.path.join(save_dir, f"IW29_AdM_{timestamp}.xlsx")
+                                output_file = os.path.join(self.sap_directory, f"IW29_AdM_{timestamp}.xlsx")
                                 try:
-                                    self.df_IW29.to_excel(output_file, index=False)
+                                    #self.df_IW29.to_excel(output_file, index=False)
+                                    if not self.excel_file_manager.save_excel_file_advanced(self.df_IW29, output_file):
+                                        raise Exception("Salvataggio file fallito")
                                     self.log_manager.log(f"File salvato in: {output_file}", "success")
                                 except Exception as e:
                                     self.log_manager.log(f"Errore: Salvataggio file IW29 fallito: {str(e)}", "error")
@@ -662,9 +671,11 @@ class MainWindow(QMainWindow):
                                 self.df_IW39['Data_fine_estrazione'] = end_date.toString("dd.MM.yyyy")   # Formato gg.mm.aaaa
                                 
                                 # Salva il DataFrame in un file Excel
-                                output_file = os.path.join(save_dir, f"IW39_OdM_{timestamp}.xlsx")
+                                output_file = os.path.join(self.sap_directory, f"IW39_OdM_{timestamp}.xlsx")
                                 try:
-                                    self.df_IW39.to_excel(output_file, index=False)
+                                    #self.df_IW39.to_excel(output_file, index=False)
+                                    if not self.excel_file_manager.save_excel_file_advanced(self.df_IW39, output_file):
+                                        raise Exception("Salvataggio file fallito")                                    
                                     self.log_manager.log(f"File salvato in: {output_file}", "success")
                                 except Exception as e:
                                     self.log_manager.log(f"Errore: Salvataggio file IW39 fallito: {str(e)}", "error")
@@ -716,9 +727,11 @@ class MainWindow(QMainWindow):
                                     else:
                                         self.log_manager.log(f"Numero di OdM estratti ({num_afko}) corrisponde a quello atteso ({num_odm})", "success")
                                         # Salva il DataFrame in un file Excel
-                                        output_file = os.path.join(save_dir, f"df_AFKO_{timestamp}.xlsx")
+                                        output_file = os.path.join(self.sap_directory, f"df_AFKO_{timestamp}.xlsx")
                                         try:
-                                            self.df_AFKO.to_excel(output_file, index=False)
+                                            #self.df_AFKO.to_excel(output_file, index=False)
+                                            if not self.excel_file_manager.save_excel_file_advanced(self.df_AFKO, output_file):
+                                                raise Exception("Salvataggio file fallito")                                            
                                             self.log_manager.log(f"File salvato in: {output_file}", "success")
                                         except Exception as e:
                                             self.log_manager.log(f"Errore: Salvataggio file AFKO fallito: {str(e)}", "error")
@@ -734,22 +747,49 @@ class MainWindow(QMainWindow):
                             execution_time = end_time - start_time
                             time_str = self.format_execution_time(execution_time)
                             self.log_manager.log(f"Tempo estrazioni SAP: {time_str}", "info")
-                            return
+                            #return
                     else:
                         self.log_manager.log("Connessione SAP NON attiva", "error")
                         return
             except Exception as e:
                 self.log_manager.log(f"Estrazione dati SAP: Errore: {str(e)}", "error")
                 return
+            
+            # Elaboro i dati estratti
+            self.log_manager.log("Avvio elaborazione dati...", origin=logger.name)
+            try:
+                # Carico il file excel plants.xlsx in un df
+                file_path = os.path.join(self.data_directory, 'plants.xlsx')
+                result, self.df_plants = self.excel_file_manager.load_excel_file(file_path)
+                if not result:
+                    self.log_manager.log(f"Errore durante il caricamento del file {file_path}", "error")
+                    return
+                # Creo un dizionario contenente tutti i df necessari all'elaborazione.
+                dict_df = {
+                    "df_AFKO": self.df_AFKO,
+                    "df_excel_normalized": self.df_excel_normalized,
+                    "df_IW29": self.df_IW29,
+                    "df_IW39": self.df_IW39,
+                    "df_plants": self.df_plants
+                }
 
-        # Processa i dati estratti
-        """ 
-        result, data = self.process_data(self.df_IW29, self.df_IW39, self.df_AFKO, self.df_excel_normalized)
-        if not result:
-            self.log_manager.log("Errore durante l'elaborazione dei dati estratti", "error")
-            return
-        self.log_manager.log("Elaborazione dati completata con successo", "success")
-        """
+                # Salvo le estrazioni nella directory SAP 
+                exclude_list = ["df_excel_normalized", "df_plants"]
+                filtered_dict = {k: v for k, v in dict_df.items() if k not in exclude_list}
+                if not self.save_all_dataframes(filtered_dict, self.sap_directory, "SAP"):
+                    self.log_manager.log("Errore durante il salvataggio delle estrazioni nella directory SAP", "error")
+                    return
+
+                # Procedo con l'elaborazione dei dati
+                result, data = self.process_data(dict_df)
+                if not result:
+                    self.log_manager.log("Errore durante l'elaborazione dei dati estratti", "error")
+                    return
+                self.log_manager.log("Elaborazione dati completata con successo", "success")
+            except Exception as e:
+                self.log_manager.log(f"Errore durante l'elaborazione dei dati: {str(e)}", "error")
+                return
+
 
     def format_execution_time(self, seconds: float) -> str:
         """
@@ -791,77 +831,145 @@ class MainWindow(QMainWindow):
         else:  # < 1 microsecondo
             return f"{seconds * 1000000000:.0f}ns"
 
-    def process_data(self, df_IW29, df_IW39, df_AFKO, df_excel_normalized) -> Tuple[bool, Dict[str, pd.DataFrame]|None]:
+    def process_data(self, dict_df) -> Tuple[bool, Dict[str, pd.DataFrame]|None]:
         """
         Elabora i dati estratti da SAP.
         
         Args:
-            df_IW29 (DataFrame): DataFrame contenente i dati IW29.
-            df_IW39 (DataFrame): DataFrame contenente i dati IW39.
-            df_AFKO (DataFrame): DataFrame contenente i dati AFKO.
+            df_dict: Dizionario) contenente i DataFrame:
+                df_IW29: DataFrame contenente i dati IW29.
+                df_IW39: DataFrame contenente i dati IW39.
+                df_AFKO: DataFrame contenente i dati AFKO.
+                df_excel_normalized: Dataframe contenente i dati normalizzato dal file Excel di input.
+                df_plants: Dataframe contenente i dati relativi ai plants.    
             
         Returns:
             Tuple[bool, Dict[str, pd.DataFrame]]: 
             - bool: True se almeno un DataFrame è stato estratto con successo
             - Dict: Dizionario con chiavi come nomi delle tabelle e valori come DataFrame
         """
-        # Verifico che i DataFrame non siano vuoti
-        if not((df_IW29 is not None and not df_IW29.empty) and
-            (df_IW39 is not None and not df_IW39.empty) and
-            (df_AFKO is not None and not df_AFKO.empty) and
-            (df_excel_normalized is not None and not df_excel_normalized.empty)):
-            # Se uno dei DataFrame è vuoto, loggo l'errore e ritorno False
-            self.log_manager.log("Errore: Dataframe vuoti o non validi", "error")
+        # Ottieni la data di inizio e fine dall'intervallo di date
+        intervallo_date = self.date_widget.get_date_range()
+        if len(intervallo_date) >= 2:
+            data_inizio = intervallo_date[0].toString("dd.MM.yyyy")
+            data_fine = intervallo_date[1].toString("dd.MM.yyyy")
+        else:
+            print("Errore: intervallo date non valido")
             return False, None
+
+        # creo una istanza di DfProcessor per elaborare i DataFrame
+        df_processor = DfProcessor(dict_df, intervallo_date)
+        df_processor.get_dataframe_info()
+
+
+        # Converti tutti i campi dei df in stringhe
+        print("\nInizio conversione dei DataFrame...")
+        result, dict_df_conv = df_processor.converti_tutti_df(dict_df)
+        if not result:
+            print("Errore durante la conversione dei DataFrame")
+            return False, None
+        print("\n\tConversione completata con successo")
         
-        # Inizio l'elaborazione dei dati estratti
-        self.log_manager.log("Inizio elaborazione dati estratti", "info")    
-
-        # Inserisco Data inizio cardine presente nel dataframe df_AFKO nel df_IW29
-        self.log_manager.log("Inserisco Data inizio cardine ordini nel df_IW29", "info")
-        try:
-            # Converto i dati presenti nella colonan 'Ordini' in valori numerici per consentire il merge
-            df_IW29['Ordine'] = (df_IW29['Ordine']
-                .astype(str)
-                .str.strip()
-                .replace(['', 'nan', 'NaN', 'None'], pd.NA)
-                .pipe(pd.to_numeric, errors='raise')
-                .astype('Int64'))
-
-            df_AFKO['Ordine'] = (df_AFKO['Ordine']
-                .astype(str)
-                .str.strip()
-                .replace(['', 'nan', 'NaN', 'None'], pd.NA)
-                .pipe(pd.to_numeric, errors='raise')
-                .astype('Int64'))
-        except Exception as e:
-            self.log_manager.log(f"Errore durante la conversione degli Ordini nei df: {str(e)}", "error")
+        # Inserisco delle nuove colonne nei df per poter effettuare successivamente l'elaborazione
+        print("\nInizio inserimento nuove colonne nei DataFrame...")
+        result, dict_df_add_columns = df_processor.df_add_columns(dict_df_conv)
+        if not result:
+            print("Errore durante l'inserimento delle nuove colonne nei DataFrame")
             return False, None
-        try:
-            df_IW29_DIC = df_IW29.merge(
-                df_AFKO, 
-                left_on='Ordine',      # Colonna nel DataFrame df_IW29
-                right_on='Ordine',     # Colonna nel DataFrame df_AFKO
-                how='left'
-            )
-        except Exception as e:
-            self.log_manager.log(f"Errore durante il merge dei DataFrame: {str(e)}", "error")
+        print("\n\tInserimento completato con successo")
+        
+        # Salvo i df creati in file excel
+        print("\nInizio salvataggio DataFrame in file Excel...")
+        if not self.save_all_dataframes(dict_df_add_columns, self.data_directory):
+            print("Errore durante il salvataggio dei DataFrame in file Excel")
             return False, None
+        else:
+            print("\n\tSalvataggio completato con successo")
+        
+        # Eseguo l'elaborazione dei dati
+        print("\nInizio elaborazione dati...")
+        result, dict_df_processed = df_processor.process_dataframes(dict_df_add_columns)
+        if not result:
+            print("Errore durante l'elaborazione dei dati")
+            return False, None
+        print("\n\tElaborazione completata con successo")
+
+        # Salvo i df elaborati in file excel per utilizzarli nella PowerBI
+        print("\nInizio salvataggio DataFrame elaborati in file Excel...")
+        if not self.save_all_dataframes(dict_df_processed, self.powerbi_directory, "PowerBI", data_fine):
+            print("Errore durante il salvataggio dei DataFrame elaborati in file Excel")
+            return False, None
+
+        print("\n\tSalvataggio completato con successo")
+
+        # elaborazione completata con successo
+        return True, None        
     
+    def save_all_dataframes(self, dict_df, file_path, infix="extended", postfix=""):
+        """
+        Salva tutti i DataFrame contenuti nel dizionario in file Excel separati.
+        
+        Args:
+            dict_df (dict): Dizionario contenente i DataFrame da salvare
+            
+        Returns:
+            bool: True se tutti i file sono stati salvati con successo, False altrimenti
+        """
+        print("\nInizio salvataggio DataFrame in file Excel...")
+        
+        if postfix == "":
+            postfix = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Contatori per statistiche
+        saved_count = 0
+        failed_count = 0
+        failed_files = []
+        
+        try:
+            # Ciclo attraverso tutti i DataFrame nel dizionario
+            for df_name, dataframe in dict_df.items():
+                try:
+                    # Verifica che il valore sia effettivamente un DataFrame
+                    if not isinstance(dataframe, pd.DataFrame):
+                        self.log_manager.log(f"Skipping {df_name}: non è un DataFrame", "warning")
+                        continue
+                    
+                    # Verifica che il DataFrame non sia vuoto
+                    if dataframe.empty:
+                        self.log_manager.log(f"Skipping {df_name}: DataFrame vuoto", "warning")
+                        continue
+                    
+                    # Genera il nome del file output
+                    output_file = os.path.join(file_path, f"{df_name}_{infix}_{postfix}.xlsx")
+                    
+                    # Salva il DataFrame usando il file manager
+                    if self.excel_file_manager.save_excel_file_advanced(dataframe, output_file):
+                        saved_count += 1
+                        self.log_manager.log(f"✓ {df_name} salvato in: {output_file}", "success")
+                    else:
+                        failed_count += 1
+                        failed_files.append(df_name)
+                        self.log_manager.log(f"✗ Errore salvando {df_name}", "error")
+                        
+                except Exception as e:
+                    failed_count += 1
+                    failed_files.append(df_name)
+                    self.log_manager.log(f"✗ Errore salvando {df_name}: {str(e)}", "error")
+            
+            # Log del riepilogo finale
+            total_dataframes = len(dict_df)
+            self.log_manager.log(f"Salvataggio completato: {saved_count}/{total_dataframes} file salvati", 
+                                "success" if failed_count == 0 else "warning")
+            
+            if failed_files:
+                self.log_manager.log(f"File non salvati: {', '.join(failed_files)}", "error")
 
-    # Verifico se il merge ha prodotto risultati
-               
-        # Inizializza i DataFrame
-        dataframes = {
-            'AdM': pd.DataFrame(),
-            'OdM': pd.DataFrame(), 
-            'IW29': pd.DataFrame(),
-            'IW39': pd.DataFrame()
-        }        
-        # Esegui l'elaborazione dei dati
-        # Inserisco una nuova colonna "Data inizio cardine" nel df_IW29, ricavo il data di inizio cardine dal df_AFKO
-        df_IW29["Data_inizio_cardine"] = df_IW29["Avvisi"].map(df_AFKO.set_index("Avvisi")["Data inizio cardine"])    
-        return True, None
+        except Exception as e:
+            self.log_manager.log(f"Errore generale durante il salvataggio: {str(e)}", "error")
+            return False
+
+        # Ritorna True solo se tutti i file sono stati salvati con successo
+        return failed_count == 0    
 
     def validate_technology_config(self, tech_config):
         """

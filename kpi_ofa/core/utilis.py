@@ -3,6 +3,7 @@ from collections import Counter
 from typing import Tuple, List, Dict, Optional
 import os
 import logging
+import re
 from PyQt5.QtCore import QObject, pyqtSignal
 
 # Logger specifico per questo modulo

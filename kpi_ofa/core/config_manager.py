@@ -51,7 +51,7 @@ class ConfigManager:
             return
         
         # Importa qui per evitare dipendenze circolari
-        from kpi_ofa.constants import configuration_json, default_config
+        from kpi_ofa.config.constants import configuration_json, default_config
         
         # Memorizza il percorso del file di configurazione
         self.config_file = config_file_path if config_file_path else configuration_json
@@ -61,6 +61,12 @@ class ConfigManager:
         
         # Carica la configurazione
         self.config = self._load_config()
+
+        # Verifica la validità della configurazione caricata
+        is_valid, msg = self.validate_config_mng(self.config)
+        if not is_valid:
+            logger.warning(f"Configurazione non valida:\n{msg}. Utilizzo valori predefiniti.")
+            self.config = self.default_config.copy()
         
         # Segna l'istanza come inizializzata
         self._initialized = True
@@ -135,14 +141,50 @@ class ConfigManager:
         """
         return self.config.copy()
     
-    def get_save_directory(self):
+    def get_data_directory(self):
         """
         Restituisce la directory di salvataggio.
         
         Returns:
             str: Percorso della directory di salvataggio.
         """
-        return self.config.get("save_directory", "")
+        return self.config.get("data_directory", "")
+    
+    def get_powerbi_directory(self):
+        """
+        Restituisce la directory PowerBI.
+        
+        Returns:
+            str: Percorso della directory PowerBI o stringa vuota se la directory principale non è configurata.
+        """
+        save_dir = self.get_data_directory()
+        if not save_dir:
+            return ""
+        return os.path.join(save_dir, "PowerBI")
+
+    def get_sap_directory(self):
+        """
+        Restituisce la directory SAP.
+        
+        Returns:
+            str: Percorso della directory SAP o stringa vuota se la directory principale non è configurata.
+        """
+        save_dir = self.get_data_directory()
+        if not save_dir:
+            return ""
+        return os.path.join(save_dir, "SAP")
+
+    def get_test_directory(self):
+        """
+        Restituisce la directory test.
+        
+        Returns:
+            str: Percorso della directory test o stringa vuota se la directory principale non è configurata.
+        """
+        save_dir = self.get_data_directory()
+        if not save_dir:
+            return ""
+        return os.path.join(save_dir, "test")    
     
     def get_technologies(self):
         """
@@ -162,9 +204,10 @@ class ConfigManager:
         """
         return self.config.get("operations", {})
     
-    def validate_config(self, config=None):
+
+    def validate_config_mng(self, config=None):
         """
-        Valida la configurazione.
+        Valida la configurazione inclusi i controlli delle directory necessarie.
         
         Args:
             config (dict, optional): Configurazione da validare.
@@ -172,39 +215,67 @@ class ConfigManager:
         
         Returns:
             tuple: (bool, str) - True se la configurazione è valida, 
-                  False e messaggio di errore altrimenti.
+                False e messaggio di errore altrimenti.
         """
         # Usa la configurazione fornita o quella corrente
         config_to_validate = config if config is not None else self.config
         
-        # Verifica che la directory di salvataggio sia specificata
-        save_dir = config_to_validate.get("save_directory", "")
+        # 1. Verifica che la directory di salvataggio sia specificata
+        save_dir = config_to_validate.get("data_directory", "")
         if not save_dir:
             return False, "La directory di salvataggio non è specificata."
         
-        # Verifica che la directory esista
+        # 2. Verifica che la directory di salvataggio esista
         if not os.path.exists(save_dir):
             return False, f"La directory di salvataggio '{save_dir}' non esiste."
         
-        # Verifica che ci sia almeno un'operazione attiva
+        # 3. Verifica e valida le subdirectory necessarie
+        required_subdirs = {
+            "PowerBI": os.path.join(save_dir, "PowerBI"),
+            "SAP": os.path.join(save_dir, "SAP"),
+            "test": os.path.join(save_dir, "test")
+        }
+        
+        missing_dirs = []
+        for name, path in required_subdirs.items():
+            if not os.path.exists(path):
+                missing_dirs.append((name, path))
+        
+        # Se ci sono directory mancanti, chiedi all'utente se crearle
+        if missing_dirs:
+            missing_names = [name for name, _ in missing_dirs]
+            return False, f"Errore durante la verifica delle directory.\nLe seguenti directory sono necessarie ma non esistono: {', '.join(missing_names)}"
+        
+        # 5. Verifica che ci sia almeno un'operazione attiva
         operations = config_to_validate.get("operations", {})
+        if not operations:
+            return False, "Non sono state configurate operazioni."
+        
         if not any(operations.values()):
             return False, "È necessario selezionare almeno un'operazione da eseguire."
         
-        # Verifica che ci sia almeno una tecnologia con prefissi
+        # 6. Verifica che ci sia almeno una tecnologia con prefissi
         technologies = config_to_validate.get("technologies", {})
         if not technologies:
             return False, "Non sono state configurate tecnologie."
         
         has_prefixes = False
+        empty_technologies = []
+        
         for tech, prefixes in technologies.items():
-            if prefixes:
+            if prefixes and len(prefixes) > 0:
                 has_prefixes = True
-                break
+            else:
+                empty_technologies.append(tech)
         
         if not has_prefixes:
             return False, "È necessario specificare almeno un prefisso per una tecnologia."
         
+        # 7. Avvisa delle tecnologie senza prefissi (warning, non errore)
+        if empty_technologies and hasattr(self, 'log_activity'):
+            warning_msg = f"Le seguenti tecnologie non hanno prefissi configurati: {', '.join(empty_technologies)}"
+            self.log_activity(warning_msg, "warning")
+              
         # Tutte le verifiche sono state superate
         return True, ""
     

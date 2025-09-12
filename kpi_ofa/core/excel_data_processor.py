@@ -14,8 +14,9 @@ class ExcelDataProcessor:
     Processore dei dati per l'applicazione KPI OFA.
     
     Questa classe è responsabile dell'elaborazione dei dati dal file Excel
-    e della preparazione degli Avvisi di Manutenzione (AdM) e Ordini di 
-    Manutenzione (OdM) per l'estrazione SAP.
+    contenente le azioni degli utenti (file fornito da consulenti esterni),
+    e della preparazione della lista degli Avvisi di Manutenzione (AdM) e Ordini di 
+    Manutenzione (OdM) per la successiva estrazione in SAP.
     
     Utilizza il LogManager centralizzato per la registrazione dei messaggi
     sia nel sistema di logging che nell'interfaccia utente.
@@ -79,6 +80,12 @@ class ExcelDataProcessor:
         # salvo il df per poterlo usare in altre funzioni
         self.df_excel = df
         
+        # Elimino dal df le righe in cui nel campo 'action' compare la parola "CHECKLIST"
+        original_rows = len(df)
+        df = df[~df['action'].str.contains('CHECKLIST', case=False, na=False)].reset_index(drop=True)
+        removed_rows = original_rows - len(df)
+        self.log(f"Rimosse {removed_rows} righe con colonna 'action' contenente 'CHECKLIST'. \nRighe rimanenti: {len(df)}", "info")
+
         # Normalizzazione dei dati -> Creo la colonna idItem_normalized contenente i valori della colonna idItem 
         self.log("Normalizzazione degli idItem", "loading")
         result, self.df_excel_normalized = self.normalize_excel_df(df)
@@ -108,32 +115,7 @@ class ExcelDataProcessor:
             return False
         
         self.log(f"OdM estratti: {len(self.df_OdM)}", "success")
-
-        # Creo le colonne 'country' e 'tecnologia' nel dataframe df_excel_normalized
-        # Crea colonna TL (terzo carattere)
-        def extract_and_transform_tech(functional_location):
-            """Estrae il primo carattere e lo trasforma in tecnologia"""
-            if pd.isna(functional_location) or not isinstance(functional_location, str) or len(functional_location) == 0:
-                return None
-            
-            first_char = functional_location[0].upper()
-            
-            mapping = {
-                'S': 'Solar',
-                'E': 'Bess',
-                'W': 'WIND'
-            }
-            
-            return mapping.get(first_char, None)
-
-        # Applica tutto insieme
-        self.df_excel_normalized['tecnologia'] = self.df_excel_normalized['functionalLocation'].apply(extract_and_transform_tech)
-
-        # Crea colonna tecnologia (primi due caratteri)
-        self.df_excel_normalized['country'] = self.df_excel_normalized['functionalLocation'].apply(
-            lambda x: x[:2] if pd.notna(x) and isinstance(x, str) and len(x) >= 2 else None
-        )
-
+        # Normalizzazione completata
         self.log("File Excel elaborato con successo", "success")
 
         return True, self.df_excel_normalized
@@ -400,7 +382,7 @@ class ExcelDataProcessor:
                 return False, None
 
             
-            self.log(f"Filtrati {len(df_OdM_unique)} record con idItem < 2000000000 su {len(df)} totali", "success")
+            self.log(f"Filtrati {len(df_OdM_unique)} record con idItem > 2000000000 su {len(df)} totali", "success")
             
             return True, df_OdM_unique
             

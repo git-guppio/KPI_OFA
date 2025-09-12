@@ -3,11 +3,116 @@
 import os
 import json
 import logging
+import sys
 from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel, 
                             QLineEdit, QPushButton, QFileDialog, QTabWidget,
                             QListWidget, QGroupBox, QMessageBox, QWidget,
                             QCheckBox, QInputDialog, QListWidgetItem)
 from PyQt5.QtCore import Qt, pyqtSignal
+
+# Classe per la gestione delle directory di salvataggio dei dati
+class DirectoryCreationDialog(QDialog):
+    """
+    Dialog personalizzato per mostrare le directory mancanti e richiedere conferma
+    """
+    def __init__(self, missing_dirs, parent=None):
+        super().__init__(parent)
+        self.missing_dirs = missing_dirs
+        self.user_choice = False
+        self.setup_ui()
+    
+    def setup_ui(self):
+        """Configura l'interfaccia del dialog"""
+        self.setWindowTitle("Directory Mancanti")
+        self.setModal(True)
+        self.resize(450, 320)
+        
+        # Layout principale
+        layout = QVBoxLayout()
+        
+        # Etichetta informativa
+        info_label = QLabel("Le seguenti subdirectory non esistono nella directory selezionata:")
+        info_label.setStyleSheet("font-weight: bold; margin-bottom: 10px; color: #2c3e50;")
+        info_label.setWordWrap(True)
+        layout.addWidget(info_label)
+        
+        # Lista delle directory mancanti
+        list_widget = QListWidget()
+        list_widget.setStyleSheet("""
+            QListWidget {
+                border: 1px solid #bdc3c7;
+                border-radius: 5px;
+                background-color: #f8f9fa;
+                font-family: 'Consolas', 'Monaco', monospace;
+            }
+            QListWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #ecf0f1;
+            }
+        """)
+        
+        for name, path in self.missing_dirs:
+            list_widget.addItem(f"📁 {name}: {path}")
+        list_widget.setMaximumHeight(150)
+        layout.addWidget(list_widget)
+        
+        # Domanda
+        question_label = QLabel("\nVuoi creare automaticamente queste directory?")
+        question_label.setStyleSheet("font-size: 12px; margin-top: 10px; color: #34495e;")
+        layout.addWidget(question_label)
+        
+        # Pulsanti
+        button_layout = QHBoxLayout()
+        
+        yes_button = QPushButton("✓ Sì, crea le directory")
+        yes_button.setStyleSheet("""
+            QPushButton {
+                background-color: #27ae60;
+                color: white;
+                font-weight: bold;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 11px;
+            }
+            QPushButton:hover {
+                background-color: #229954;
+            }
+        """)
+        yes_button.clicked.connect(self.accept_creation)
+        
+        no_button = QPushButton("✗ No, annulla")
+        no_button.setStyleSheet("""
+            QPushButton {
+                background-color: #e74c3c;
+                color: white;
+                font-weight: bold;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 11px;
+            }
+            QPushButton:hover {
+                background-color: #c0392b;
+            }
+        """)
+        no_button.clicked.connect(self.reject_creation)
+        
+        button_layout.addWidget(yes_button)
+        button_layout.addWidget(no_button)
+        
+        layout.addLayout(button_layout)
+        self.setLayout(layout)
+    
+    def accept_creation(self):
+        """L'utente ha scelto di creare le directory"""
+        self.user_choice = True
+        self.accept()
+    
+    def reject_creation(self):
+        """L'utente ha scelto di non creare le directory"""
+        self.user_choice = False
+        self.reject()
 
 logger = logging.getLogger(__name__)
 
@@ -219,9 +324,9 @@ class ConfigDialog(QDialog):
     def load_config_to_ui(self):
         """Carica la configurazione esistente nei controlli dell'interfaccia."""
         # Imposta la directory di salvataggio
-        save_directory = self.config.get("save_directory", "")
-        if save_directory:
-            self.dir_input.setText(save_directory)
+        data_directory = self.config.get("data_directory", "")
+        if data_directory:
+            self.dir_input.setText(data_directory)
         
         # Imposta lo stato delle checkbox per le operazioni
         operations = self.config.get("operations", {})
@@ -337,7 +442,7 @@ class ConfigDialog(QDialog):
             dict: Configurazione raccolta dall'interfaccia.
         """
         new_config = {
-            "save_directory": self.dir_input.text(),
+            "data_directory": self.dir_input.text(),
             "technologies": {},
             "operations": {}
         }
@@ -357,7 +462,7 @@ class ConfigDialog(QDialog):
         
         return new_config
     
-    def validate_config(self, config):
+    def validate_config_old(self, config):
         """
         Valida la configurazione raccolta dall'interfaccia.
         
@@ -369,7 +474,7 @@ class ConfigDialog(QDialog):
                   e un messaggio di errore in caso di validazione fallita.
         """
         # Verifica che la directory di salvataggio sia specificata
-        save_dir = config.get("save_directory", "")
+        save_dir = config.get("data_directory", "")
         if not save_dir:
             return False, "La directory di salvataggio non è stata specificata."
         
@@ -439,6 +544,143 @@ class ConfigDialog(QDialog):
                 "Impossibile salvare la configurazione."
             )
             self.log_activity("Impossibile salvare la configurazione", "error")
+
+    def check_and_create_subdirectories(self, save_dir):
+        """
+        Verifica l'esistenza delle subdirectory e le crea se necessario.
+        Integrato nel flusso della ConfigDialog esistente.
+        
+        Args:
+            save_dir (str): Percorso della directory principale
+            
+        Returns:
+            tuple: (success: bool, message: str)
+        """
+        # Definisci le subdirectory necessarie (puoi personalizzare questi percorsi)
+        subdirectories = {
+            "test": os.path.join(save_dir, "test"),
+            "SAP": os.path.join(save_dir, "SAP"), 
+            "PowerBI": os.path.join(save_dir, "PowerBI")
+        }
+        
+        # Lista delle directory mancanti
+        missing_dirs = []
+        
+        # Controlla quali subdirectory mancano
+        for name, path in subdirectories.items():
+            if not os.path.exists(path):
+                missing_dirs.append((name, path))
+        
+        # Se non mancano directory, tutto ok
+        if not missing_dirs:
+            self.log_activity("Tutte le subdirectory necessarie esistono", "success")
+            return True, "Tutte le directory esistono."
+        
+        # Mostra il dialog per chiedere conferma
+        dialog = DirectoryCreationDialog(missing_dirs, self)
+        dialog.exec_()
+        
+        # Se l'utente non vuole crearle
+        if not dialog.user_choice:
+            missing_names = [name for name, _ in missing_dirs]
+            cancel_msg = f"Operazione annullata. Directory mancanti: {', '.join(missing_names)}"
+            self.log_activity(cancel_msg, "warning")
+            return False, cancel_msg
+        
+        # Crea le directory mancanti
+        created_dirs = []
+        failed_dirs = []
+        
+        for name, path in missing_dirs:
+            try:
+                os.makedirs(path, exist_ok=True)
+                created_dirs.append(name)
+                self.log_activity(f"Directory '{name}' creata: {path}", "success")
+            except PermissionError:
+                failed_dirs.append(f"{name} (permessi insufficienti)")
+                self.log_activity(f"Errore permessi per directory '{name}': {path}", "error")
+            except OSError as e:
+                failed_dirs.append(f"{name} (errore: {str(e)})")
+                self.log_activity(f"Errore creazione directory '{name}': {str(e)}", "error")
+        
+        # Prepara il messaggio di ritorno
+        if failed_dirs:
+            error_msg = f"Alcune directory non sono state create: {', '.join(failed_dirs)}"
+            if created_dirs:
+                error_msg += f"\nDirectory create con successo: {', '.join(created_dirs)}"
+            return False, error_msg
+        else:
+            success_msg = f"Tutte le directory sono state create: {', '.join(created_dirs)}"
+            return True, success_msg
+
+    def browse_directory(self):
+        """
+        Apre un dialogo per selezionare la directory di salvataggio.
+        MODIFICATO per includere il controllo delle subdirectory.
+        """
+        current_dir = self.dir_input.text() or os.path.expanduser("~")
+        directory = QFileDialog.getExistingDirectory(
+            self, 
+            "Seleziona Directory", 
+            current_dir
+        )
+        
+        if directory:
+            self.dir_input.setText(directory)
+            self.log_activity(f"Selezionata directory: {directory}")
+            
+            # NUOVO: Controlla e crea le subdirectory automaticamente
+            success, message = self.check_and_create_subdirectories(directory)
+            if success:
+                self.log_activity("Controllo subdirectory completato con successo", "success")
+            else:
+                # Se l'utente annulla la creazione, non bloccare la selezione della directory
+                self.log_activity("Controllo subdirectory: alcune directory non sono state create", "warning")
+
+    def validate_config(self, config):
+        """
+        Valida la configurazione raccolta dall'interfaccia.
+        MODIFICATO per includere la validazione delle subdirectory.
+        
+        Args:
+            config (dict): Configurazione da validare.
+            
+        Returns:
+            tuple: (bool, str) - True se la configurazione è valida, False altrimenti,
+                  e un messaggio di errore in caso di validazione fallita.
+        """
+        # Verifica che la directory di salvataggio sia specificata
+        save_dir = config.get("data_directory", "")
+        if not save_dir:
+            return False, "La directory di salvataggio non è stata specificata."
+        
+        # Verifica che la directory esista
+        if not os.path.exists(save_dir):
+            return False, f"La directory '{save_dir}' non esiste."
+        
+        # NUOVO: Controllo finale delle subdirectory durante la validazione
+        success, message = self.check_and_create_subdirectories(save_dir)
+        if not success and "annullata" in message.lower():
+            return False, "È necessario creare le subdirectory richieste per continuare."
+        
+        # Verifica che ci sia almeno un'operazione attiva
+        operations = config.get("operations", {})
+        if not any(operations.values()):
+            return False, "È necessario selezionare almeno un'operazione da eseguire."
+        
+        # Verifica che ci sia almeno una tecnologia con prefissi
+        technologies = config.get("technologies", {})
+        has_prefixes = False
+        for tech, prefixes in technologies.items():
+            if prefixes:
+                has_prefixes = True
+                break
+        
+        if not has_prefixes:
+            return False, "È necessario specificare almeno un prefisso per una tecnologia."
+        
+        # Tutte le verifiche sono state superate
+        return True, ""            
     
     def closeEvent(self, event):
         """

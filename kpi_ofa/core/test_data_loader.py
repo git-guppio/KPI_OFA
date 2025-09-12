@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Dict, Optional
 from datetime import datetime
 
-import kpi_ofa.constants as constants
+import kpi_ofa.config.constants as constants
 
 
 class TestDataLoadError(Exception):

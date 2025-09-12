@@ -43,7 +43,7 @@ def main():
     # Importiamo qui per evitare problemi di circolarità delle dipendenze
     from kpi_ofa.core.config_manager import ConfigManager
     from kpi_ofa.ui.main_window import MainWindow
-    import kpi_ofa.constants as constants
+    import kpi_ofa.config.constants as constants
     
     # Crea l'applicazione Qt
     app = QApplication(sys.argv)

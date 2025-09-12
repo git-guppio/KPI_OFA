@@ -6,7 +6,7 @@ import re
 
 from collections import Counter
 from typing import List, Dict, Optional
-import kpi_ofa.constants as constants
+import kpi_ofa.config.constants as constants
 from typing import Dict, Any, Optional
 import logging
 from kpi_ofa.core.utilis import DataFrameTools as DF_Tools
