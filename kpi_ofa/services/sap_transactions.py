@@ -390,7 +390,7 @@ class SAPDataExtractor(QObject):
                 list_value = list(single_value_set)
                 # Ripeto l'estrazione per i valori risultanti
                 status_code, result = self.extract_IW29_single(str_dataInizio, str_dataFine, "ListaSingoli", list_value, None)
-                # Elimino l'lemento che ho aggiunto al set
+                # Elimino l'elemento che ho aggiunto al set
                 # Trova e rimuovi la prima occorrenza
                 found, clean_result = self.remove_first_row_containing(result, avviso_singolo)
                 if found: 
@@ -553,7 +553,7 @@ class SAPDataExtractor(QObject):
 
         # Layout
 
-            self.session.findById("wnd[0]/usr/ctxtVARIANT").text = "/KPIOFANO2"
+            self.session.findById("wnd[0]/usr/ctxtVARIANT").text = "KPIOFANO2"
             #self.session.findById("wnd[0]/usr/ctxtVARIANT").setFocus()
             #self.session.findById("wnd[0]/usr/ctxtVARIANT").caretPosition = 10
             #self.session.findById("wnd[0]").sendVKey(0)
@@ -997,7 +997,7 @@ class SAPDataExtractor(QObject):
 
         # Imposto il Layout
 
-            self.session.findById("wnd[0]/usr/ctxtVARIANT").text = "/KPIOFA2"
+            self.session.findById("wnd[0]/usr/ctxtVARIANT").text = "KPIOFA2" #Utilizzo layout specifico per utente per evitare possibili manomissioni da terzi
             #self.session.findById("wnd[0]/usr/ctxtVARIANT").setFocus()
             #self.session.findById("wnd[0]/usr/ctxtVARIANT").caretPosition = 10
             #self.session.findById("wnd[0]").sendVKey(0)
@@ -1122,7 +1122,7 @@ class SAPDataExtractor(QObject):
             self.session.findById("wnd[1]/tbar[0]/btn[8]").press()
             time.sleep(0.25)
         # Imposto i massimi risultati
-            self.session.findById("wnd[0]/usr/txtMAX_SEL").text = "9999999"
+            self.session.findById("wnd[0]/usr/txtMAX_SEL").text = ""
             #self.session.findById("wnd[0]/usr/txtMAX_SEL").setFocus()
             #self.session.findById("wnd[0]/usr/txtMAX_SEL").caretPosition = 4
             self.session.findById("wnd[0]").sendVKey(0)

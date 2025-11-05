@@ -60,5 +60,40 @@ default_config = {
     }   
 }
 
+field_names_map = {
+    "IW29": {
+        "QMNUM": ["Avviso"],
+        "AEDAT": ["Data modifica","Mod.","Mod. il"],
+        "ERDAT": ["Data creazione","Data cr.","Il"],
+        "QMTXT": ["Descrizione","Descr."],
+        "QMART": ["Tipo avviso","Tp.avv.","Tp."],
+        "TPLNR": ["Sede tecnica","Sede tecn."],
+        "STTXT": ["Stato sistema","St.sist."],
+        "AUFNR": ["Ordine"],
+        "COUNTRY": ["Codice paese","Paese","Pse"],
+        "LEGACY": ["Sistema proprietario dell'Anomalia Legac","Sistema legacy","Sis.Legacy","Sistema proprietario dell'Anomalia Legacy"]
+    },
+
+    "IW39": {
+        "AUFNR": ["Ordine"],
+        "KTEXT": ["Tsto br."],
+        "ERDAT": ["Data di acquisizione", "Data acquis.", "Data acq."],
+        "GSTRP": ["Data inizio cardine", "Data in. card.", "In. card."],
+        "GLTRP": ["Data fine cardine", "Data fine c.", "Fine card."],
+        "AEDAT": ["Data modifica anagr. ordine", "Data modifica", "Data mod."],
+        "TPLNR": ["Sede tecnica", "Sede tecn."],
+        "COUNTRY": ["Codice paese", "Paese", "Pse"],
+        "AUART": ["Tipo di ordine", "Tipo ord.", "Tp."],
+        "STTXT": ["Stato sistema", "St.sist."],
+        "QMNUM": ["Avviso"],
+        "Z_LEGACY": ["Sistema Legacy", "Sis Legacy"]
+    },
+
+    "AFKO": {
+        "AUFNR": ["Ordine"],
+        "GSTRP": ["Data inizio cardine"]
+    }
+}
+
 # timeout operazioni in SAP
 timeoutSeconds = 30
