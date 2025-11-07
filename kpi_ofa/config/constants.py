@@ -60,7 +60,7 @@ default_config = {
     }   
 }
 
-field_names_map = {
+SAP_tech_field_names_map = {
     "IW29": {
         "QMNUM": ["Avviso"],
         "AEDAT": ["Data modifica","Mod.","Mod. il"],
@@ -92,6 +92,41 @@ field_names_map = {
     "AFKO": {
         "AUFNR": ["Ordine"],
         "GSTRP": ["Data inizio cardine"]
+    }
+}
+
+SAP_user_field_names_map = {
+    "IW29": {
+        "QMNUM": "Avviso",
+        "AEDAT": "Mod. il",
+        "ERDAT": "Data cr.",
+        "QMTXT": "Descrizione",
+        "QMART": "Tp.",
+        "TPLNR": "Sede tecnica",
+        "STTXT": "St.sist.",
+        "AUFNR": "Ordine",
+        "COUNTRY": "Pse",
+        "LEGACY": "Sis.Legacy"
+    },
+
+    "IW39": {
+        "AUFNR": "Ordine",
+        "KTEXT": "Tsto br.",
+        "ERDAT": "Data acq.",
+        "GSTRP": "In. card.",
+        "GLTRP": "Fine card.",
+        "AEDAT": "Data mod.",
+        "TPLNR": "Sede tecnica",
+        "COUNTRY": "Pse",
+        "AUART": "Tp.",
+        "STTXT": "Stato sistema",
+        "QMNUM": "Avviso",
+        "Z_LEGACY": "Sis Legacy"
+    },
+
+    "AFKO": {
+        "AUFNR": "Ordine",
+        "GSTRP": "Data inizio cardine"
     }
 }
 

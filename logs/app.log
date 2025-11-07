@@ -39239,3 +39239,18 @@ Righe rimanenti: 80062
 2025-09-09 17:56:30,800 - kpi_ofa.ui.widgets.log_widget - INFO - Elaborazione dati completata con successo
 2025-09-11 14:43:21,566 - kpi_ofa - INFO - Applicazione terminata
 2025-09-11 14:43:21,573 - kpi_ofa.ui.widgets.log_widget - INFO - Applicazione terminata
+2025-11-07 18:44:53,962 - kpi_ofa - INFO - Applicazione avviata da main.py
+2025-11-07 18:44:55,852 - kpi_ofa.core.config_manager - INFO - Configurazione caricata con successo.
+2025-11-07 18:44:55,853 - kpi_ofa.core.config_manager - INFO - ConfigManager inizializzato. File di configurazione: c:\Users\a259046\OneDrive - Enel Spa\SCRIPT AHK e VBA\GITHUB\KPI_OFA\kpi_ofa\config\config.json
+2025-11-07 18:44:56,554 - kpi_ofa.ui.widgets.date_widget - DEBUG - Intervallo date cambiato: 07/11/2025 - 14/11/2025
+2025-11-07 18:44:56,555 - kpi_ofa.ui.widgets.date_widget - DEBUG - DateRangeWidget inizializzato
+2025-11-07 18:44:56,628 - kpi_ofa.ui.widgets.log_widget - INFO - ExcelDataProcessor inizializzato
+2025-11-07 18:44:56,630 - kpi_ofa - INFO - TestDataLoader inizializzato
+2025-11-07 18:44:56,631 - kpi_ofa.ui.widgets.log_widget - INFO - TestDataLoader inizializzato
+2025-11-07 18:44:56,632 - kpi_ofa - INFO - Configurazione aggiornata in TestDataLoader
+2025-11-07 18:44:56,633 - kpi_ofa.ui.widgets.log_widget - INFO - Configurazione aggiornata in TestDataLoader
+2025-11-07 18:44:56,634 - kpi_ofa.ui.widgets.log_widget - INFO - Sistema pronto!
+2025-11-07 18:45:02,199 - kpi_ofa.ui.config_dialog - INFO - Configurazione caricata nei controlli
+2025-11-07 18:45:02,199 - kpi_ofa.ui.config_dialog - INFO - Finestra di configurazione inizializzata
+2025-11-07 18:45:09,827 - kpi_ofa - INFO - Configurazione non modificata
+2025-11-07 18:45:09,830 - kpi_ofa.ui.widgets.log_widget - INFO - Configurazione non modificata

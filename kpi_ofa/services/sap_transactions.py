@@ -426,8 +426,12 @@ class SAPDataExtractor(QObject):
             return False, None
         
         # Concatena tutti i DataFrame in un unico DataFrame
-        self.log(f"Creazione unico DF", "info", True, True, 0)         
-        result_df = pd.concat(iw29.values(), ignore_index=True) if iw29 else None
+        self.log(f"Creazione unico DF", "info", True, True, 0)
+        # Prima di procedere alla concatenazione normalizzo le intestazioni dei df 
+        result_df = self.df_utils.normalize_and_concat(iw29.values(), "IW29", use_friendly_names=True)
+        if result_df is None:
+            self.log(f"Fallita creazione unico DF", "critical", True, True, 0)
+            return False, None
         # Verifica che il totale degli elementi estratti corrisponda al numero di righe nel DataFrame
         # Devo farlo prima di eliminare i duplicati, altrimenti il conteggio potrebbe essere errato
         if len(result_df) != totale_estratti:
@@ -861,6 +865,12 @@ class SAPDataExtractor(QObject):
         
         # Concatena tutti i DataFrame in un unico DataFrame
         self.log(f"Creazione unico DF", "info", True, True, 0)
+        # Prima di procedere alla concatenazione normalizzo le intestazioni dei df 
+        result_df = self.df_utils.normalize_and_concat(iw39.values(), "IW39", use_friendly_names=True)
+        if result_df is None:
+            self.log(f"Fallita creazione unico DF", "critical", True, True, 0)
+            return False, None
+        
         result_df = pd.concat(iw39.values(), ignore_index=True) if iw39 else None
         # Verifica che il totale degli elementi estratti corrisponda al numero di righe nel DataFrame
         # Devo farlo prima di eliminare i duplicati, altrimenti il conteggio potrebbe essere errato

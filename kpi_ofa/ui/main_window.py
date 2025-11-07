@@ -862,7 +862,7 @@ class MainWindow(QMainWindow):
         df_processor.get_dataframe_info()
 
 
-        # Converti tutti i campi dei df in stringhe
+        # Converti tutti i campi dei df
         print("\nInizio conversione dei DataFrame...")
         result, dict_df_conv = df_processor.converti_tutti_df(dict_df)
         if not result:

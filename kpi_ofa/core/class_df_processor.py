@@ -436,7 +436,6 @@ class DfProcessor:
         Args:
             df_IW29 (pd.DataFrame): DataFrame IW29 con colonne 'Avviso' e 'Ordine'
             df_excel_normalized (pd.DataFrame): DataFrame normalizzato con colonne 'AdM', 'OdM' e 'action'
-            df_IW39 (pd.DataFrame): DataFrame IW39 con colonne 'Ordine' e 'Stato sistema'
         
         Returns:
             tuple[bool,pd.DataFrame: DataFrame df_IW29 aggiornato con le nuove colonne OFA]
@@ -454,33 +453,35 @@ class DfProcessor:
         # Verifica input
         if df_IW29 is None or df_IW29.empty:
             logger.error("df_IW29 è vuoto o None")
-            return False
+            return False, None
         
         if df_excel_normalized is None or df_excel_normalized.empty:
             logger.error("df_excel_normalized è vuoto o None")
-            return False
+            return False, None
         
         # Verifica colonne necessarie
         if 'Avviso' not in df_IW29.columns:
             logger.error("Colonna 'Avviso' non trovata in df_IW29")
-            return False
+            return False, None
         
         if 'Ordine' not in df_IW29.columns:
             logger.error("Colonna 'Ordine' non trovata in df_IW29")
-            return False
+            return False, None
         
         if 'AdM' not in df_excel_normalized.columns or 'action' not in df_excel_normalized.columns:
             logger.error("Colonne 'AdM' o 'action' non trovate in df_excel_normalized")
-            return False
+            return False, None
             
         # Crea una copia del DataFrame per non modificare l'originale
         df_result = df_IW29.copy()
         
         # Definisci le nuove colonne OFA
-        ofa_columns = ['Creati_in_OFA', 'Visualizzati_in_OFA', 'Modificati_in_OFA', 
-                    'Allegati_in_OFA', 'Chiusi_in_OFA']
+        ofa_columns = [
+            'Creati_in_OFA', 'Visualizzati_in_OFA', 'Modificati_in_OFA', 
+            'Allegati_in_OFA', 'Chiusi_in_OFA'
+        ]
         
-        # Inizializza le nuove colonne con False
+        # Aggiungi e Inizializza le nuove colonne con False
         for col in ofa_columns:
             df_result[col] = False
         
@@ -498,134 +499,186 @@ class DfProcessor:
         # Creo un dizionario con le maschere per le diverse azioni
         mask_dict = {}
         for action, target_column in action_mapping.items():
-            df_action = df_excel_normalized[df_excel_normalized['action'] == action] # Creo un df filtrando df_excel_normalized in base all'azione considerata
-            print(f"Dimensioni del df per action: {action} = {df_action.shape[0]}")
-            if df_action.empty:
-                logger.warning(f"Nessun AdM per azione '{action}'")
-                mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)  # Mask vuota
-                continue
-            if action == 'WORKORDER UPDATE TECO':
-                # Verifica che ci siano OdM validi
-                valid_odm = df_action['OdM'].dropna()
-                print(f"Numero di OdM = {len(valid_odm)}")
-                if valid_odm.empty:
-                    logger.warning(f"Nessun OdM valido per azione '{action}'")
-                    mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)
+            try:
+                df_action = df_excel_normalized[df_excel_normalized['action'] == action] # Creo un df filtrando df_excel_normalized in base all'azione considerata
+                print(f"Dimensioni del df per action: {action} = {df_action.shape[0]}")
+                if df_action.empty: # Se non esistono elementi per l'azione considerata esamino il successivo
+                    logger.warning(f"Nessun AdM per azione '{action}'")
+                    mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)  # Mask vuota
                     continue
-                mask = df_result['Ordine'].isin(valid_odm)
-                mask_dict[action] = mask
-                # stampo il numero di elementi
-                count1 = mask.sum()
-                print(f"Mask - 'WORKORDER UPDATE TECO': {count1}") # -> OK
+                if action == 'WORKORDER UPDATE TECO':
+                    # Verifica che ci siano OdM validi
+                    is_valid = (
+                        df_action['OdM'].notna() & 
+                        (df_action['OdM'].astype(str).str.strip() != '')
+                    )
+                    valid_odm = df_action.loc[is_valid, 'OdM']
+                    
+                    if valid_odm.empty:
+                        logger.warning(f"Nessun OdM valido per azione '{action}'")
+                        mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)
+                        continue
 
-            else:    
-                # Verifica che ci siano AdM validi
-                valid_adm = df_action['AdM'].dropna()
-                if valid_adm.empty:
-                    logger.warning(f"Nessun AdM valido per azione '{action}'")
-                    mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)
-                    continue
-                    # Mask base
-                mask = df_result['Avviso'].isin(valid_adm)
-                mask_dict[action] = mask
+                    print(f"Numero di OdM validi = {len(valid_odm)}")
+                    mask = df_result['Ordine'].isin(valid_odm)
+                    mask_dict[action] = mask
+                    # stampo il numero di elementi
+                    count1 = mask.sum()
+                    print(f"Mask - 'WORKORDER UPDATE TECO': {count1}") # -> OK
+
+                else:    
+                    # Verifica che ci siano AdM validi
+                    is_valid = (
+                        df_action['AdM'].notna() & 
+                        (df_action['AdM'].astype(str).str.strip() != '')
+                    )
+                    valid_adm = df_action.loc[is_valid, 'AdM']
+                    
+                    if valid_adm.empty:
+                        print(f"Nessun AdM valido per azione '{action}'")
+                        mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)
+                        continue
+
+                    print(f"Numero di AdM = {len(valid_adm)}")
+                    mask = df_result['Avviso'].isin(valid_adm)
+                    mask_dict[action] = mask
+
+            except Exception as e:
+                logger.error(f"IW29 Errore nella creazione della maschera per azione '{action}': {str(e)}")
+                return False, None
+            
+        # inserire verifica numero elmenti del dizionario mask_dict con azioni in action_mapping
+        print(f"Dizionario maschere creato con {len(mask_dict)} azioni.")
+        if len(mask_dict) != len(action_mapping):
+            logger.error("Il numero di maschere create non corrisponde al numero di azioni mappate.")
+            return False, None
+
+        # Definisce il range di date selezionato nella GUI
+        pd_data_inizio = pd.to_datetime(self.intervallo_date[0].toString("dd.MM.yyyy"), format='%d.%m.%Y')  
+        pd_data_fine = pd.to_datetime(self.intervallo_date[1].toString("dd.MM.yyyy"), format='%d.%m.%Y')                
         
         # Processa ogni colonna del df_result realizzando e applicando le maschere e i flitri sulle date secondo le azioni in OFA
+        error_msg = ""
         for target_column in ofa_columns:
-            # Imposto un valore di default da utilizzare in caso di errore
-            mask_finale = pd.Series([False] * len(df_result), index=df_result.index)
+            try:
+                # Imposto un valore di default da utilizzare in caso di errore
+                mask_finale = pd.Series([False] * len(df_result), index=df_result.index)
 
-            # Condizioni speciali
-            if target_column == 'Creati_in_OFA':
-                mask_base = mask_dict['CREATE NOTIFICATION']
-                # Aggiunge condizione Sis.Legacy
-                if 'Sis.Legacy' in df_result.columns:
-                    mask_legacy = df_result['Sis.Legacy'].str.contains('OFA', na=False, case=False) # da aggiungere filtro sulla data creazione deve essere nel mese corrente
-                else:
-                    print(f"ERRORE nella valutazione della colonna 'Sis.Legacy'")
-                    continue
+                # Condizioni speciali
+                if target_column == 'Creati_in_OFA':
+                    mask_base = mask_dict['CREATE NOTIFICATION']
+                    # Aggiunge condizione Sis.Legacy
+                    if 'Sis.Legacy' in df_result.columns:
+                        mask_legacy = df_result['Sis.Legacy'].str.contains('OFA', na=False, case=False)
+                    else:
+                        error_msg += "ERRORE nella valutazione della colonna 'Sis.Legacy'\n"
+                        continue
 
-                # Aggiungi condizione per verificare che l'AdM abbia il campo 'data_creazione' entro il range di date selezionato nella GUI
-                if 'Data cr.' in df_result.columns:
-                    # Definisci il range di date
-                    # Converte una stringa in un oggetto datetime di pandas.
-                    pd_data_inizio = pd.to_datetime(self.intervallo_date[0].toString("dd.MM.yyyy"), format='%d.%m.%Y')  
-                    pd_data_fine = pd.to_datetime(self.intervallo_date[1].toString("dd.MM.yyyy"), format='%d.%m.%Y')
+                    # Verifico che l'AdM abbia il campo 'data_creazione' entro il range di date selezionato nella GUI
+                    if 'Data cr.' in df_result.columns:                    
+                        try:
+                            # Converti solo se non è già datetime
+                            if not pd.api.types.is_datetime64_any_dtype(df_result['Data cr.']):
+                                df_result['Data cr.'] = pd.to_datetime(
+                                    df_result['Data cr.'],
+                                    format='%d.%m.%Y',
+                                    errors='coerce'
+                                )
+                            # Creao Maschera per il range di date (estremi compresi)
+                            mask_date_range = (
+                                (df_result['Data cr.'] >= pd_data_inizio) &
+                                (df_result['Data cr.'] <= pd_data_fine)
+                            )
+                        except Exception as e:
+                            error_msg += f"ERRORE nella creazione della maschera date per 'Data cr.': {str(e)}\n"
+                            continue                        
+                    else:
+                        error_msg += "ERRORE nella valutazione della colonna 'Data creazione'\n"
+                        continue
+
+                    ### Maschera con date
+                    mask_finale = mask_date_range & (mask_base | mask_legacy)
+                    #mask_finale = (mask_base | mask_legacy)
+                        
+                elif target_column == 'Chiusi_in_OFA':
+                    # Condizioni
+                    mask_odm_teco = mask_dict['WORKORDER UPDATE TECO']
+                    mask_adm_closed = mask_dict['CLOSED NOTIFICATION']
                     
-                    # Maschera per il range di date (estremi compresi) - NO conversione necessaria
-                    mask_date_range = (df_result['Data cr.'] >= pd_data_inizio) & \
-                                    (df_result['Data cr.'] <= pd_data_fine)
+                    # Condizione valore ordine non vuoto
+                    if 'Ordine' in df_result.columns:
+                        mask_OdM = (
+                            df_result['Ordine'].notna() &  # Non è NaN/None
+                            (df_result['Ordine'].astype(str).str.strip() != '')  # Non è stringa vuota
+                        )
+                        count = mask_OdM.sum()
+                        print(f"Mask OdM non nulli: {count}") # -> OK
+                    else:
+                        error_msg += "ERRORE nella valutazione della colonna 'Ordine'\n"
+                        continue                
+
+                    # Condizione Avviso chiuso
+                    if 'St.sist.' in df_result.columns:
+                        mask_meco = df_result['St.sist.'].str.contains('MECO', na=False, case=False)
+                        count = mask_meco.sum()
+                        print(f"Mask AdM MECO: {count}") # -> OK 
+                    else:
+                        error_msg += "ERRORE nella valutazione della colonna 'St.sist.'\n"
+                        continue                          
+
+                    #mask_finale = mask_adm_closed | (mask_OdM & mask_odm_teco)
+                    ### da valutare se inserire controllo su AdM realmente chiusi
+                    mask_finale = (mask_meco & (mask_adm_closed | (mask_OdM & mask_odm_teco)))
+
+                elif target_column == 'Allegati_in_OFA':
+                    # Condizioni
+                    mask_adm_upload_1 = mask_dict['OPEN TEXT UPLOAD ATTACHMEMT']
+                    mask_adm_upload_2 = mask_dict['OPEN TEXT UPLOAD ATTACHMEMT NOTIFICATION']
+        
+                    mask_finale = mask_adm_upload_1 | mask_adm_upload_2
+
+                elif target_column == 'Visualizzati_in_OFA':
+                    mask_finale = mask_dict['DETAIL NOTIFICATION']
+
+                elif target_column == 'Modificati_in_OFA':
+                    mask_finale = mask_dict['UPDATE NOTIFICATION']           
+
                 else:
-                    print(f"ERRORE nella valutazione della colonna 'Data'")
-                    continue             
-                
-                ### Maschera con date
-                mask_finale = mask_date_range & (mask_base | mask_legacy)
-                #mask_finale = (mask_base | mask_legacy)
-                    
-            elif target_column == 'Chiusi_in_OFA':
-                # Condizioni
-                mask_odm_teco = mask_dict['WORKORDER UPDATE TECO']
-                mask_adm_closed = mask_dict['CLOSED NOTIFICATION']
-                
-                # Condizione valore ordine non vuoto
-                if 'Ordine' in df_result.columns:
-                    mask_OdM = (
-                        df_result['Ordine'].notna() &  # Non è NaN/None
-                        (df_result['Ordine'].astype(str).str.strip() != '')  # Non è stringa vuota
-                    )
-                    count = mask_OdM.sum()
-                    print(f"Mask OdM non nulli: {count}") # -> OK
-                else:
-                    print(f"ERRORE nella valutazione della colonna 'Ordine'")
-                    continue                
+                    error_msg += f"ERRORE nella valutazione della colonna: {target_column} del df\n"
 
-                # Condizione Avviso chiuso
-                if 'St.sist.' in df_result.columns:
-                    mask_meco = df_result['St.sist.'].str.contains('MECO', na=False, case=False)
-                    count = mask_meco.sum()   
-                else:
-                    print(f"ERRORE nella valutazione della colonna 'St.sist.'")
-                    continue                          
-
-                #mask_finale = mask_adm_closed | (mask_OdM & mask_odm_teco)
-                ### da valutare se inserire controllo su AdM realmente chiusi
-                mask_finale = (mask_meco & (mask_adm_closed | (mask_OdM & mask_odm_teco)))
-
-            elif target_column == 'Allegati_in_OFA':
-                # Condizioni
-                mask_adm_upload_1 = mask_dict['OPEN TEXT UPLOAD ATTACHMEMT']
-                mask_adm_upload_2 = mask_dict['OPEN TEXT UPLOAD ATTACHMEMT NOTIFICATION']
-    
-                mask_finale = mask_adm_upload_1 | mask_adm_upload_2
-
-            elif target_column == 'Visualizzati_in_OFA':
-                mask_finale = mask_dict['DETAIL NOTIFICATION']
-
-            elif target_column == 'Modificati_in_OFA':
-                mask_finale = mask_dict['UPDATE NOTIFICATION']           
-
-            else:
-                print(f"ERRORE nella valutazione della colonna del df")
+                # Applica
+                df_result.loc[mask_finale, target_column] = True
+                logger.info(f"Colonna {target_column}: {df_result[target_column].sum()} True") # -> OK
             
-            # Applica
-            df_result.loc[mask_finale, target_column] = True
-            logger.info(f"Colonna {target_column}: {df_result[target_column].sum()} True") # -> OK
+            except Exception as e:
+                logger.error(f"Errore nell'applicazione della maschera alla colonna: '{target_column}': {str(e)}")
+                return False, None
+        
+        if error_msg:
+                logger.error(f"Errori riscontrati: \n\t{error_msg}")
+                return False, None
 
+        # ========================================
         # Costruisce la colonne 'Numeratore'
+        # ========================================        
         # Il numeratore assume valore 1 se almeno una delle colonne che descrivono gli stati OFA contiene un valore = 1
         # In pratica tutte le colonne sono in OR
-        df_result['Numeratore'] = (df_result['Creati_in_OFA'] | 
-                                    df_result['Visualizzati_in_OFA'] |
-                                    df_result['Modificati_in_OFA'] |
-                                    df_result['Allegati_in_OFA'] |
-                                    df_result['Chiusi_in_OFA'])
+        df_result['Numeratore'] = (
+            df_result['Creati_in_OFA'] | 
+            df_result['Visualizzati_in_OFA'] |
+            df_result['Modificati_in_OFA'] |
+            df_result['Allegati_in_OFA'] |
+            df_result['Chiusi_in_OFA']
+        )
         
         logger.info(f"Colonna {'Numeratore'}: {df_result['Numeratore'].sum()} True") # -> OK
         
+        # ========================================
         # Costruisco la colonna 'Denominatore'
+        # ========================================
         # Il denominatore assume valore 1 se il numeratore è 1 oppure se
         # la colonna 'Ordine' != "" E 
-        # la colonna data modifica 'Mod. il' è vuota E
+        # la colonna data modifica dell'avviso 'Mod. il' è contenuta nel range di date selezionato nella GUI E
         # la data di inizio cardine è contenuta nel range di date selezionato nella GUI
         # altrimenti = 0
         
@@ -634,16 +687,25 @@ class DfProcessor:
 
         # Definisco condizione per verificare che l'AdM abbia il campo 'OdM_data_inizio_cardine' entro il range di date selezionato nella GUI
         if 'OdM_data_inizio_cardine' in df_result.columns:
-            # Definisci il range di date
-            # Converte una stringa in un oggetto datetime di pandas.
-            pd_data_inizio = pd.to_datetime(self.intervallo_date[0].toString("dd.MM.yyyy"), format='%d.%m.%Y')  
-            pd_data_fine = pd.to_datetime(self.intervallo_date[1].toString("dd.MM.yyyy"), format='%d.%m.%Y')
-            
-            # Maschera per il range di date (estremi compresi)
-            mask_date_range = (df_result['OdM_data_inizio_cardine'] >= pd_data_inizio) & (df_result['OdM_data_inizio_cardine'] <= pd_data_fine)
+            try:
+                # Converti solo se non è già datetime
+                if not pd.api.types.is_datetime64_any_dtype(df_result['OdM_data_inizio_cardine']):
+                    df_result['OdM_data_inizio_cardine'] = pd.to_datetime(
+                        df_result['OdM_data_inizio_cardine'],
+                        format='%d.%m.%Y',
+                        errors='coerce'
+                    )
+                # Maschera per il range di date (estremi compresi)
+                mask_date_range = (
+                    (df_result['OdM_data_inizio_cardine'] >= pd_data_inizio) &
+                    (df_result['OdM_data_inizio_cardine'] <= pd_data_fine)
+                )
+            except Exception as e:
+                error_msg += f"ERRORE nella creazione della maschera 'mask_date_range': {str(e)}\n"
+                return False, None
         else:
-            print(f"ERRORE nella valutazione della colonna 'Data'")
-            return False
+            logger.error(f"ERRORE nella valutazione della colonna 'OdM_data_inizio_cardine'\n")
+            return False, None
         
         # Condizione valore ordine non vuoto
         if 'Ordine' in df_result.columns:
@@ -652,15 +714,30 @@ class DfProcessor:
                 (df_result['Ordine'].astype(str).str.strip() != '')  # Non è stringa vuota
             )
         else:
-            print(f"ERRORE nella valutazione della colonna 'Ordine'")
-            return False
+            logger.error(f"ERRORE nella valutazione della colonna 'Ordine'")
+            return False, None
 
-        # Condizione colonna 'Mod. il' vuota 
+        # Condizione colonna 'Mod. il' vuota  #### DA MODIFICARE !!!
         if 'Mod. il' in df_result.columns:
-            mask_data_modifica = df_result['Mod. il'].notna()
+            try:
+                # Converti solo se non è già datetime
+                if not pd.api.types.is_datetime64_any_dtype(df_result['Mod. il']):
+                    df_result['Mod. il'] = pd.to_datetime(
+                        df_result['Mod. il'],
+                        format='%d.%m.%Y',
+                        errors='coerce'
+                    )
+                # Maschera per il range di date (estremi compresi)
+                mask_data_modifica = (
+                    (df_result['Mod. il'] >= pd_data_inizio) &
+                    (df_result['Mod. il'] <= pd_data_fine)
+                )
+            except Exception as e:
+                logger.error(f"ERRORE nella creazione della maschera 'mask_data_modifica': {str(e)}\n")
+                return False, None
         else:
-            print(f"ERRORE nella valutazione della colonna 'Ordine'")
-            return False
+            logger.error(f"ERRORE nella valutazione della colonna 'Mod. il'")
+            return False, None
 
         df_result['Denominatore'] = False
         mask_finale = mask_numeratore | (mask_OdM & mask_data_modifica & mask_date_range)
@@ -700,27 +777,29 @@ class DfProcessor:
         # Verifica input
         if df_IW39 is None or df_IW39.empty:
             logger.error("df_IW39 è vuoto o None")
-            return False
+            return False, None
         
         if df_excel_normalized is None or df_excel_normalized.empty:
             logger.error("df_excel_normalized è vuoto o None")
-            return False
+            return False, None
         
         if 'Ordine' not in df_IW39.columns:
             logger.error("Colonna 'Ordine' non trovata in df_IW39")
-            return False
+            return False, None
         
         if 'OdM' not in df_excel_normalized.columns or 'action' not in df_excel_normalized.columns:
             logger.error("Colonne 'OdM' o 'action' non trovate in df_excel_normalized")
-            return False
+            return False, None
             
         # Crea una copia del DataFrame per non modificare l'originale
         df_result = df_IW39.copy()
         
         # Definisci le nuove colonne OFA
-        ofa_columns = ['Creati_in_OFA', 'Visualizzati_in_OFA', 'Modificati_in_OFA', 'Operazione_gestita_in_OFA',
-                        'Aggiunto_materiale', 'Gestione_materiale', 'Allegati_in_OFA', 'Conferma_ore_in_OFA',
-                        'Chiusi_in_OFA']
+        ofa_columns = [
+            'Creati_in_OFA', 'Visualizzati_in_OFA', 'Modificati_in_OFA', 'Operazione_gestita_in_OFA',
+            'Aggiunto_materiale', 'Gestione_materiale', 'Allegati_in_OFA', 'Conferma_ore_in_OFA',
+            'Chiusi_in_OFA'
+        ]
         
         # Inizializza le nuove colonne con False
         for col in ofa_columns:
@@ -747,124 +826,171 @@ class DfProcessor:
         # Creo un dizionario con le mascherre per le diverse azioni
         mask_dict = {}
         for action, target_column in action_mapping.items():
-            df_action = df_excel_normalized[df_excel_normalized['action'] == action] # Creo un df filtrando df_excel_normalized in base all'azione considerata
-            print(f"Dimensioni del df per action: {action} = {df_action.shape[0]}")
-            if df_action.empty:
-                logger.warning(f"Nessun OdM per azione '{action}'")
-                mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)  # Mask vuota
-                continue
-            # Verifica che ci siano OdM validi per ogni azione
-            valid_odm = df_action['OdM'].dropna()
-            if valid_odm.empty:
-                logger.warning(f"Nessun OdM valido per azione '{action}'")
-                mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)
-                continue
-                # Mask base
-            mask = df_result['Ordine'].isin(valid_odm)
-            mask_dict[action] = mask
-        
-        # Processa ogni colonna del df_result realizzando e applicando le maschere  secondo le azioni in OFA
-        for target_column in ofa_columns:
-            # Imposto un valore di default da utilizzare in caso di errore
-            mask_finale = pd.Series([False] * len(df_result), index=df_result.index)
-
-            # Condizioni speciali
-            if target_column == 'Creati_in_OFA': # -> OK
-                mask_base = mask_dict['CREATE WORKORDER']
-                # Aggiunge condizione Sis.Legacy
-                if 'Sis Legacy' in df_result.columns:
-                    mask_legacy = df_result['Sis Legacy'].str.contains('OFA', na=False, case=False) # da aggiungere filtro sulla data creazione deve essere nel mese corrente
-                else:
-                    print(f"ERRORE nella valutazione della colonna 'Sis Legacy'")
+            try:
+                # Creo un df filtrando df_excel_normalized in base all'azione considerata
+                df_action = df_excel_normalized[df_excel_normalized['action'] == action] 
+                print(f"Dimensioni del df per action: {action} = {df_action.shape[0]}")
+                
+                if df_action.empty: # Se non contiene valori allora creo una maschera solo False
+                    logger.warning(f"Nessun OdM per azione '{action}'")
+                    mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)  # Mask vuota
                     continue
 
-                # Aggiungi condizione per verificare che l'OdM abbia il campo data di acquisizione 'Data acq.' entro il range di date selezionato nella GUI
-                if 'Data acq.' in df_result.columns:
-                    # Definisci il range di date
-                    # Converte una stringa in un oggetto datetime di pandas.
-                    pd_data_inizio = pd.to_datetime(self.intervallo_date[0].toString("dd.MM.yyyy"), format='%d.%m.%Y')  
-                    pd_data_fine = pd.to_datetime(self.intervallo_date[1].toString("dd.MM.yyyy"), format='%d.%m.%Y')
+                # Verifica che ci siano OdM validi
+                is_valid = (
+                    df_action['OdM'].notna() & 
+                    (df_action['OdM'].astype(str).str.strip() != '')
+                )
+                valid_odm = df_action.loc[is_valid, 'OdM']
+
+                if valid_odm.empty: # Se non contiene valori allora creo una maschera solo False
+                    logger.warning(f"Nessun OdM valido per azione '{action}'")
+                    mask_dict[action] = pd.Series([False] * len(df_result), index=df_result.index)
+                    continue
+                # creo una maschera relativa all'azione considerata 
+                mask = df_result['Ordine'].isin(valid_odm) # Verifico quali OdM in df_action sono presenti in df_result 
+                mask_dict[action] = mask
+
+            except Exception as e:
+                logger.error(f"IW39 Errore nella creazione della maschera per azione '{action}': {str(e)}")
+                return False, None
+
+        # Verifica numero elmenti del dizionario mask_dict con azioni in action_mapping
+        print(f"IW39 Dizionario maschere creato con {len(mask_dict)} azioni.")
+        if len(mask_dict) != len(action_mapping):
+            logger.error("IW39 Il numero di maschere create non corrisponde al numero di azioni mappate.")
+            return False, None      
+
+        # Definisce il range di date selezionato nella GUI
+        pd_data_inizio = pd.to_datetime(self.intervallo_date[0].toString("dd.MM.yyyy"), format='%d.%m.%Y')  
+        pd_data_fine = pd.to_datetime(self.intervallo_date[1].toString("dd.MM.yyyy"), format='%d.%m.%Y')                        
+
+        # Processa ogni colonna del df_result realizzando e applicando le maschere  secondo le azioni in OFA
+        error_msg = ""
+        for target_column in ofa_columns:
+            try:
+                # Imposto un valore di default da utilizzare in caso di errore
+                mask_finale = pd.Series([False] * len(df_result), index=df_result.index)
+
+                # Condizioni speciali
+                if target_column == 'Creati_in_OFA': # -> OK
+                    mask_base = mask_dict['CREATE WORKORDER']
+                    # Aggiunge condizione Sis.Legacy
+                    if 'Sis Legacy' in df_result.columns:
+                        mask_legacy = df_result['Sis Legacy'].str.contains('OFA', na=False, case=False) # da aggiungere filtro sulla data creazione deve essere nel mese corrente
+                    else:
+                        error_msg += "ERRORE nella valutazione della colonna 'Sis Legacy'"
+                        continue
+
+                    # Aggiungi condizione per verificare che l'OdM abbia il campo data di acquisizione 'Data acq.' entro il range di date selezionato nella GUI
+                    if 'Data acq.' in df_result.columns:
+                        try:
+                            # Converti solo se non è già datetime
+                            if not pd.api.types.is_datetime64_any_dtype(df_result['Data acq.']):
+                                df_result['Data acq.'] = pd.to_datetime(
+                                    df_result['Data acq.'],
+                                    format='%d.%m.%Y',
+                                    errors='coerce'
+                                )
+                            # Creao Maschera per il range di date (estremi compresi)
+                            mask_date_range = (
+                                (df_result['Data acq.'] >= pd_data_inizio) &
+                                (df_result['Data acq.'] <= pd_data_fine)
+                            )
+                        except Exception as e:
+                            error_msg += f"ERRORE nella creazione della maschera date per 'Data acq.': {str(e)}\n"
+                            continue                        
+                    else:
+                        error_msg += "ERRORE nella valutazione della colonna 'Data acq.'\n"
+                        continue             
                     
-                    # Maschera per il range di date (estremi compresi) - NO conversione necessaria
-                    mask_date_range = (df_result['Data acq.'] >= pd_data_inizio) & \
-                                    (df_result['Data acq.'] <= pd_data_fine)
+                    ### Maschera con date
+                    mask_finale = mask_date_range & (mask_base | mask_legacy)
+                    # mask_finale = (mask_base | mask_legacy)
+
+                elif target_column == 'Visualizzati_in_OFA': # -> OK
+                    mask_finale = mask_dict['DETAIL WORK ORDER']   
+                
+                elif target_column == 'Modificati_in_OFA': # -> OK
+                    # Condizioni
+                    mask_odm_upload_1 = mask_dict['WORKORDER HEADER UPDATE']
+                    mask_odm_upload_2 = mask_dict['WORKORDER UPDATE RELEASE']
+        
+                    mask_finale = mask_odm_upload_1 | mask_odm_upload_2    
+                
+                elif target_column == 'Operazione_gestita_in_OFA': # -> OK
+                    mask_finale = mask_dict['WORKORDER UPDATE OPERATION']                      
+
+                elif target_column == 'Aggiunto_materiale': # -> OK
+                    mask_finale = mask_dict['WORKORDER ADD COMPONENT'] 
+
+                elif target_column == 'Gestione_materiale': # -> OK
+                    # Condizioni
+                    mask_odm_material_1 = mask_dict['WORKORDER DELETE COMPONENT']
+                    mask_odm_material_2 = mask_dict['DETAIL WORK ORDER MATERIAL']
+                    mask_odm_material_3 = mask_dict['WORKORDER UPDATE COMPONENT']
+        
+                    mask_finale = mask_odm_material_1 | mask_odm_material_2 | mask_odm_material_3    
+
+                elif target_column == 'Allegati_in_OFA': # -> OK
+                    # Condizioni
+                    mask_odm_allegati_1 = mask_dict['OPEN TEXT DETAIL WORK ORDER OPERATION']
+                    mask_odm_allegati_2 = mask_dict['OPEN TEXT UPLOAD ATTACHMEMT WORKORDER']
+        
+                    mask_finale = mask_odm_allegati_1 | mask_odm_allegati_2             
+
+                elif target_column == 'Conferma_ore_in_OFA': # -> OK
+                    # Condizioni
+                    mask_odm_time_1 = mask_dict['CREATE TIME CONFERMATION']
+                    mask_odm_time_2 = mask_dict['DETAIL WORK ORDER CONFERMATION']
+        
+                    mask_finale = mask_odm_time_1 | mask_odm_time_2 
+
+                elif target_column == 'Chiusi_in_OFA':
+                    # Condizioni
+                    mask_chiusi = mask_dict['WORKORDER UPDATE TECO']                                     
+                    # Verifica 'Stato sistema' in TECO oppure in CONC
+                    mask_stato_sistema = df_result['Stato sistema'].str.contains('TECO|CONC', na=False, case=False)
+                    
+                    mask_finale = (mask_chiusi & mask_stato_sistema)
+
                 else:
-                    print(f"ERRORE nella valutazione della colonna 'Data acq.'")
-                    continue             
+                    error_msg += f"ERRORE nella valutazione della colonna: {target_column} del df\n"
                 
-                ### Maschera con date
-                mask_finale = mask_date_range & (mask_base | mask_legacy)
-                # mask_finale = (mask_base | mask_legacy)
-
-            elif target_column == 'Visualizzati_in_OFA': # -> OK
-                mask_finale = mask_dict['DETAIL WORK ORDER']   
+                # Applica
+                df_result.loc[mask_finale, target_column] = True
+                logger.info(f"Colonna {target_column}: {df_result[target_column].sum()} True") # -> OK
             
-            elif target_column == 'Modificati_in_OFA': # -> OK
-                # Condizioni
-                mask_odm_upload_1 = mask_dict['WORKORDER HEADER UPDATE']
-                mask_odm_upload_2 = mask_dict['WORKORDER UPDATE RELEASE']
-    
-                mask_finale = mask_odm_upload_1 | mask_odm_upload_2    
-            
-            elif target_column == 'Operazione_gestita_in_OFA': # -> OK
-                mask_finale = mask_dict['WORKORDER UPDATE OPERATION']                      
+            except Exception as e:
+                logger.error(f"Errore nell'applicazione della maschera alla colonna: '{target_column}': {str(e)}")
+                return False, None
+        
+        if error_msg:
+                logger.error(f"Errori riscontrati: \n\t{error_msg}")
+                return False, None
 
-            elif target_column == 'Aggiunto_materiale': # -> OK
-                mask_finale = mask_dict['WORKORDER ADD COMPONENT'] 
-
-            elif target_column == 'Gestione_materiale': # -> OK
-                # Condizioni
-                mask_odm_material_1 = mask_dict['WORKORDER DELETE COMPONENT']
-                mask_odm_material_2 = mask_dict['DETAIL WORK ORDER MATERIAL']
-                mask_odm_material_3 = mask_dict['WORKORDER UPDATE COMPONENT']
-    
-                mask_finale = mask_odm_material_1 | mask_odm_material_2 | mask_odm_material_3    
-
-            elif target_column == 'Allegati_in_OFA': # -> OK
-                # Condizioni
-                mask_odm_allegati_1 = mask_dict['OPEN TEXT DETAIL WORK ORDER OPERATION']
-                mask_odm_allegati_2 = mask_dict['OPEN TEXT UPLOAD ATTACHMEMT WORKORDER']
-    
-                mask_finale = mask_odm_allegati_1 | mask_odm_allegati_2             
-
-            elif target_column == 'Conferma_ore_in_OFA': # -> OK
-                # Condizioni
-                mask_odm_time_1 = mask_dict['CREATE TIME CONFERMATION']
-                mask_odm_time_2 = mask_dict['DETAIL WORK ORDER CONFERMATION']
-    
-                mask_finale = mask_odm_time_1 | mask_odm_time_2 
-
-            elif target_column == 'Chiusi_in_OFA':
-                # Condizioni
-                mask_chiusi = mask_dict['WORKORDER UPDATE TECO']                                     
-                # Verifica 'Stato sistema' in TECO oppure in CONC
-                mask_stato_sistema = df_result['Stato sistema'].str.contains('TECO|CONC', na=False, case=False)
-                
-                mask_finale = (mask_chiusi & mask_stato_sistema)
-
-            else:
-                print(f"ERRORE nella valutazione della colonna del df")
-            
-            # Applica
-            df_result.loc[mask_finale, target_column] = True
-            logger.info(f"Colonna {target_column}: {df_result[target_column].sum()} True") # -> OK
-
+        # ========================================
         # Costruisce la colonne 'Numeratore'
+        # ========================================  
         # Il numeratore assume valore 1 se almeno una delle colonne che descrivono gli stati OFA contiene un valore = 1
         # In pratica tutte le colonne sono in OR
-        df_result['Numeratore'] = (df_result['Creati_in_OFA'] | 
-                                    df_result['Visualizzati_in_OFA'] |
-                                    df_result['Modificati_in_OFA'] |
-                                    df_result['Operazione_gestita_in_OFA'] |                                
-                                    df_result['Aggiunto_materiale'] |
-                                    df_result['Gestione_materiale'] |
-                                    df_result['Allegati_in_OFA'] |
-                                    df_result['Conferma_ore_in_OFA'] |                                
-                                    df_result['Chiusi_in_OFA'])  
+        df_result['Numeratore'] = (
+            df_result['Creati_in_OFA'] | 
+            df_result['Visualizzati_in_OFA'] |
+            df_result['Modificati_in_OFA'] |
+            df_result['Operazione_gestita_in_OFA'] |                                
+            df_result['Aggiunto_materiale'] |
+            df_result['Gestione_materiale'] |
+            df_result['Allegati_in_OFA'] |
+            df_result['Conferma_ore_in_OFA'] |                                
+            df_result['Chiusi_in_OFA']
+        )  
         
         logger.info(f"Colonna {'Numeratore'}: {df_result['Numeratore'].sum()} True") # -> OK
         
+        # ========================================
         # Costruisco la colonna 'Denominatore'
+        # ========================================
         # Il denominatore assume valore 1 se il numeratore è 1 oppure se
         # la colonna 'Ordine' != "" E 
         # la colonna data modifica 'Mod. il' è vuota E
@@ -876,44 +1002,61 @@ class DfProcessor:
 
         # Definisco condizione per verificare che l'OdM abbia il campo data inizio cardine 'In. card.' entro il range di date selezionato nella GUI
         if 'In. card.' in df_result.columns:
-            # Definisci il range di date
-            # Converte una stringa in un oggetto datetime di pandas.
-            pd_data_inizio = pd.to_datetime(self.intervallo_date[0].toString("dd.MM.yyyy"), format='%d.%m.%Y')  
-            pd_data_fine = pd.to_datetime(self.intervallo_date[1].toString("dd.MM.yyyy"), format='%d.%m.%Y')
-            
-            # Maschera per il range di date (estremi compresi)
-            mask_date_inizio_cardine = (df_result['In. card.'] >= pd_data_inizio) & (df_result['In. card.'] <= pd_data_fine)
+            try:
+                # Converti solo se non è già datetime
+                if not pd.api.types.is_datetime64_any_dtype(df_result['In. card.']):
+                    df_result['In. card.'] = pd.to_datetime(
+                        df_result['In. card.'],
+                        format='%d.%m.%Y',
+                        errors='coerce'
+                    )         
+                # Maschera per il range di date (estremi compresi)
+                mask_date_inizio_cardine = (
+                    (df_result['In. card.'] >= pd_data_inizio) &
+                    (df_result['In. card.'] <= pd_data_fine)
+                )
+            except Exception as e:
+                error_msg += f"ERRORE nella creazione della maschera 'mask_date_inizio_cardine': {str(e)}\n"
+                return False, None
         else:
-            print(f"ERRORE nella valutazione della colonna 'In. card.'")
-            return False
+            logger.error(f"ERRORE nella valutazione della colonna 'In. card.'\n")
+            return False, None
         
         # Definisco condizione per verificare che l'OdM abbia il campo data modifica 'Data mod.' entro il range di date selezionato nella GUI
         if 'Data mod.' in df_result.columns:
-            # Definisci il range di date
-            # Converte una stringa in un oggetto datetime di pandas.
-            pd_data_inizio = pd.to_datetime(self.intervallo_date[0].toString("dd.MM.yyyy"), format='%d.%m.%Y')  
-            pd_data_fine = pd.to_datetime(self.intervallo_date[1].toString("dd.MM.yyyy"), format='%d.%m.%Y')
-            
-            # Maschera per il range di date (estremi compresi)
-            mask_date_modifica = (df_result['Data mod.'] >= pd_data_inizio) & (df_result['Data mod.'] <= pd_data_fine)
+            try:
+                # Converti solo se non è già datetime
+                if not pd.api.types.is_datetime64_any_dtype(df_result['Data mod.']):
+                    df_result['Data mod.'] = pd.to_datetime(
+                        df_result['Data mod.'],
+                        format='%d.%m.%Y',
+                        errors='coerce'
+                    )             
+                # Maschera per il range di date (estremi compresi)
+                mask_date_modifica = (
+                    (df_result['Data mod.'] >= pd_data_inizio) &
+                    (df_result['Data mod.'] <= pd_data_fine)
+                )
+            except Exception as e:
+                error_msg += f"ERRORE nella creazione della maschera 'mask_date_modifica': {str(e)}\n"
+                return False, None
         else:
-            print(f"ERRORE nella valutazione della colonna 'Data mod.'")
-            return False    
+            logger.error(f"ERRORE nella valutazione della colonna 'Data mod.'\n")
+            return False, None    
         
         # Condizione tipo OdM diverso da "M1"
         if 'Tp.' in df_result.columns:
             mask_tipo_ordine = (df_result['Tp.'] != 'M1') & (df_result['Tp.'].notna()) # Escludo i tipo 'M1' e i valori NaN
         else:
-            print(f"ERRORE nella valutazione della colonna 'Tp.'")
-            return False
+            logger.error(f"ERRORE nella valutazione della colonna 'Tp.'")
+            return False, None
 
         # Condizione stato sistema OdM
         if 'Stato sistema' in df_result.columns:
-            mask_stato_sistema = df_result['Stato sistema'].str.contains('TECO|CONC|RIL', na=False, case=False)
-            
+            mask_stato_sistema = df_result['Stato sistema'].str.contains('TECO|CONC|RIL', na=False, case=False)       
         else:
-            print(f"ERRORE nella valutazione della colonna 'Stato sistema'")
-            return False  
+            logger.error(f"ERRORE nella valutazione della colonna 'Stato sistema'")
+            return False, None  
 
         df_result['Denominatore'] = False
         mask_finale = mask_numeratore | (mask_stato_sistema & mask_date_inizio_cardine & mask_date_modifica & mask_tipo_ordine)
