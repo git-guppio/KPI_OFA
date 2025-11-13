@@ -550,7 +550,7 @@ class DfProcessor:
         # inserire verifica numero elmenti del dizionario mask_dict con azioni in action_mapping
         print(f"Dizionario maschere creato con {len(mask_dict)} azioni.")
         if len(mask_dict) != len(action_mapping):
-            logger.error("Il numero di maschere create non corrisponde al numero di azioni mappate.")
+            logger.error("IW29 Il numero di maschere create non corrisponde al numero di azioni mappate.")
             return False, None
 
         # Definisce il range di date selezionato nella GUI
@@ -645,6 +645,7 @@ class DfProcessor:
 
                 else:
                     error_msg += f"ERRORE nella valutazione della colonna: {target_column} del df\n"
+                    continue # Se rilevo un errore non procedo con l'applicazione della maschera ma continuo l'iterazione
 
                 # Applica
                 df_result.loc[mask_finale, target_column] = True
@@ -655,7 +656,7 @@ class DfProcessor:
                 return False, None
         
         if error_msg:
-                logger.error(f"Errori riscontrati: \n\t{error_msg}")
+                logger.error(f"IW29 - Errori riscontrati: \n\t{error_msg}")
                 return False, None
 
         # ========================================
@@ -717,7 +718,7 @@ class DfProcessor:
             logger.error(f"ERRORE nella valutazione della colonna 'Ordine'")
             return False, None
 
-        # Condizione colonna 'Mod. il' vuota  #### DA MODIFICARE !!!
+        # Condizione colonna 'Mod. il' entro il range di date selezionato nella GUI
         if 'Mod. il' in df_result.columns:
             try:
                 # Converti solo se non è già datetime
@@ -956,6 +957,7 @@ class DfProcessor:
 
                 else:
                     error_msg += f"ERRORE nella valutazione della colonna: {target_column} del df\n"
+                    continue # Se rilevo un errore non procedo con l'applicazione della maschera ma continuo l'iterazione
                 
                 # Applica
                 df_result.loc[mask_finale, target_column] = True
