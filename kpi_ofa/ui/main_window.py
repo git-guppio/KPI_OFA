@@ -107,16 +107,18 @@ class MainWindow(QMainWindow):
             except TestDataLoadError as e:
                 # Errore specifico di caricamento
                 self.log_manager.log(f"❌ Errore caricamento file di test: {str(e)}", "error", origin=logger.name)
-                self.start_button.setEnabled(False)
+                self.start_extr_button.setEnabled(False)
                 return
                 
             except Exception as e:
                 # Altri errori inaspettati
                 self.log_manager.log(f"💥 Errore critico: {str(e)}", "error", origin=logger.name)
-                self.start_button.setEnabled(False)
+                self.start_extr_button.setEnabled(False)
                 return
         else:
-            self.start_button.setEnabled(False)
+            # Disabilito i pulsanti per estrazioni dati SAP e per elaborazione dati
+            self.start_extr_button.setEnabled(False)
+            self.elab_start_extr_button.setEnabled(False)
             # Messaggio di avvio
             self.log_manager.log("Sistema pronto!", "info", origin=logger.name)
 
@@ -134,7 +136,7 @@ class MainWindow(QMainWindow):
         
         # === DATAFRAMES DA FILE EXCEL ===
         self.df_excel_normalized = pd.DataFrame()  # Excel normalizzato
-        self.df_plants = pd.DataFrame()           # Connettività impianti
+        self.df_plants = pd.DataFrame()           # Connettività impianti, file statico plants.xlsx
         
         # === DATAFRAMES ELABORATI ===
         self.df_merged = pd.DataFrame()         # Dati uniti/elaborati
@@ -143,7 +145,17 @@ class MainWindow(QMainWindow):
         # === DATAFRAMES AUSILIARI ===
         self.df_AdM = pd.DataFrame()            # Avvisi di manutenzione filtrati da file excel normalizzato
         self.df_OdM = pd.DataFrame()            # Ordini di manutenzione filtrati da file excel normalizzato
-        
+
+        # === PERCORSI FILE ULTIMA ESTRAZIONE ===
+        # Dizionario per memorizzare i percorsi dei file salvati durante l'ultima estrazione SAP
+        # Utilizzato per popolare automaticamente i campi del gruppo "Elaborazione File"
+        self.last_extraction_paths = {
+            "df_IW29": None,              # Percorso file Avvisi (IW29)
+            "df_IW39": None,              # Percorso file Ordini (IW39)
+            "df_AFKO": None,              # Percorso file AFKO
+            "df_excel_normalized": None   # Percorso file attività utenti normalizzato
+        }
+
         self.log_manager.log("DataFrame inizializzati come vuoti", "info", origin=logger.name)
     
     def init_components(self):
@@ -199,55 +211,118 @@ class MainWindow(QMainWindow):
     def create_left_panel(self):
         """
         Crea il pannello sinistro con i controlli.
-        
+
         Returns:
-            QGroupBox: Il pannello sinistro.
+            QWidget: Il pannello sinistro contenente i gruppi di controllo.
         """
-        left_group = QGroupBox("Estrazioni SAP")
-        left_layout = QVBoxLayout(left_group)
-        
-        # Imposta le dimensioni
-        left_group.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        left_group.setFixedWidth(250)
-        
+        # Widget contenitore per i due gruppi
+        left_container = QWidget()
+        container_layout = QVBoxLayout(left_container)
+        container_layout.setContentsMargins(0, 0, 0, 0)
+
+        # === GRUPPO 1: Estrazioni SAP ===
+        sap_group = QGroupBox("Estrazioni SAP")
+        sap_layout = QVBoxLayout(sap_group)
+
         # Widget per la selezione delle date
         self.date_widget = DateRangeWidget()
-        left_layout.addWidget(self.date_widget)
-        
+        sap_layout.addWidget(self.date_widget)
+
         # Sezione per la selezione del file Excel
         file_layout = QVBoxLayout()
-        
+
         # Campo di testo di sola lettura per mostrare il nome del file
         self.file_text = QLineEdit()
         self.file_text.setReadOnly(True)
         self.file_text.setPlaceholderText("Nessun file selezionato...")
-        
+
         # Pulsante per selezionare il file
         self.browse_button = QPushButton("Seleziona Excel...")
         self.browse_button.clicked.connect(self.select_excel_file)
-        
+
         # Aggiungi i widget al layout
         file_layout.addWidget(self.file_text)
         file_layout.addWidget(self.browse_button)
-        left_layout.addLayout(file_layout)
-        
+        sap_layout.addLayout(file_layout)
+
         # Riga pulsanti
         buttons_layout = QHBoxLayout()
         self.config_button = QPushButton("Configura")
         self.config_button.clicked.connect(self.on_config_clicked)
-        
-        self.start_button = QPushButton("Avvia")
-        self.start_button.clicked.connect(self.on_start_clicked)
-        self.start_button.setEnabled(False)  # Disabilita inizialmente
-        
+
+        self.start_extr_button = QPushButton("Avvia estrazioni SAP")
+        self.start_extr_button.clicked.connect(self.on_start_clicked)
+        self.start_extr_button.setEnabled(False)  # Disabilita inizialmente
+
         buttons_layout.addWidget(self.config_button)
-        buttons_layout.addWidget(self.start_button)
+        buttons_layout.addWidget(self.start_extr_button)
         buttons_layout.addStretch()
-        
-        left_layout.addLayout(buttons_layout)
-        left_layout.addStretch()
-        
-        return left_group
+
+        sap_layout.addLayout(buttons_layout)
+
+        # === GRUPPO 2: Elaborazione File ===
+        elab_group = QGroupBox("Elaborazione File")
+        elab_layout = QVBoxLayout(elab_group)
+
+        # Inizializza i percorsi dei file di elaborazione
+        self.elab_file_avvisi_path = None
+        self.elab_file_ordini_path = None
+        self.elab_file_afko_path = None
+        self.elab_file_utenti_path = None
+
+        # Definizione dei file da selezionare
+        file_definitions = [
+            ("Estrazione file Avvisi (IW29)", "elab_file_avvisi"),
+            ("Estrazione file Ordini (IW39)", "elab_file_ordini"),
+            ("Estrazione file AFKO", "elab_file_afko"),
+            ("File attività utenti normalizzato", "elab_file_utenti")
+        ]
+
+        # Crea i widget per ogni file
+        for label_text, attr_name in file_definitions:
+            # Layout verticale per ogni elemento
+            item_layout = QVBoxLayout()
+
+            # Etichetta
+            label = QLabel(label_text)
+            item_layout.addWidget(label)
+
+            # Layout orizzontale per campo testo e bottone
+            row_layout = QHBoxLayout()
+
+            # Campo di testo di sola lettura
+            text_field = QLineEdit()
+            text_field.setReadOnly(True)
+            text_field.setPlaceholderText("Nessun file selezionato...")
+            setattr(self, f"{attr_name}_text", text_field)
+
+            # Pulsante per selezionare il file
+            browse_btn = QPushButton("...")
+            browse_btn.setFixedWidth(30)
+            browse_btn.clicked.connect(lambda checked, name=attr_name: self.select_elab_file(name))
+            setattr(self, f"{attr_name}_btn", browse_btn)
+
+            row_layout.addWidget(text_field)
+            row_layout.addWidget(browse_btn)
+
+            item_layout.addLayout(row_layout)
+            elab_layout.addLayout(item_layout)
+
+        # Pulsante per avviare l'elaborazione
+        self.elab_start_extr_button = QPushButton("Avvia Elaborazione")
+        self.elab_start_extr_button.clicked.connect(self.on_elab_start_clicked)
+        elab_layout.addWidget(self.elab_start_extr_button)
+
+        # Aggiungi i gruppi al contenitore
+        container_layout.addWidget(sap_group)
+        container_layout.addWidget(elab_group)
+        container_layout.addStretch()
+
+        # Imposta le dimensioni del contenitore
+        left_container.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        left_container.setFixedWidth(250)
+
+        return left_container
     
     def create_right_panel(self):
         """
@@ -389,9 +464,9 @@ class MainWindow(QMainWindow):
         """
         # Abilita o disabilita il pulsante di avvio in base alla validità delle date
         # e alla presenza di un file Excel
-        self.update_start_button_state(is_valid)
+        self.update_start_extr_button_state(is_valid)
     
-    def update_start_button_state(self, dates_valid=True):
+    def update_start_extr_button_state(self, dates_valid=True):
         """
         Aggiorna lo stato del pulsante di avvio.
         
@@ -406,27 +481,27 @@ class MainWindow(QMainWindow):
         file_selected_bool = bool(file_selected)
         # Abilita il pulsante di avvio solo se entrambe le condizioni sono vere
         if dates_valid_bool and file_selected_bool:
-            self.start_button.setEnabled(True)
+            self.start_extr_button.setEnabled(True)
 
     def disable_buttons(self):
         """Disabilita i pulsanti di avvio e configurazione nella modalità di debug"""
-        self.start_button.setEnabled(False)
+        self.start_extr_button.setEnabled(False)
         self.config_button.setEnabled(False)
         self.config_button2.setEnabled(False)
         self.browse_button.setEnabled(False)
         self.date_widget.start_date_picker.setEnabled(False)
         self.date_widget.end_date_picker.setEnabled(False)
-        self.start_button.setEnabled(True)
+        self.start_extr_button.setEnabled(True)
 
     def enable_buttons(self):
         """Abilita i pulsanti di avvio e configurazione nella modalità di debug"""
-        self.start_button.setEnabled(True)
+        self.start_extr_button.setEnabled(True)
         self.config_button.setEnabled(True)
         self.config_button2.setEnabled(True)
         self.browse_button.setEnabled(True)
         self.date_widget.start_date_picker.setEnabled(True)
         self.date_widget.end_date_picker.setEnabled(True)
-        self.update_start_button_state(False)    
+        self.update_start_extr_button_state(False)    
 
 
     def select_excel_file(self):
@@ -457,7 +532,7 @@ class MainWindow(QMainWindow):
             result, self.df_excel_normalized = self.process_excel_file(file_path, constants.required_sheet, constants.required_columns)
             if (result == False):
                 self.log_manager.log("Errore durante l'elaborazione del file excel", "error")
-                self.update_start_button_state(False)
+                self.update_start_extr_button_state(False)
                 # Se la verifica fallisce, pulisci il campo
                 self.file_text.setText("")
                 self.excel_file_path = None
@@ -469,7 +544,7 @@ class MainWindow(QMainWindow):
                 self.df_excel_normalized['Data_fine_estrazione'] = end_date.toString("dd.MM.yyyy")  # Formato gg.mm.aaaa
                 # Log di successo
                 self.log_manager.log("File excel verificato correttamente", "success")
-                self.update_start_button_state()
+                self.update_start_extr_button_state()
                 # Salvo il df in un file excel per eventuali elaborazioni successive
                 try:
                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -479,12 +554,176 @@ class MainWindow(QMainWindow):
                     if not self.excel_file_manager.save_excel_file_advanced(self.df_excel_normalized, output_file):
                         raise Exception("Salvataggio file fallito")
                     self.log_manager.log(f"File salvato in: {output_file}", "success")
+                    # Memorizza il percorso per il popolamento automatico dei campi elaborazione
+                    self.last_extraction_paths["df_excel_normalized"] = output_file
                 except Exception as e:
                     self.log_manager.log(f"Errore: Salvataggio file {output_file} fallito: {str(e)}", "error")
                     return    
         else:
             self.log_manager.log("Nessun file selezionato", "warning")
-    
+
+    def select_elab_file(self, attr_name):
+        """
+        Apre un dialogo per selezionare un file per l'elaborazione.
+
+        Args:
+            attr_name (str): Nome dell'attributo associato al file.
+        """
+        file_path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Seleziona file Excel",
+            self.data_directory if hasattr(self, 'data_directory') else "",
+            "File Excel (*.xlsx *.xls *.xlsm)"
+        )
+
+        if file_path:
+            # Estrai solo il nome del file dal percorso completo
+            file_name = os.path.basename(file_path)
+
+            # Salva il percorso completo come attributo
+            setattr(self, f"{attr_name}_path", file_path)
+
+            # Mostra il nome del file nel campo di testo
+            text_field = getattr(self, f"{attr_name}_text", None)
+            if text_field:
+                text_field.setText(file_name)
+
+            self.log_manager.log(f"File selezionato per {attr_name}: {file_name}", "info")
+        else:
+            self.log_manager.log("Nessun file selezionato", "warning")
+
+    def auto_populate_elab_fields(self):
+        """
+        Popola automaticamente i campi del gruppo "Elaborazione File" con i percorsi
+        dei file salvati durante l'ultima estrazione SAP.
+
+        Utilizza il dizionario self.last_extraction_paths per recuperare i percorsi.
+        """
+        # Mapping tra i nomi dei DataFrame e gli attributi UI
+        mapping = {
+            "df_IW29": "elab_file_avvisi",
+            "df_IW39": "elab_file_ordini",
+            "df_AFKO": "elab_file_afko",
+            "df_excel_normalized": "elab_file_utenti"
+        }
+
+        populated_count = 0
+
+        for df_name, attr_name in mapping.items():
+            file_path = self.last_extraction_paths.get(df_name)
+            if file_path and os.path.exists(file_path):
+                # Salva il percorso come attributo
+                setattr(self, f"{attr_name}_path", file_path)
+
+                # Aggiorna il campo testo UI
+                text_field = getattr(self, f"{attr_name}_text", None)
+                if text_field:
+                    file_name = os.path.basename(file_path)
+                    text_field.setText(file_name)
+                    populated_count += 1
+
+        if populated_count > 0:
+            self.log_manager.log(
+                f"Campi elaborazione popolati automaticamente: {populated_count}/4 file",
+                "success"
+            )
+        else:
+            self.log_manager.log(
+                "Nessun campo elaborazione popolato automaticamente",
+                "warning"
+            )
+
+    def on_elab_start_clicked(self):
+        """
+        Avvia l'elaborazione dei file selezionati.
+        Verifica che tutti i file siano stati selezionati prima di procedere.
+        """
+        # Definizione dei file richiesti con le relative etichette
+        required_files = [
+            ("elab_file_avvisi_path", "Estrazione file Avvisi (IW29)"),
+            ("elab_file_ordini_path", "Estrazione file Ordini (IW39)"),
+            ("elab_file_afko_path", "Estrazione file AFKO"),
+            ("elab_file_utenti_path", "File attività utenti normalizzato")
+        ]
+
+        # Verifica che tutti i file siano stati selezionati
+        missing_files = []
+        for attr_name, label in required_files:
+            file_path = getattr(self, attr_name, None)
+            if not file_path:
+                missing_files.append(label)
+
+        if missing_files:
+            # Mostra messaggio di errore con l'elenco dei file mancanti
+            missing_list = "\n- ".join(missing_files)
+            QMessageBox.warning(
+                self,
+                "File mancanti",
+                f"Selezionare tutti i file prima di procedere.\n\nFile mancanti:\n- {missing_list}"
+            )
+            self.log_manager.log("Elaborazione annullata: file mancanti", "warning")
+            return
+
+        # Tutti i file sono stati selezionati, procedi con l'elaborazione
+        self.log_manager.log("Avvio elaborazione file...", "info")
+
+        try:
+            # Carica i file Excel nei DataFrame
+            self.log_manager.log("Caricamento file Avvisi (IW29)...", "loading")
+            result, df_IW29 = self.excel_file_manager.load_excel_file(self.elab_file_avvisi_path)
+            if not result:
+                self.log_manager.log("Errore nel caricamento del file Avvisi", "error")
+                return
+
+            self.log_manager.log("Caricamento file Ordini (IW39)...", "loading")
+            result, df_IW39 = self.excel_file_manager.load_excel_file(self.elab_file_ordini_path)
+            if not result:
+                self.log_manager.log("Errore nel caricamento del file Ordini", "error")
+                return
+
+            self.log_manager.log("Caricamento file AFKO...", "loading")
+            result, df_AFKO = self.excel_file_manager.load_excel_file(self.elab_file_afko_path)
+            if not result:
+                self.log_manager.log("Errore nel caricamento del file AFKO", "error")
+                return
+
+            self.log_manager.log("Caricamento file attività utenti...", "loading")
+            result, df_excel_normalized = self.excel_file_manager.load_excel_file(self.elab_file_utenti_path)
+            if not result:
+                self.log_manager.log("Errore nel caricamento del file attività utenti", "error")
+                return
+
+            # Carica il file plants.xlsx
+            self.log_manager.log("Caricamento file plants...", "loading")
+            file_path_plants = os.path.join(self.data_directory, 'plants.xlsx')
+            result, df_plants = self.excel_file_manager.load_excel_file(file_path_plants)
+            if not result:
+                self.log_manager.log(f"Errore nel caricamento del file {file_path_plants}", "error")
+                return
+
+            self.log_manager.log("Tutti i file caricati con successo", "success")
+
+            # Crea il dizionario dei DataFrame
+            dict_df = {
+                "df_AFKO": df_AFKO,
+                "df_excel_normalized": df_excel_normalized,
+                "df_IW29": df_IW29,
+                "df_IW39": df_IW39,
+                "df_plants": df_plants
+            }
+
+            # Procedi con l'elaborazione dei dati
+            result, data = self.process_data(dict_df)
+            if not result:
+                self.log_manager.log("Errore durante l'elaborazione dei dati", "error")
+                return
+
+            self.log_manager.log("Elaborazione completata con successo!", "success")
+
+        except Exception as e:
+            self.log_manager.log(f"Errore durante l'elaborazione: {str(e)}", "error")
+            return
+
     def process_excel_file(self, file_path, required_sheet, required_columns):
         """
         Processa il file Excel utilizzando il data processor.
@@ -756,7 +995,7 @@ class MainWindow(QMainWindow):
                 return
             
             # Elaboro i dati estratti
-            self.log_manager.log("Avvio elaborazione dati...", origin=logger.name)
+            self.log_manager.log("Salvo i dati nella cartella SAP...", origin=logger.name)
             try:
                 # Carico il file excel plants.xlsx in un df
                 file_path = os.path.join(self.data_directory, 'plants.xlsx')
@@ -773,19 +1012,18 @@ class MainWindow(QMainWindow):
                     "df_plants": self.df_plants
                 }
 
-                # Salvo le estrazioni nella directory SAP 
+                # Salvo le estrazioni nella directory SAP
                 exclude_list = ["df_excel_normalized", "df_plants"]
                 filtered_dict = {k: v for k, v in dict_df.items() if k not in exclude_list}
-                if not self.save_all_dataframes(filtered_dict, self.sap_directory, "SAP"):
+                success, saved_paths = self.save_all_dataframes(filtered_dict, self.sap_directory, "SAP")
+                if not success:
                     self.log_manager.log("Errore durante il salvataggio delle estrazioni nella directory SAP", "error")
                     return
 
-                # Procedo con l'elaborazione dei dati
-                result, data = self.process_data(dict_df)
-                if not result:
-                    self.log_manager.log("Errore durante l'elaborazione dei dati estratti", "error")
-                    return
-                self.log_manager.log("Elaborazione dati completata con successo", "success")
+                # Popola automaticamente i campi del gruppo "Elaborazione File"
+                self.auto_populate_elab_fields()
+                return
+                
             except Exception as e:
                 self.log_manager.log(f"Errore durante l'elaborazione dei dati: {str(e)}", "error")
                 return
@@ -880,12 +1118,13 @@ class MainWindow(QMainWindow):
         
         # Salvo i df creati in file excel
         print("\nInizio salvataggio DataFrame in file Excel...")
-        if not self.save_all_dataframes(dict_df_add_columns, self.data_directory):
+        success, _ = self.save_all_dataframes(dict_df_add_columns, self.data_directory)
+        if not success:
             print("Errore durante il salvataggio dei DataFrame in file Excel")
             return False, None
         else:
             print("\n\tSalvataggio completato con successo")
-        
+
         # Eseguo l'elaborazione dei dati
         print("\nInizio elaborazione dati...")
         result, dict_df_processed = df_processor.process_dataframes(dict_df_add_columns)
@@ -896,7 +1135,8 @@ class MainWindow(QMainWindow):
 
         # Salvo i df elaborati in file excel per utilizzarli nella PowerBI
         print("\nInizio salvataggio DataFrame elaborati in file Excel...")
-        if not self.save_all_dataframes(dict_df_processed, self.powerbi_directory, "PowerBI", data_fine):
+        success, _ = self.save_all_dataframes(dict_df_processed, self.powerbi_directory, "PowerBI", data_fine)
+        if not success:
             print("Errore durante il salvataggio dei DataFrame elaborati in file Excel")
             return False, None
 
@@ -905,26 +1145,32 @@ class MainWindow(QMainWindow):
         # elaborazione completata con successo
         return True, None        
     
-    def save_all_dataframes(self, dict_df, file_path, infix="extended", postfix=""):
+    def save_all_dataframes(self, dict_df, file_path, infix="extended", postfix="") -> Tuple[bool, Dict[str, str]]:
         """
         Salva tutti i DataFrame contenuti nel dizionario in file Excel separati.
-        
+
         Args:
             dict_df (dict): Dizionario contenente i DataFrame da salvare
-            
+            file_path (str): Percorso della directory di destinazione
+            infix (str): Suffisso da aggiungere al nome del file (default: "extended")
+            postfix (str): Postfisso da aggiungere al nome del file (default: timestamp)
+
         Returns:
-            bool: True se tutti i file sono stati salvati con successo, False altrimenti
+            Tuple[bool, Dict[str, str]]:
+                - bool: True se tutti i file sono stati salvati con successo
+                - Dict[str, str]: Dizionario con i percorsi dei file salvati {nome_df: percorso_file}
         """
         print("\nInizio salvataggio DataFrame in file Excel...")
-        
+
         if postfix == "":
             postfix = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
         # Contatori per statistiche
         saved_count = 0
         failed_count = 0
         failed_files = []
-        
+        saved_paths = {}  # Dizionario per memorizzare i percorsi salvati
+
         try:
             # Ciclo attraverso tutti i DataFrame nel dizionario
             for df_name, dataframe in dict_df.items():
@@ -933,43 +1179,48 @@ class MainWindow(QMainWindow):
                     if not isinstance(dataframe, pd.DataFrame):
                         self.log_manager.log(f"Skipping {df_name}: non è un DataFrame", "warning")
                         continue
-                    
+
                     # Verifica che il DataFrame non sia vuoto
                     if dataframe.empty:
                         self.log_manager.log(f"Skipping {df_name}: DataFrame vuoto", "warning")
                         continue
-                    
+
                     # Genera il nome del file output
                     output_file = os.path.join(file_path, f"{df_name}_{infix}_{postfix}.xlsx")
-                    
+
                     # Salva il DataFrame usando il file manager
                     if self.excel_file_manager.save_excel_file_advanced(dataframe, output_file):
                         saved_count += 1
+                        saved_paths[df_name] = output_file  # Memorizza il percorso salvato
                         self.log_manager.log(f"✓ {df_name} salvato in: {output_file}", "success")
+
+                        # Aggiorna last_extraction_paths se è un file di estrazione SAP
+                        if infix == "SAP" and df_name in self.last_extraction_paths:
+                            self.last_extraction_paths[df_name] = output_file
                     else:
                         failed_count += 1
                         failed_files.append(df_name)
                         self.log_manager.log(f"✗ Errore salvando {df_name}", "error")
-                        
+
                 except Exception as e:
                     failed_count += 1
                     failed_files.append(df_name)
                     self.log_manager.log(f"✗ Errore salvando {df_name}: {str(e)}", "error")
-            
+
             # Log del riepilogo finale
             total_dataframes = len(dict_df)
-            self.log_manager.log(f"Salvataggio completato: {saved_count}/{total_dataframes} file salvati", 
+            self.log_manager.log(f"Salvataggio completato: {saved_count}/{total_dataframes} file salvati",
                                 "success" if failed_count == 0 else "warning")
-            
+
             if failed_files:
                 self.log_manager.log(f"File non salvati: {', '.join(failed_files)}", "error")
 
         except Exception as e:
             self.log_manager.log(f"Errore generale durante il salvataggio: {str(e)}", "error")
-            return False
+            return False, {}
 
-        # Ritorna True solo se tutti i file sono stati salvati con successo
-        return failed_count == 0    
+        # Ritorna True solo se tutti i file sono stati salvati con successo, più i percorsi
+        return failed_count == 0, saved_paths    
 
     def validate_technology_config(self, tech_config):
         """
