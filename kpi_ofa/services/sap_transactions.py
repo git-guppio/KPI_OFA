@@ -1335,7 +1335,228 @@ class SAPDataExtractor(QObject):
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
-    def fix_clipboard_table_content(self, result: str) -> tuple[bool, str]:
+    def fix_clipboard_table_content(self, text: str) -> tuple[bool, str]:
+        """
+        Rimuove i ritorni a capo errati verificando che ogni riga abbia lo stesso
+        numero di separatori '|' dell'intestazione (che si assume corretta).
+        
+        Args:
+            text (str): Stringa di testo con possibili ritorni a capo errati
+            
+        Returns:
+            tuple: (success: bool, result: str o messaggio di errore)
+        """
+
+                # Funzione interna per correggere i pipe nella descrizione
+        def fix_pipes_in_description(line, element_type=None) -> tuple[int, str|None]:
+            """
+            Sostituisce eventuali '|' presenti nella descrizione con '-'
+            
+            Args:
+                line: Riga di testo in formato SAP
+                
+            Returns:
+                tuple: (modified: int, fixed_line: str)
+
+                modified:   -1 se rileva errore nel tipo di elemento,
+                            0 se rileva un errore,
+                            1 se la riga è stata modificata,
+                            2 se non sono state fatte modifiche.
+                fixed_line: None se rileva errore,
+                            Riga di testo corretta,
+                            Riga originale se non necessita di errore.
+            """
+            # Pattern per catturare: prefix | descrizione | suffix
+            pattern_OdM = r'(^\|\s{2}\d{12}\|)(.*?)(\|\d{2}\.\d{2}\.\d{4}\|.*)$'
+            pattern_AdM = r'(^\|\s{2}\d{10}\|(?:\d{2}\.\d{2}\.\d{4}|\s{10})\|\d{2}\.\d{2}\.\d{4}\|)(.*?)(\|[A-Z0-9]{2}\s\|.*)$'
+
+            if element_type == "Ordine":
+                pattern = pattern_OdM
+            elif element_type == "Avviso":
+                pattern = pattern_AdM
+            else:
+                self.log(f"Tipo di elemento: {element_type} non valido.", "error")
+                return -1, None
+    
+            match = re.search(pattern, line)
+            if not match:
+                self.log(f"Impossibile ricavare il campo descrizione!", "error")
+                return 0, None
+            
+            prefix = match.group(1)
+            description = match.group(2)
+            suffix = match.group(3)
+
+            self.log(f"    Descrizione = {description}", "debug")
+            
+            # Verifica se ci sono '|' nella descrizione
+            if '|' in description:
+                self.log(f"    La descrizione contiene '|' ", "warning")
+                pipe_count = description.count('|')
+                fixed_description = description.replace('|', '-')
+                fixed_line = prefix + fixed_description + suffix
+                self.log(f"    Sostituiti {pipe_count} caratteri '|' con '-' nella descrizione", "warning")
+                return 1, fixed_line
+            else:
+                self.log(f"    La descrizione non contiene '|' ", "debug")
+                return 2, line
+    
+        VALID_SAP_LINE_PATTERN = re.compile(r'^\|\s{2}(\d{10}|\d{12})\|')     
+        
+        self.log("Inizio elaborazione del testo", "info")
+
+        try:
+            lines = text.split('\n')
+            num_lines = len(lines)
+            self.log(f"Numero totale di righe: {num_lines}", "debug")
+            
+            expected_pipes = lines[1].count('|')
+            self.log(f"Numero di separatori '|' attesi: {expected_pipes}", "debug")
+
+            elements_split = lines[1].split('|')
+            element_type = elements_split[1].strip()
+            self.log(f"Rilevato tipo elemento: {element_type}", "info")
+            if element_type != "Ordine" and element_type != "Avviso":
+                msg = "Rilevato tipo elemento non valido. Impossibile procedere."
+                self.log(msg, "error")
+                return False, msg
+            
+            processed_lines = lines[3:-1]
+            
+            if not processed_lines or len(processed_lines) < 1:
+                msg = "Il testo non contiene elementi da analizzare. Impossibile procedere."
+                self.log(msg, "error")
+                return False, msg
+            
+            self.log(f"Righe da elaborare: {len(processed_lines)}", "info")
+            
+            fixed_lines = []
+            current_line = ""
+            replacements_count = 0
+            skipped_lines = 0
+            pipes_fixed = 0
+            
+            for idx, line in enumerate(processed_lines, start=1):
+
+                # Verifico se la linea considerata è l'inizio di una nuova riga valida
+                is_valid_start = VALID_SAP_LINE_PATTERN.match(line)
+                if current_line:
+                    if not is_valid_start:
+                        # Accumulo riga precedente
+                        self.log(f"  Riga {idx}: concatenazione con riga precedente", "warning")
+                        #current_line += " " + line.strip()
+                        current_line += line
+                        replacements_count += 1
+                    else:
+                        # Non devo accumulare ma iniziare ad esaminare la nuova riga e scartare quella precedente
+                        self.log(f"  Riga {idx}: accumulo fallito, riga precedente scartata", "error")
+                        skipped_lines += 1
+                        current_line = line
+                else:
+                    # Nuova riga
+                    if is_valid_start:
+                        current_line = line
+                    else:
+                        self.log(f"  Riga {idx}: inizio riga non valido, riga scartata", "error")
+                        self.log(f"           Contenuto: '{line}...'", "error")
+                        skipped_lines += 1
+                
+                pipe_count = current_line.count('|')
+                
+                is_valid_start = VALID_SAP_LINE_PATTERN.match(current_line)
+                ends_with_pipe = current_line.rstrip().endswith('|')
+                has_correct_pipes = pipe_count == expected_pipes
+                
+                # CASO 1: Riga potenzialmente corretta
+                if is_valid_start and ends_with_pipe and has_correct_pipes:
+                    self.log(f"  Riga {idx}: numero di pipe valido ({pipe_count}/{expected_pipes}).", "debug")
+                    # Verifico cmq se ci sono pipe nella descrizione
+                    self.log(f"  Riga {idx}: verifico | nella descrizione", "debug")
+                    modified, fixed_line = fix_pipes_in_description(current_line, element_type)
+                    if modified == 1: # Ho rimosso dei pipe nella descrizione
+                        # Ricontrolla se ora la riga è valida
+                        new_pipe_count = fixed_line.count('|')
+                        if new_pipe_count < expected_pipes:
+                            self.log(f"  Riga {idx}: contiene un numero di | < degli attesi. ({new_pipe_count}/{expected_pipes}).", "warning")
+                            self.log(f"           Contenuto: '{fixed_line}...'", "warning")
+                            pipes_fixed += 1
+                            current_line = fixed_line # aggiorno la riga con la versione con la descrizione corretta
+                            # continuo l'iterazione verificando se ci sono altre righe da accumulare
+                    elif modified == 2: # Non ho rimosso pipe nella descrizione
+                        # Riga effettivamente corretta, la aggiungo al risultato
+                        self.log(f"  Riga {idx}: OK (pipes={pipe_count})", "success")
+                        fixed_lines.append(current_line)
+                        current_line = ""
+                    elif modified == 0:
+                        # Errore nella determinazione della descrizione, provo ad accumulare ancora.
+                        self.log(f"  Riga {idx}: errore nella determinazione della descrizione", "warning")
+                        # continuo l'iterazione verificando se ci sono altre righe da accumulare
+                    elif modified == -1: # Errore nella rilevazione del tipo elemento
+                        self.log(f"  Riga {idx}: errore nella definizione del tipo elemento, riga scartata", "error")
+                        skipped_lines += 1
+                        current_line = ""  
+
+                # CASO 2: Troppi pipe - potrebbe essere un problema nella descrizione
+                elif pipe_count > expected_pipes:
+                    self.log(f"  Riga {idx}: troppi pipe ({pipe_count}/{expected_pipes}). Tentativo correzione...", "warning")
+                    
+                    # Prova a correggere i pipe nella descrizione
+                    modified, fixed_line = fix_pipes_in_description(current_line, element_type)
+                    
+                    if modified == 1 or modified == 2: # Sono stati rimossi, oppure no, pipe nella descrizione
+                        # Ricontrolla se ora la riga è valida
+                        new_pipe_count = fixed_line.count('|')
+                        if new_pipe_count == expected_pipes and fixed_line.rstrip().endswith('|'):
+                            self.log(f"  Riga {idx}: CORRETTA con successo!", "success")
+                            self.log(f"  Riga {idx}: OK (pipes={new_pipe_count})", "success")
+                            fixed_lines.append(fixed_line)
+                            pipes_fixed += 1
+                            current_line = ""
+                        elif new_pipe_count > expected_pipes: # Scarto la riga
+                            self.log(f"  Riga {idx}: correzione fallita, riga scartata", "error")
+                            skipped_lines += 1
+                            current_line = ""
+                        elif new_pipe_count < expected_pipes: # Continuo ad accumulare
+                            self.log(f"  Riga {idx}: correzione parziale, continuo ad accumulare", "warning")
+                    elif modified == 0:
+                        # Errore nella determinazione della descrizione, provo ad accumulare ancora.
+                        self.log(f"  Riga {idx}: errore nella determinazione della descrizione", "warning")
+                        # continuo l'iterazione verificando se ci sono altre righe da accumulare
+                    elif modified == -1: # Errore nella rilevazione del tipo elemento
+                        self.log(f"  Riga {idx}: errore nella definizione del tipo elemento, riga scartata", "error")
+                        skipped_lines += 1
+                        current_line = ""  
+                
+                # CASO 3: Pochi pipe - continua ad accumulare
+                else:
+                    self.log(f"  Riga {idx}: incompleta (pipes={pipe_count}/{expected_pipes})", "debug")
+            
+            if current_line.strip():
+                msg = f"Errore: ultima riga incompleta: '{current_line[:100]}...'"
+                self.log(msg, "error")
+                return False, msg
+
+            result = lines[0:3] + fixed_lines + [lines[-1]]
+            processed_result_lines = len(result)
+
+            # Stampa il riepilogo
+            self.log(f"Verifica testo completata!", "info")
+            self.log(f"Sostituzioni eseguite (ritorni a capo): {replacements_count}", "success")
+            if pipes_fixed > 0:
+                self.log(f"Righe corrette (pipe nella descrizione): {pipes_fixed}", "success")
+            if skipped_lines > 0:
+                msg = f"Errore: Righe scartate (corrotte): {skipped_lines}"
+                self.log(msg, "error")
+                return False, msg 
+            self.log(f"Righe iniziali: {num_lines} - Righe finali: {processed_result_lines}", "success")
+            return True, '\n'.join(result)
+        
+        except Exception as e:
+            msg = f"Errore durante l'elaborazione: {str(e)}"
+            self.log(msg, "error")
+            return False, msg        
+    
+    def old_fix_clipboard_table_content(self, result: str) -> tuple[bool, str]:
         """
         Elabora il contenuto della tabella proveniente dalla clipboard.
         A partire dalla quarta riga, verifica che ogni riga inizi con il carattere '|'.
