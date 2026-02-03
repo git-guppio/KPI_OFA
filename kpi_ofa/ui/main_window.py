@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                             QLabel, QLineEdit, QPushButton, QStatusBar, 
                             QMessageBox, QGroupBox, QSizePolicy, QProgressBar,
                             QFileDialog)
-from PyQt5.QtCore import Qt, QDate
+from PyQt5.QtCore import Qt
 
 from datetime import datetime
 
@@ -466,22 +466,27 @@ class MainWindow(QMainWindow):
         # e alla presenza di un file Excel
         self.update_start_extr_button_state(is_valid)
     
-    def update_start_extr_button_state(self, dates_valid=True):
+    def update_start_extr_button_state(self, dates_valid=None):
         """
-        Aggiorna lo stato del pulsante di avvio.
-        
+        Aggiorna lo stato del pulsante di avvio estrazione SAP.
+
+        Il pulsante viene abilitato solo se:
+        - Le date sono valide (impostate, start < end, max 2 mesi, nel passato)
+        - È stato selezionato un file Excel
+
         Args:
-            dates_valid (bool): Se le date sono valide.
+            dates_valid (bool, optional): Parametro opzionale per compatibilità.
+                Se None, la validità delle date viene calcolata internamente.
         """
-        # Converte esplicitamente dates_valid in booleano
-        dates_valid_bool = bool(dates_valid) if not isinstance(dates_valid, bool) else dates_valid
-        
-        # Verifica che file_selected sia un booleano
+        # Verifica la validità delle date usando il metodo del widget
+        dates_valid_bool = self.date_widget.are_dates_valid()
+
+        # Verifica che sia stato selezionato un file Excel
         file_selected = hasattr(self, 'excel_file_path') and self.excel_file_path
         file_selected_bool = bool(file_selected)
-        # Abilita il pulsante di avvio solo se entrambe le condizioni sono vere
-        if dates_valid_bool and file_selected_bool:
-            self.start_extr_button.setEnabled(True)
+
+        # Abilita il pulsante solo se entrambe le condizioni sono vere
+        self.start_extr_button.setEnabled(dates_valid_bool and file_selected_bool)
 
     def disable_buttons(self):
         """Disabilita i pulsanti di avvio e configurazione nella modalità di debug"""
@@ -554,9 +559,14 @@ class MainWindow(QMainWindow):
                     if not self.excel_file_manager.save_excel_file_advanced(self.df_excel_normalized, output_file):
                         raise Exception("Salvataggio file fallito")                    
                     self.log_manager.log(f"File salvato in: {output_file}", "success")
-                    
+
                     # Memorizza il percorso per il popolamento automatico dei campi elaborazione
                     self.last_extraction_paths["df_excel_normalized"] = output_file
+
+                    # Popola automaticamente il campo "File attività utenti normalizzato"
+                    self.elab_file_utenti_path = output_file
+                    self.elab_file_utenti_text.setText(os.path.basename(output_file))
+                    self.update_elab_start_button_state()
 
                 except Exception as e:
                     self.log_manager.log(f"Errore: Salvataggio file {output_file} fallito: {str(e)}", "error")
@@ -599,8 +609,11 @@ class MainWindow(QMainWindow):
 
     def update_elab_start_button_state(self):
         """
-        Aggiorna lo stato del pulsante "Avvia Elaborazione" in base alla selezione dei file.
-        Il pulsante viene abilitato solo se tutti i 4 file sono stati selezionati.
+        Aggiorna lo stato del pulsante "Avvia Elaborazione".
+
+        Il pulsante viene abilitato solo se:
+        - Tutti i 4 file sono stati selezionati
+        - Le date sono valide (impostate, start < end, max 2 mesi, nel passato)
         """
         # Lista degli attributi dei percorsi file richiesti
         required_paths = [
@@ -615,8 +628,11 @@ class MainWindow(QMainWindow):
             getattr(self, path, None) for path in required_paths
         )
 
-        # Abilita o disabilita il pulsante
-        self.elab_start_button.setEnabled(all_files_selected)
+        # Verifica la validità delle date
+        dates_valid = self.date_widget.are_dates_valid()
+
+        # Abilita il pulsante solo se entrambe le condizioni sono vere
+        self.elab_start_button.setEnabled(all_files_selected and dates_valid)
 
     def auto_populate_elab_fields(self):
         """
@@ -793,11 +809,19 @@ class MainWindow(QMainWindow):
     def on_reset_clicked(self):
         """Resetta i campi di input e il log."""
         self.file_text.clear()
-        self.date_widget.start_date_picker.setDate(QDate.currentDate())
-        self.date_widget.end_date_picker.setDate(QDate.currentDate())
+        # Resetta le date al valore sentinella (placeholder attivo)
+        self.date_widget.reset_to_empty()
         self.log_widget.clear_logs()
         self.log_manager.log("Eseguito reset dell'applicativo")
         self.excel_file_path = None  # Resetta il percorso del file Excel
+
+        # Resetta i campi del gruppo "Elaborazione File"
+        for attr_name in ["elab_file_avvisi", "elab_file_ordini", "elab_file_afko", "elab_file_utenti"]:
+            setattr(self, f"{attr_name}_path", None)
+            text_field = getattr(self, f"{attr_name}_text", None)
+            if text_field:
+                text_field.clear()
+
         # Inizializza tutti i DataFrame come vuoti
         self._init_dataframes()
         # Carico i file di test se in modalità debug
