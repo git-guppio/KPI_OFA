@@ -320,7 +320,7 @@ class MainWindow(QMainWindow):
 
         # Imposta le dimensioni del contenitore
         left_container.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-        left_container.setFixedWidth(250)
+        left_container.setFixedWidth(350) #250
 
         return left_container
     
@@ -990,7 +990,7 @@ class MainWindow(QMainWindow):
                                 if (self.df_IW29 is not None and not self.df_IW29.empty):
                                     try:
                                         # Estrazione dati dal dataframe df_IW29
-                                        df_OdM = (self.df_IW29["Ordine"]          
+                                        serie_OdM_IW29 = (self.df_IW29["Ordine"]          
                                             .astype(str)                           # Converte tutto in stringa
                                             .str.strip()                           # Rimuove spazi
                                             .replace(['', 'nan', 'NaN', 'None', 'null'], pd.NA)  # Sostituisce valori vuoti
@@ -1002,11 +1002,11 @@ class MainWindow(QMainWindow):
                                         return 
 
                                 # Numero di OdM estratti
-                                num_odm = df_OdM.drop_duplicates().shape[0]
+                                num_odm = serie_OdM_IW29.nunique()
                                 self.log_manager.log(f"Totale OdM = {num_odm}", "info")
                                 self.log_manager.log("Estrazione dati SE16 tabella AFKO", "info")
                                 # Ricavo la lista degli OdM presenti nel
-                                result, self.df_AFKO = extractor.extract_SE16(df_OdM)
+                                result, self.df_AFKO = extractor.extract_SE16(serie_OdM_IW29)
                                 
                                 if not result:
                                     self.log_manager.log("Errore: Estrazione AFKO fallita", "error")
@@ -1021,12 +1021,26 @@ class MainWindow(QMainWindow):
                                     if num_afko != num_odm:
                                         self.log_manager.log(f"Attenzione: Numero di OdM estratti ({num_afko}) diverso da quello atteso ({num_odm})", "error")
                                         # Suppongo che quelli estratti con la SE16 siano un sottoinsieme.
-                                        mancanti = set(df_OdM["Ordine"]) - set(self.df_AFKO["Ordine"])
-                                        if mancanti:
-                                            self.log_manager.log(f"Attenzione: {len(mancanti)} ordini non trovati in AFKO", "error")
-                                            self.log_manager.log(f"Ordini mancanti: {mancanti}", "debug")
+                                        # Converto i tipi in stringa per il confronto
+                                        # Estrazione dati dal dataframe df_IW29
+                                        try:
+                                            serie_OdM_AFKO = (self.df_AFKO["Ordine"]          
+                                                .astype(str)                           # Converte tutto in stringa
+                                                .str.strip()                           # Rimuove spazi
+                                                .replace(['', 'nan', 'NaN', 'None', 'null'], pd.NA)  # Sostituisce valori vuoti
+                                                .pipe(pd.to_numeric, errors='raise')  # Conversione sicura (NaN per errori)
+                                                .dropna()                              # Rimuove NaN dalla conversione
+                                                .astype('Int64'))
+                                            mancanti = set(serie_OdM_IW29) - set(serie_OdM_AFKO)
 
-                                        # Concludo cmq l'elaborazione per salvare i dati ottenuti e procedere con l'analisi.
+                                            if mancanti:
+                                                self.log_manager.log(f"Attenzione: {len(mancanti)} ordini non trovati in AFKO", "error")
+                                                self.log_manager.log(f"Ordini mancanti: {[int(x) for x in mancanti]}", "error")
+
+                                        except Exception as e:
+                                            self.log_manager.log(f"Errore durante la verifica degli OdM estratti in AFKO: {str(e)}", "error")
+                                            # return
+                                            # Concludo cmq l'elaborazione per salvare i dati ottenuti e procedere con l'analisi.
                                     else:
                                         self.log_manager.log(f"Numero di OdM estratti ({num_afko}) corrisponde a quello atteso ({num_odm})", "success")
                                     
@@ -1136,7 +1150,7 @@ class MainWindow(QMainWindow):
         """
         # Ottieni la data di inizio e fine dall'intervallo di date
         intervallo_date = self.date_widget.get_date_range()
-        if len(intervallo_date) >= 2:
+        if len(intervallo_date) >= 2: 
             data_inizio = intervallo_date[0].toString("dd.MM.yyyy")
             data_fine = intervallo_date[1].toString("dd.MM.yyyy")
         else:
