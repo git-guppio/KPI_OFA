@@ -1,9 +1,33 @@
 {
     "data_directory": "C:/Users/a259046/OneDrive - Enel Spa/SCRIPT AHK e VBA/GITHUB/KPI_OFA/data",
     "technologies": {
-        "BESS": ["ITE", "USE", "CLE"],
-        "SOLAR": ["ITS", "USS", "CLS", "BRS", "COS", "MXS", "PAS", "ZAS", "ESS", "ZMS"],
-        "WIND": ["ITW", "USW", "CLW", "BRW", "CAW", "MXW", "ZAW", "ESW"]
+        "BESS": [
+            "ITE",
+            "USE",
+            "CLE"
+        ],
+        "SOLAR": [
+            "ITS",
+            "USS",
+            "CLS",
+            "BRS",
+            "COS",
+            "MXS",
+            "PAS",
+            "ZAS",
+            "ESS",
+            "ZMS"
+        ],
+        "WIND": [
+            "ITW",
+            "USW",
+            "CLW",
+            "BRW",
+            "CAW",
+            "MXW",
+            "ZAW",
+            "ESW"
+        ]
     },
     "operations": {
         "estrai_AdM": true,

@@ -124,5 +124,10 @@ ESW
                 1 se vale 1 il numeratore oppure:
                                 - Se data creazione all'interno dell'intervallo date impostato
                                 - E se data inizio cardine all'interno dell'intervallo date impostato
+                    Filtri implementati nella daashboard di Power BI
+                        Sono esclusi dal denominatore gli OdM di tipo:
+                            M1, Z++, PW, PY, M9, OP (possono essere gestiti in OFA ma non creati)
+                        Sono esclusi da denominatore gli OdM con Stato utente:
+                            ORPA,
         Fare Pivot
 

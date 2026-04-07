@@ -733,7 +733,7 @@ class DataFrameTools:
             rename_dict = {}
             columns_not_found = []
             
-            for col in df.columns:
+            for col in df.columns[df.columns != 'TipoEstrazione']:
                 if col in inverted_map:
                     field_name = inverted_map[col]
                     
