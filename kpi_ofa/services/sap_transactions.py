@@ -871,7 +871,9 @@ class SAPDataExtractor(QObject):
             self.log(f"Fallita creazione unico DF", "critical", True, True, 0)
             return False, None
         
-        result_df = pd.concat(iw39.values(), ignore_index=True) if iw39 else None
+        # Comando ridondante, la normalizzazione e concatenazione è già stata fatta nella funzione normalize_and_concat
+        # result_df = pd.concat(iw39.values(), ignore_index=True) if iw39 else None
+
         # Verifica che il totale degli elementi estratti corrisponda al numero di righe nel DataFrame
         # Devo farlo prima di eliminare i duplicati, altrimenti il conteggio potrebbe essere errato
         if len(result_df) != totale_estratti:
@@ -1007,7 +1009,7 @@ class SAPDataExtractor(QObject):
 
         # Imposto il Layout
 
-            self.session.findById("wnd[0]/usr/ctxtVARIANT").text = "KPIOFA2" #Utilizzo layout specifico per utente per evitare possibili manomissioni da terzi
+            self.session.findById("wnd[0]/usr/ctxtVARIANT").text = "KPIOFA3" #Utilizzo layout specifico per utente per evitare possibili manomissioni da terzi
             #self.session.findById("wnd[0]/usr/ctxtVARIANT").setFocus()
             #self.session.findById("wnd[0]/usr/ctxtVARIANT").caretPosition = 10
             #self.session.findById("wnd[0]").sendVKey(0)

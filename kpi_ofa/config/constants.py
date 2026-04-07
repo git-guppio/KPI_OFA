@@ -86,7 +86,8 @@ SAP_tech_field_names_map = {
         "AUART": ["Tipo di ordine", "Tipo ord.", "Tp."],
         "STTXT": ["Stato sistema", "St.sist."],
         "QMNUM": ["Avviso"],
-        "Z_LEGACY": ["Sistema Legacy", "Sis Legacy"]
+        "Z_LEGACY": ["Sistema Legacy", "Sis Legacy"],
+        "USTXT": ["Stato utente", "St.utente"]
     },
 
     "AFKO": {
@@ -121,7 +122,8 @@ SAP_user_field_names_map = {
         "AUART": "Tp.",
         "STTXT": "Stato sistema",
         "QMNUM": "Avviso",
-        "Z_LEGACY": "Sis Legacy"
+        "Z_LEGACY": "Sis Legacy",
+        "USTXT": "Stato utente"
     },
 
     "AFKO": {

@@ -65,7 +65,7 @@ def get_sap_session():
         connection = application.Children(0)
         
         # Ottieni la sessione attiva (prima disponibile)
-        session = connection.Children(1)
+        session = connection.Children(0)
         
         print(f"Connesso a SAP - Sessione: {session.Info.Transaction}")
         return session
