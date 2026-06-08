@@ -291,7 +291,7 @@ class DataFrameTools:
 
             # Divide in righe
             lines = data.strip().split('\n')
-            
+
             # Filtra le righe, escludendo quelle che contengono solo trattini
             filtered_lines = []
             for line in lines:
@@ -404,7 +404,15 @@ class DataFrameTools:
 
             # Divide in righe
             lines = data.strip().split('\n')
-            
+
+            # Elimino le prime due righe introdotte con il nuovo SAP
+            lines = lines[2:]
+            # verifico se ho eliminato tutte le righe
+            if not lines:
+                msg = "Il testo non contiene righe valide da elaborare. Impossibile procedere."
+                self.log(msg, "error")
+                return None
+
             # Filtra le righe, escludendo quelle che contengono solo trattini
             filtered_lines = []
             for line in lines[2:]:

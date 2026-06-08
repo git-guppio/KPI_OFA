@@ -1031,7 +1031,8 @@ class SAPDataExtractor(QObject):
                 return 0, msg # codice_stato: -1=errore, 0=nessun risultato, 1=singolo valore, >1 =successo con lista
             # Verifico se è stato estratto un solo valore
             elif (("Visualizzare Manutenzione" in self.session.findById("wnd[0]").text) or 
-                ("Visualizzare Esercizio" in self.session.findById("wnd[0]").text)): # Il titolo della finestra può essere diverso in base al tipo di ordine
+                ("Visualizzare Esercizio" in self.session.findById("wnd[0]").text)or 
+                ("Visualizzare Altre manutenzioni" in self.session.findById("wnd[0]").text)): # Il titolo della finestra può essere diverso in base al tipo di ordine
                 msg = "Un solo valore trovato"
                 self.log(msg, "info", True, True, 0)
                 OdM = self.session.findById("wnd[0]/usr/subSUB_ALL:SAPLCOIH:3001/ssubSUB_LEVEL:SAPLCOIH:1100/subSUB_KOPF:SAPLCOIH:1102/txtCAUFVD-AUFNR").text
@@ -1409,6 +1410,15 @@ class SAPDataExtractor(QObject):
 
         try:
             lines = text.split('\n')
+            # Pulisco le prime righe (righe introdotte dalla nuova versione di SAP)
+            lines = lines[2:]
+
+            if not lines:
+                msg = "Il testo non contiene righe valide da elaborare. Impossibile procedere."
+                self.log(msg, "error")
+                return False, msg
+                       
+            
             num_lines = len(lines)
             self.log(f"Numero totale di righe: {num_lines}", "debug")
             
