@@ -61,39 +61,77 @@ default_config = {
 }
 
 SAP_tech_field_names_map = {
+    # Nuova versione di SAP, con nuove intestazioni
     "IW29": {
-        "QMNUM": ["Avviso"],
-        "AEDAT": ["Data modifica","Mod.","Mod. il"],
-        "ERDAT": ["Data creazione","Data cr.","Il"],
-        "QMTXT": ["Descrizione","Descr."],
-        "QMART": ["Tipo avviso","Tp.avv.","Tp."],
-        "TPLNR": ["Sede tecnica","Sede tecn."],
-        "STTXT": ["Stato sistema","St.sist."],
+        "AEDAT": ["Data modifica", "Mod.", "Mod. il", "Dta mod."],
         "AUFNR": ["Ordine"],
-        "COUNTRY": ["Codice paese","Paese","Pse"],
-        "LEGACY": ["Sistema proprietario dell'Anomalia Legac","Sistema legacy","Sis.Legacy","Sistema proprietario dell'Anomalia Legacy"]
+        "COUNTRY": ["Codice paese", "Paese", "Pse", "Chiave paese"],
+        "ERDAT": ["Data creazione", "Data cr.", "Il"],
+        "LEGACY": ["Sistema proprietario dell'Anomalia Legac", "Sistema legacy", "Sis.Legacy", "Sistema proprietario dell'Anomalia Legacy"],
+        "QMART": ["Tipo avviso", "Tp.avv.", "Tp."],
+        "QMNUM": ["Avviso"],
+        "QMTXT": ["Descrizione", "Descr."],
+        "STTXT": ["Stato sistema", "St.sist."],
+        "TPLNR": ["Sede tecnica", "Sede tecn."]
     },
 
+    # Precedente Versione di SAP
+    # "IW29": {
+    #     "QMNUM": ["Avviso"],
+    #     "AEDAT": ["Data modifica","Mod.","Mod. il"],
+    #     "ERDAT": ["Data creazione","Data cr.","Il"],
+    #     "QMTXT": ["Descrizione","Descr."],
+    #     "QMART": ["Tipo avviso","Tp.avv.","Tp."],
+    #     "TPLNR": ["Sede tecnica","Sede tecn."],
+    #     "STTXT": ["Stato sistema","St.sist."],
+    #     "AUFNR": ["Ordine"],
+    #     "COUNTRY": ["Codice paese","Paese","Pse"],
+    #     "LEGACY": ["Sistema proprietario dell'Anomalia Legac","Sistema legacy","Sis.Legacy","Sistema proprietario dell'Anomalia Legacy"]
+    # },
+
     "IW39": {
-        "AUFNR": ["Ordine"],
-        "KTEXT": ["Tsto br."],
-        "ERDAT": ["Data di acquisizione", "Data acquis.", "Data acq."],
-        "GSTRP": ["Data inizio cardine", "Data in. card.", "In. card."],
-        "GLTRP": ["Data fine cardine", "Data fine c.", "Fine card."],
         "AEDAT": ["Data modifica anagr. ordine", "Data modifica", "Data mod."],
-        "TPLNR": ["Sede tecnica", "Sede tecn."],
-        "COUNTRY": ["Codice paese", "Paese", "Pse"],
         "AUART": ["Tipo di ordine", "Tipo ord.", "Tp."],
-        "STTXT": ["Stato sistema", "St.sist."],
+        "AUFNR": ["Ordine"],
+        "COUNTRY": ["Codice paese", "Paese", "Pse", "Chiave paese"],
+        "ERDAT": ["Data di acquisizione", "Data acquis.", "Data acq."],
+        "GLTRP": ["Data fine cardine", "Data fine c.", "Fine card.", "Data di fine di base", "Data fine base", "Fine base"],
+        "GSTRP": ["Data inizio cardine", "Data in. card.", "In. card."],
+        "KTEXT": ["Tsto br.", "Descrizione", "Descr."],
         "QMNUM": ["Avviso"],
-        "Z_LEGACY": ["Sistema Legacy", "Sis Legacy"],
-        "USTXT": ["Stato utente", "St.utente"]
+        "STTXT": ["Stato sistema", "St.sist."],
+        "TPLNR": ["Sede tecnica", "Sede tecn."],
+        "USTXT": ["Stato utente", "St.utente"],
+        "Z_LEGACY": ["Sistema Legacy", "Sis Legacy"]
     },
+
+    # Precedente Versione di SAP
+    # "IW39": {
+    #     "AUFNR": ["Ordine"],
+    #     "KTEXT": ["Tsto br."],
+    #     "ERDAT": ["Data di acquisizione", "Data acquis.", "Data acq."],
+    #     "GSTRP": ["Data inizio cardine", "Data in. card.", "In. card."],
+    #     "GLTRP": ["Data fine cardine", "Data fine c.", "Fine card."],
+    #     "AEDAT": ["Data modifica anagr. ordine", "Data modifica", "Data mod."],
+    #     "TPLNR": ["Sede tecnica", "Sede tecn."],
+    #     "COUNTRY": ["Codice paese", "Paese", "Pse"],
+    #     "AUART": ["Tipo di ordine", "Tipo ord.", "Tp."],
+    #     "STTXT": ["Stato sistema", "St.sist."],
+    #     "QMNUM": ["Avviso"],
+    #     "Z_LEGACY": ["Sistema Legacy", "Sis Legacy"],
+    #     "USTXT": ["Stato utente", "St.utente"]
+    # },
 
     "AFKO": {
         "AUFNR": ["Ordine"],
-        "GSTRP": ["Data inizio cardine"]
+        "GSTRP": ["Data inizio cardine", "Data di inizio base"]
     }
+
+    # Precedente Versione di SAP
+    # "AFKO": {
+    #     "AUFNR": ["Ordine"],
+    #     "GSTRP": ["Data inizio cardine"]
+    # }
 }
 
 SAP_user_field_names_map = {
