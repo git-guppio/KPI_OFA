@@ -1243,7 +1243,12 @@ class SAPDataExtractor(QObject):
                 if df is None:
                     self.log(f"DataFrame vuoto", "error", True, True, 0)
                     return False, None
-                else:    
+                else:
+                    # Normalizza i nomi delle colonne secondo la mappatura AFKO
+                    df = self.df_utils.normalize_and_concat([df], "AFKO", use_friendly_names=True)
+                    if df is None:
+                        self.log("Errore durante la normalizzazione del DataFrame AFKO", "error", True, True, 0)
+                        return False, None
                     return True, df
             else:
                 # Se arriviamo qui, la condizione della finestra non è stata riconosciuta
